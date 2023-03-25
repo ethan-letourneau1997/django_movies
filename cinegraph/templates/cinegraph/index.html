@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <h1>Trending</h1>
+    </div>
+
+    <div class="row">
+        {% for item in trending %}
+        {% if item.media_type == 'movie' %}
+        <div class='col-2'>
+            {% comment %} <a href="{% url 'movie' item.id %}"> {% endcomment %}
+                <img class="img-fluid" id="movie" src="http://image.tmdb.org/t/p/w500{{item.poster_path}}">
+                {% comment %} </a> {% endcomment %}
+        </div>
+        {% elif item.media_type == 'tv' %}
+        <div class='col-2'>
+            {% comment %} <a href="{% url 'show' item.id %}"> {% endcomment %}
+                <img class="img-fluid" id="movie" src="http://image.tmdb.org/t/p/original{{item.poster_path}}">
+                {% comment %} </a> {% endcomment %}
+        </div>
+        {% elif item.media_type == 'person' %}
+        <div class='col-2'>
+            {% comment %} <a href="{% url 'actor' item.id %}"> {% endcomment %}
+                <img class="img-fluid" id="movie" src="http://image.tmdb.org/t/p/w500{{item.profile_path}}">
+                {% comment %} </a> {% endcomment %}
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}

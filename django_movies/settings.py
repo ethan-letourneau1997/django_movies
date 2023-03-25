@@ -59,7 +59,7 @@ ROOT_URLCONF = 'django_movies.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'cinegraph/templates/cinegraph')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
