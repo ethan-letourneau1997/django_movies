@@ -8,15 +8,19 @@ API_KEY = '0fd7a8764e6522629a3b7e78c452c348'
 
 
 def index(request):
-    response = requests.get(
+    trending_response = requests.get(
         f'https://api.themoviedb.org/3/trending/all/week?api_key={API_KEY}&page=1'
     )
+    hero_response = requests.get(
+        f'https://api.themoviedb.org/3/tv/76331?api_key={API_KEY}&language=en-US&append_to_response=seasons,episodes,watch/providers')
 
-    trending = response.json()['results']
-    print(trending)
+    trending = trending_response.json()['results']
+    hero = hero_response.json()['backdrop_path']
+    print('reload')
 
     context = {
         'trending': trending,
+        'hero': hero,
     }
 
     return render(request, 'index.html', context)

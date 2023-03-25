@@ -5,7 +5,9 @@
     <div class="row">
         <h1>Trending</h1>
     </div>
-
+    <div class="row">
+        <img src="http://image.tmdb.org/t/p/original{{hero}}" alt="">
+    </div>
     <div class="row">
         {% for item in trending %}
         {% if item.media_type == 'movie' %}
