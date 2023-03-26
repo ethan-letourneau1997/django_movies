@@ -19,11 +19,13 @@ def index(request):
 
     trending = trending_response.json()['results']
     hero = hero_response.json()['backdrop_path']
-    print('reload')
+    hero_filter = get_image_overlay(
+        f'http://image.tmdb.org/t/p/w92{hero}')
 
     context = {
         'trending': trending,
         'hero': hero,
+        'filter': hero_filter,
     }
 
     return render(request, 'index.html', context)
