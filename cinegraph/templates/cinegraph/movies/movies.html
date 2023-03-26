@@ -12,9 +12,9 @@
         {% if movie.poster_path != None %}
         {% if forloop.counter < 19 %}
         <div class="col-2">
-            {% comment %} <a href=" {% url 'movie' movie.id %}"> {% endcomment %}
+            <a href=" {% url 'movie' movie.id %}">
                 <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}">
-                {% comment %} </a> {% endcomment %}
+            </a>
         </div>
         {% endif %}
         {% endif %}

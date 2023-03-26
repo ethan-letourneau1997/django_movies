@@ -1,4 +1,4 @@
-{% load sass_tags %}
+{% load static sass_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,8 +11,9 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Navbar</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'index' %}"> <img src="{% static 'cinegraph/img/cinegraph-logo.png' %}"
+                    height="25" alt="Flowbite Logo" /></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
