@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<h1 class="text-center text-6xl">
+    Trending Movies
+</h1>
+<div class="container">
+    <div class="row">
+
+        {% for movie in movies %}
+        {% if movie.poster_path != None %}
+        {% if forloop.counter < 19 %}
+        <div class="col-2">
+            {% comment %} <a href=" {% url 'movie' movie.id %}"> {% endcomment %}
+                <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}">
+                {% comment %} </a> {% endcomment %}
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock body %}

@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<style>
+.backdrop-filter {
+    {{ backdrop_filter }}
+}
+</style>
+
+
+<section class="w-full bg-cover bg-center"
+    style="background-image: url('http://image.tmdb.org/t/p/original{{movie.backdrop_path}}');">
+    <div class="w-full backdrop-filter">
+        <div class="flex flex-wrap">
+            <div class="w-3/12 p-6 pb-8">
+                <img src="http://image.tmdb.org/t/p/original{{movie.poster_path}}" alt=""
+                    class="max-w-full h-auto rounded-xl">
+            </div>
+            <div class="w-8/12 p-6 pb-10 flex flex-col">
+                <div>
+                    <div>
+                        <span class="text-4xl font-bold d-inline">{{movie.title}}&nbsp;</span>
+                        <span class="text-4xl  d-inline">({{ movie.release_date|slice:"0:4" }})</span>
+                    </div>
+                    <div class="flex text-sm pt-1">
+                        {% if rating %}
+                        <span class="border border-zinc-400 text-zinc-400 pl-2 pr-2 mr-2 text-sm">{{rating}}</span>
+                        {% endif %}
+                        {% for genre in movie.genres %}
+                        <span>
+                            <p class="text-zinc-200">{{ genre.name }},&nbsp;&nbsp; </p>
+                        </span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="d-flex">
+                        {% if review >= 7.5 %}
+                        <div class="bg-green-500 p-3 mt-4 border-white rounded-md w-fit">
+                            <p>{{ review }}</p>
+                        </div>
+                        {% elif review >= 6 %}
+                        <div class="p-3 mt-4 bg-yellow-400 rounded-md w-fit border-white">
+                            <p>{{ review }}</p>
+                        </div>
+                        {% else %}
+                        <div class="p-3 mt-4 bg-red-400 rounded-md w-fit border-white">
+                            <p>{{ review }}</p>
+                        </div>
+                        {% endif %}
+
+
+
+                    </div>
+                </div>
+                {% if movie.tagline %}
+                <p class="italic text-xl text-gray-400 pt-3"> {{movie.tagline}} </p>
+                {% endif %}
+                {% if movie.overview %}
+                <div>
+                    <h3 class="text-2xl pb-2 font-semibold">Overview</h3>
+                    <p> {{ movie.overview }} </p>
+                    <hr class="h-px my-8  border-0 dark:bg-gray-300">
+                </div>
+                {% endif %}
+                <div class="flex flex-wrap">
+                    <div class="flex flex-wrap w-6/12 space-y-3.5 items-baseline ">
+                        <div class="w-6/12">
+                            <p class="font-semibold">Budget</p>
+                            <p>{{ budget }} </p>
+                        </div>
+                        <div class="w-6/12">
+                            <p class="font-semibold self-start">Release</p>
+                            <p>{{ release_date }} </p>
+                        </div>
+                        <div class="w-6/12">
+                            <p class="font-semibold">Box Office</p>
+                            <p>{{ revenue }} </p>
+                        </div>
+                        <div class="w-6/12">
+                            <p class="font-semibold">Runtime</p>
+                            <p>{{ runtime }} </p>
+                        </div>
+                    </div>
+                    <div class="w-4/12">
+                        {% if streaming_services %}
+                        <h5 class="font-semibold">Streaming on:</h5>
+                        <div class="flex flex-wrap pt-2">
+                            {% for service in streaming_services %}
+                            <div class="w-3/12">
+                                <img class="max-w-full h-auto rounded-xl"
+                                    src="http://image.tmdb.org/t/p/original{{service.logo_path}}" alt="">
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="flex flex-col items-center ">
+    <h2 class=" text-2xl w-11/12 pb-3 text-zinc-100 font-semibold pt-5 pl-2">Top Billed Cast</h2>
+    <div class="grid grid-cols-8 gap-4 w-11/12">
+        {% for actor in movie.credits.cast %}
+        {% if actor.profile_path != None %}
+        {% if forloop.counter < 9 %}
+        <div>
+            <div class=" bg-white border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 w-fit
+                flex flex-col rounded-md">
+                <a href="{% url 'actor' actor.id %}">
+                    <img class=" w-full rounded-md" src="http://image.tmdb.org/t/p/original{{actor.profile_path}}">
+                </a>
+                <div class="pl-3 ">
+                    <a href="#">
+                        <h5 class=" font-bold  tracking-tight text-gray-900 dark:text-white">{{actor.name}}
+                        </h5>
+                        <span class="text-sm">{{actor.character}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+
+
+
+
+
+{% endblock body %}

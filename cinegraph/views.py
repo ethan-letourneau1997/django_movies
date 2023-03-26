@@ -24,3 +24,24 @@ def index(request):
     }
 
     return render(request, 'index.html', context)
+
+
+def movies(request):
+    """ This function pulls data from a third-party REST API to retrieve a list of popular movies, then displays the list on the movies.html template.
+
+    Returns:
+        _type_: _description_
+    """
+
+    # Pull data from third party rest api
+    response = requests.get(
+        f'https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}&language=en-US&page=1')
+
+    # Convert response data into json
+    movies = response.json()['results']
+
+    context = {
+        'movies': movies,
+    }
+
+    return render(request, 'movies/movies.html', context)
