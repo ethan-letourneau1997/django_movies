@@ -59,7 +59,9 @@ MIDDLEWARE = [
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
-if DEVELOPMENT_MODE is True:
+DEBUG = False
+
+if DEBUG is True:
     # Tailwind hot reloader / browser reload for development environment
     MIDDLEWARE.append(
         "django_browser_reload.middleware.BrowserReloadMiddleware")
