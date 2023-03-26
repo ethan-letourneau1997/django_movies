@@ -1,33 +1,91 @@
 {% extends 'layout.html' %}
 
+
+
+
 {% block body %}
-<div class="container-fluid">
-    <div class="row">
-        <img src="http://image.tmdb.org/t/p/original{{hero}}" class="img-fluid" alt="">
+
+<style>
+
+    .filter {
+     background: rgba(17,24,39,.7);
+     background: linear-gradient(90deg, rgba(17,24,39,.9) 0%, rgba(17,24,39,0.7) 50%, rgba(17,24,39,.9) 100%);
+    }
+
+    .hero {
+    background: url("http://image.tmdb.org/t/p/original{{hero}}");
+    background-size: cover;
+    background-position:top;
+    height: 60vh;
+    }
+ 
+
+</style>
+
+<div class="container-fluid p-0">
+    <div class="row hero no-gutters">
+        <div class="row filter h-100 w-100 no-gutters">
+
+            <div class="col-8 mx-auto my-auto">
+                <div class="row  d-flex flex-column text-white">
+                    <span class="text-5xl fw-600 pb-2">Welcome.
+                    </span>
+                    <span class="text-4xl fw-600 text-white pb-3">Discover movies, shows, and more!</span>
+                </div>
+                <div class="row input-group ">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-search border-0"></i></span>
+                    </div>
+                    <input placeholder="Search for a Movies, a TV show, a Person..." class="form-control " type="search"
+                        id="example-search-input">
+
+                    <span class="input-group-append home-search-append">
+                        <button class=" btn btn-outline-light border-0 p-0" type="button">
+                            <div class="w-100 h-100 d-flex mr-4 ">
+                                <i class="fa fa-search bg-warning mx-auto my-auto p-2 px-3 rounded"></i>
+                            </div>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
     </div>
-    <div class="row">
+</div>
+<div class="container-fluid trending-container">
+    <div class="row mx-auto">
+        <div class="col">
+            <p class="fw-600 mb-0 pt-3 text-2xl pl-1"> Trending</p>
+        </div>
+    </div>
+    <div class="row mx-auto">
         {% for item in trending %}
         {% if item.media_type == 'movie' %}
-        <div class='col-2'>
+        <div class='col-2 p-3'>
             <a href="{% url 'movie' item.id %}">
-                <img class="img-fluid" id="movie" src="http://image.tmdb.org/t/p/w500{{item.poster_path}}">
+                <img class="img-fluid media-card" id="movie" src="http://image.tmdb.org/t/p/w500{{item.poster_path}}">
             </a>
         </div>
         {% elif item.media_type == 'tv' %}
-        <div class='col-2'>
+        <div class='col-2 p-3'>
             {% comment %} <a href="{% url 'show' item.id %}"> {% endcomment %}
-                <img class="img-fluid" id="movie" src="http://image.tmdb.org/t/p/original{{item.poster_path}}">
+                <img class="img-fluid media-card" id="movie"
+                    src="http://image.tmdb.org/t/p/original{{item.poster_path}}">
                 {% comment %} </a> {% endcomment %}
         </div>
         {% elif item.media_type == 'person' %}
-        <div class='col-2'>
+        <div class='col-2 p-3'>
             {% comment %} <a href="{% url 'actor' item.id %}"> {% endcomment %}
-                <img class="img-fluid" id="movie" src="http://image.tmdb.org/t/p/w500{{item.profile_path}}">
+                <img class="img-fluid media-card" id="movie" src="http://image.tmdb.org/t/p/w500{{item.profile_path}}">
                 {% comment %} </a> {% endcomment %}
         </div>
         {% endif %}
         {% endfor %}
     </div>
 </div>
+
+
+
+
 
 {% endblock body %}

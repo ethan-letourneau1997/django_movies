@@ -1,7 +1,9 @@
+@import "typescale.scss";
 // my variables
 $text-primary: #d4d4d4;
 
 // bootstrap overrides
+$yellow: #facc15;
 $dark: #0f172a;
 $body-bg: #1e293b;
 $body-color: $text-primary;
@@ -12,3 +14,55 @@ $navbar-dark-color: $text-primary;
 // .navbar {
 //   background-color: $navbar-bg;
 // }
+
+* {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+input,
+.input-group-append,
+.input-group-prepend,
+.input-group-text {
+  background-color: #374151 !important;
+  border: 0 !important;
+}
+
+.hero {
+  .input-group {
+    border: 1px solid #4b5563;
+    border-radius: 8px;
+  }
+
+  .input-group-prepend {
+    i {
+      color: #9ca3af !important;
+    }
+  }
+
+  input {
+    height: 45px;
+  }
+  input::placeholder {
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+
+  i {
+    border: 1px solid $dark;
+    color: $dark;
+    font-size: 0.9rem;
+  }
+}
+
+.media-card {
+  border-radius: 0.6rem;
+}
+
+.trending-container {
+  // padding-left: 2rem;
+  // padding-right: 2rem;
+
+  .row {
+    width: 90%;
+  }
+}
