@@ -32,26 +32,26 @@ def get_image_overlay(image_url):
     t0 = time.time()
     img_response = httpx.get(image_url)
     t1 = time.time()
-    print(f"Retrieving image took {t1-t0} seconds.")
+    # print(f"Retrieving image took {t1-t0} seconds.")
 
     # > Convert the image data to a PIL Image object
     t0 = time.time()
     img = Image.open(BytesIO(img_response.content))
     t1 = time.time()
-    print(f"Converting to PIL Image took {t1-t0} seconds.")
+    # print(f"Converting to PIL Image took {t1-t0} seconds.")
 
     # > Extract 6 colors from the image using colorgram
     t0 = time.time()
     colors = colorgram.extract(img, 2)
     t1 = time.time()
-    print(f"Extracting colors took {t1-t0} seconds.")
+    # print(f"Extracting colors took {t1-t0} seconds.")
 
     # > Get the two most dominant colors.
     t0 = time.time()
     color1, color2 = sorted(
         colors, key=lambda c: c.proportion, reverse=True)[:2]
     t1 = time.time()
-    print(f"Getting dominant colors took {t1-t0} seconds.")
+    # print(f"Getting dominant colors took {t1-t0} seconds.")
 
     # > Average color palette values.
     t0 = time.time()
@@ -60,7 +60,7 @@ def get_image_overlay(image_url):
     blue = (color1.rgb.b + color2.rgb.b) // 2
 
     t1 = time.time()
-    print(f"Calculating average color took {t1-t0} seconds.")
+    # print(f"Calculating average color took {t1-t0} seconds.")
 
     # # > Ensure image is not too light
     contrast = get_contrast_ratio(red, green, blue)

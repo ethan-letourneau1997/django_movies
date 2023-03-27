@@ -9,6 +9,8 @@ urlpatterns = [
     path('movies/<str:movie_id>', views.movie, name='movie'),
     path('shows/', views.shows, name='shows'),
     path('shows/<str:show_id>', views.show, name="show"),
+    # path('json/', views.episode_ratings, name='json'),
+
     # path('shows/<str:show_id>/season/<str:season_number>/',
     #      views.season, name="season"),
     # path('shows/<str:show_id>/season/<str:season_number>/episodes/<str:episode_number>/',

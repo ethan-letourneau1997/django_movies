@@ -128,5 +128,60 @@ background-position: center;
             </div>
         </div>
 </section>
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8">
+             
+                <canvas id="myChart"></canvas>
+          
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<script>
+    // Get the canvas element
+    var ctx = document.getElementById("myChart").getContext("2d");
+// Get the canvas element
+var ctx = document.getElementById("myChart").getContext("2d");
+
+// Create the chart
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ episodes | safe }},
+        datasets: [{
+            label: 'Show Ratings',
+            data: {{ ratings | safe }},
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            borderColor: {{ colors | safe }},
+            borderWidth: 3,
+            fill: false, // set fill to false to remove the line between points
+            showLine: false //<- set this
+
+        }]
+    },
+    options: {
+    responsive: true,
+    display: false,
+    scales: {
+        y: {
+            type: 'linear',
+            grace: '30%'
+        }
+    },
+    plugins: {
+        legend: false
+    }
+    }
+});
+</script>
+
 
 {% endblock body %}

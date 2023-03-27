@@ -4,6 +4,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import requests
 from .utils.imageUtils import get_image_overlay
+from .utils.getEpisodeRatings import get_episode_ratings
+import json
+from django.views.generic import TemplateView
+from chartjs.views.lines import BaseLineChartView
 
 
 # Create your views here.
@@ -45,6 +49,8 @@ def movies(request):
 
 
 def movie(request, movie_id):
+
+    # TODO clean up movie view (see show)
 
     response = requests.get(
         f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US&append_to_response=credits,videos,release_dates,watch/providers,similar')
@@ -178,10 +184,51 @@ def show(request, show_id):
     backdrop_filter = get_image_overlay(
         f'http://image.tmdb.org/t/p/w92{image_url}')
 
+    # > Get episode ratings
+
+    data = get_episode_ratings(show_id, API_KEY)
     # * Create context for template.
+
+    color_key = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white', 'gray', 'teal', 'navy', 'maroon', 'olive', 'coral', 'turquoise', 'lavender', 'peach', 'magenta']
+
+    colors = [] 
+    episodes = []
+    ratings = []  
+    names = []  
+    air_dates = [] 
+
+    for item in data:
+        # append the rating value to the ratings array
+        if item['rating'] > 0:
+            ratings.append(item['rating'])
+            names.append(item['name'])
+            air_dates.append(item['air_date'])
+            episodes.append(len(episodes) + 1)
+
+
+            colors.append(color_key[item['season_number']])
+
+
+    names_json = json.dumps(names)
+    print(colors)
+
+  # print the ratings array to verify the result
+
+ 
+
     context = {
         'show': show,
         'backdrop_filter': backdrop_filter,
         'streaming_services': streaming_services,
+        'episode_data': data,
+        'ratings': ratings,
+        'air_dates': air_dates,
+        'names': names_json,
+        'colors': colors,
+        'episodes': episodes,
+
     }
     return render(request, 'tv/show.html', context)
+
+
+
