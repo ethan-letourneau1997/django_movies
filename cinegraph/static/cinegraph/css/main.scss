@@ -1,22 +1,23 @@
-@import "typescale.scss";
+@import "./variables/typescale.scss";
+@import "./variables/colors.scss";
+@import "./movies/movie.scss";
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
+
 // my variables
-$text-primary: #d4d4d4;
 
 // bootstrap overrides
 $yellow: #facc15;
 $dark: #0f172a;
 $body-bg: #1e293b;
-$body-color: $text-primary;
-$navbar-dark-color: $text-primary;
+$body-color: $primary;
+$navbar-dark-color: $primary;
 
 @import "bootstrap.scss";
 
-// .navbar {
-//   background-color: $navbar-bg;
-// }
-
 * {
   font-family: "Source Sans Pro", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5rem; /* 24px */
 }
 
 input,
@@ -43,7 +44,7 @@ input,
     height: 45px;
   }
   input::placeholder {
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: #9ca3af;
   }
 

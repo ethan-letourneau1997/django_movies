@@ -1,0 +1,48 @@
+@import "../variables/colors.scss";
+
+.backdrop-filter {
+  .poster-col {
+    padding-left: 1rem;
+    img {
+      border-radius: 1rem;
+    }
+  }
+  .poster {
+  }
+
+  .mpaa-rating {
+    border: 1px solid $secondary;
+    color: $secondary;
+    margin-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .score {
+    span {
+      padding: 0.7rem;
+      border-radius: 0.3rem;
+    }
+    .positive {
+      background-color: $green;
+    }
+    .neutral {
+      background-color: $yellow;
+    }
+    .negetive {
+      background-color: $red;
+    }
+  }
+
+  .tagline {
+    color: $secondary;
+    font-style: italic;
+  }
+
+  // p {
+  //   line-height: 20px;
+  // }
+}
+hr {
+  background-color: $primary;
+}

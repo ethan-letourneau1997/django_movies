@@ -7,9 +7,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{% sass_src 'cinegraph/css/main.scss' %}" rel="stylesheet" type="text/css" />
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
-        </style>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
         <script src="https://kit.fontawesome.com/606aa0c887.js" crossorigin="anonymous"></script>
         <title>Cinegraph</title>
     </head>
@@ -27,21 +27,28 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mx-auto">
+                <ul class="navbar-nav mx-auto py-2">
                     <li class="nav-item  mx-2">
                         <a class="nav-link" href="{% url 'movies' %}">Movies <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link" href="#">Shows</a>
+                        <a class="nav-link" href="#">Television</a>
                     </li>
                     <li class="nav-item mx-2">
                         <a class="nav-link" href="#">People</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <div class="input-group">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-light border-0" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
                 </form>
+
             </div>
         </nav>
 

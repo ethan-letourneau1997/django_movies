@@ -1,4 +1,5 @@
-@import "typescale.scss";
+@use "typescale.scss";
+@use "./movies/movie.scss" as movie;
 // my variables
 $text-primary: #d4d4d4;
 

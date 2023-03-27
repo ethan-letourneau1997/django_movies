@@ -6,100 +6,121 @@
 .backdrop-filter {
     {{ backdrop_filter }}
 }
+
+.backdrop {
+background: url('http://image.tmdb.org/t/p/original{{movie.backdrop_path}}');
+background-size: cover;
+background-position: center;
+}
 </style>
 
 
-<section class="w-full bg-cover bg-center"
-    style="background-image: url('http://image.tmdb.org/t/p/original{{movie.backdrop_path}}');">
-    <div class="w-full backdrop-filter">
-        <div class="flex flex-wrap">
-            <div class="w-3/12 p-6 pb-8">
-                <img src="http://image.tmdb.org/t/p/original{{movie.poster_path}}" alt=""
-                    class="max-w-full h-auto rounded-xl">
+<section class="backdrop">
+    <div class="container-fluid backdrop-filter pl-4">
+        <!-- Hero col -->
+        <div class="row">
+            <!-- Poster col -->
+            <div class="col-3 py-4 poster-col ">
+
+                <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}" alt="">
+
             </div>
-            <div class="w-8/12 p-6 pb-10 flex flex-col">
-                <div>
-                    <div>
-                        <span class="text-4xl font-bold d-inline">{{movie.title}}&nbsp;</span>
-                        <span class="text-4xl  d-inline">({{ movie.release_date|slice:"0:4" }})</span>
+            <!-- Content col -->
+            <div class="col-8  py-4">
+                <!-- Title row -->
+                <div class="row">
+                    <div class="col-12 d-flex">
+                        <h1 class="text-4xl fw-700 mb-0">{{movie.title}}&nbsp; </h1>
+                        <span class="text-4xl fw-300">({{ movie.release_date|slice:"0:4" }})
+                        </span>
                     </div>
-                    <div class="flex text-sm pt-1">
+                </div>
+                <!-- Rating and genre row -->
+                <div class="row">
+                    <div class="col-12">
                         {% if rating %}
-                        <span class="border border-zinc-400 text-zinc-400 pl-2 pr-2 mr-2 text-sm">{{rating}}</span>
+                        <span class="mpaa-rating text-sm">{{rating}}</span>
                         {% endif %}
                         {% for genre in movie.genres %}
-                        <span>
-                            <p class="text-zinc-200">{{ genre.name }},&nbsp;&nbsp; </p>
-                        </span>
+                        <span class="text-sm">{{ genre.name }},&nbsp;&nbsp; </span>
                         {% endfor %}
                     </div>
-
-                    <div class="d-flex">
+                </div>
+                <!--Score row -->
+                <div class="row score py-3">
+                    <div class="col-12 d-flex ">
                         {% if review >= 7.5 %}
-                        <div class="bg-green-500 p-3 mt-4 border-white rounded-md w-fit">
-                            <p>{{ review }}</p>
-                        </div>
+                        <span class=" positive">{{ review }}</span>
                         {% elif review >= 6 %}
-                        <div class="p-3 mt-4 bg-yellow-400 rounded-md w-fit border-white">
-                            <p>{{ review }}</p>
-                        </div>
+                        <span class="neutral">{{ review }}</span>
                         {% else %}
-                        <div class="p-3 mt-4 bg-red-400 rounded-md w-fit border-white">
-                            <p>{{ review }}</p>
-                        </div>
+                        <span class="negetive">{{ review }}</span>
                         {% endif %}
-
-
-
                     </div>
                 </div>
+
+                <!--Tagline row -->
                 {% if movie.tagline %}
-                <p class="italic text-xl text-gray-400 pt-3"> {{movie.tagline}} </p>
-                {% endif %}
-                {% if movie.overview %}
-                <div>
-                    <h3 class="text-2xl pb-2 font-semibold">Overview</h3>
-                    <p> {{ movie.overview }} </p>
-                    <hr class="h-px my-8  border-0 dark:bg-gray-300">
+                <div class="row">
+                    <div class="col-12">
+                        <span class="tagline text-xl"> {{movie.tagline}} </span>
+                    </div>
                 </div>
                 {% endif %}
-                <div class="flex flex-wrap">
-                    <div class="flex flex-wrap w-6/12 space-y-3.5 items-baseline ">
-                        <div class="w-6/12">
-                            <p class="font-semibold">Budget</p>
-                            <p>{{ budget }} </p>
+
+                <!--Tagline row -->
+                {% if movie.overview %}
+                <div class="row ">
+                    <div class="col-12">
+                        <h3 class="text-2xl fw-600">Overview</h3>
+                        <p class="fw-400 pr-1"> {{ movie.overview }} </p>
+                        <hr class="bg-light mt-4 mb-5">
+                    </div>
+                </div>
+
+
+                {% endif %}
+                <div class=" row">
+                    <div class="col-6 row">
+                        <div class="col-6 d-flex flex-column">
+                            <span class="fw-600">Budget</span>
+                            <span>{{ budget }} </span>
                         </div>
-                        <div class="w-6/12">
-                            <p class="font-semibold self-start">Release</p>
-                            <p>{{ release_date }} </p>
+                        <div class="col-6 d-flex flex-column">
+                            <span class="fw-600">Release</span>
+                            <span>{{ release_date }} </span>
                         </div>
-                        <div class="w-6/12">
-                            <p class="font-semibold">Box Office</p>
-                            <p>{{ revenue }} </p>
+                        <div class="col-6 d-flex flex-column">
+                            <span class="fw-600">Box Office</span>
+                            <span>{{ revenue }} </span>
                         </div>
-                        <div class="w-6/12">
-                            <p class="font-semibold">Runtime</p>
-                            <p>{{ runtime }} </p>
+                        <div class="col-6 d-flex flex-column">
+                            <span class="fw-600">Runtime</span>
+                            <span>{{ runtime }} </span>
                         </div>
                     </div>
-                    <div class="w-4/12">
+                    <div class="col-4 ">
                         {% if streaming_services %}
-                        <h5 class="font-semibold">Streaming on:</h5>
-                        <div class="flex flex-wrap pt-2">
+                        <div class="row">
+                            <div class="text-lg fw-500">Where to Watch:</div>
+                        </div>
+                        <div class="row">
+
                             {% for service in streaming_services %}
-                            <div class="w-3/12">
-                                <img class="max-w-full h-auto rounded-xl"
+                            <div class="col-3 p-2">
+                                <img class="img-fluid streaming rounded"
                                     src="http://image.tmdb.org/t/p/original{{service.logo_path}}" alt="">
                             </div>
                             {% endfor %}
                             {% endif %}
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
+
+    </div>
+    </div>
     </div>
 </section>
 {% comment %} <section class="flex flex-col items-center ">
