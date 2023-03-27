@@ -8,7 +8,7 @@
 }
 
 .backdrop {
-background: url('http://image.tmdb.org/t/p/original{{movie.backdrop_path}}');
+background: url('http://image.tmdb.org/t/p/original{{show.backdrop_path}}');
 background-size: cover;
 background-position: center;
 }
@@ -22,7 +22,7 @@ background-position: center;
             <!-- Poster col -->
             <div class="col-3 py-4 poster-col ">
 
-                <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}" alt="">
+                <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{show.poster_path}}" alt="">
 
             </div>
             <!-- Content col -->
@@ -30,8 +30,8 @@ background-position: center;
                 <!-- Title row -->
                 <div class="row">
                     <div class="col-12 d-flex">
-                        <h1 class="text-4xl fw-700 mb-0">{{movie.title}}&nbsp; </h1>
-                        <span class="text-4xl fw-300">({{ movie.release_date|slice:"0:4" }})
+                        <h1 class="text-4xl fw-700 mb-0">{{show.name}}&nbsp; </h1>
+                        <span class="text-4xl fw-300">({{ show.first_air_date|slice:"0:4" }})
                         </span>
                     </div>
                 </div>
@@ -41,7 +41,7 @@ background-position: center;
                         {% if rating %}
                         <span class="mpaa-rating text-sm">{{rating}}</span>
                         {% endif %}
-                        {% for genre in movie.genres %}
+                        {% for genre in show.genres %}
                         <span class="text-sm">{{ genre.name }},&nbsp;&nbsp; </span>
                         {% endfor %}
                     </div>
@@ -50,31 +50,31 @@ background-position: center;
                 {% comment %} !TODO refactor to just switch class {% endcomment %}
                 <div class="row score py-3">
                     <div class="col-12 d-flex ">
-                        {% if review >= 7.5 %}
-                        <span class=" positive fw-500 text-lg">{{ review }}</span>
-                        {% elif review >= 6 %}
-                        <span class="neutral fw-500 text-lg">{{ review }}</span>
+                        {% if show.vote_average >= 7.5 %}
+                        <span class=" positive">{{ show.vote_average|floatformat:1  }}</span>
+                        {% elif show.vote_average >= 6 %}
+                        <span class="neutral">{{ show.vote_average|floatformat:1  }}</span>
                         {% else %}
-                        <span class="negetive fw-500 text-lg">{{ review }}</span>
+                        <span class="negetive">{{ show.vote_average|floatformat:1  }}</span>
                         {% endif %}
                     </div>
                 </div>
 
                 <!--Tagline row -->
-                {% if movie.tagline %}
+                {% if show.tagline %}
                 <div class="row">
                     <div class="col-12">
-                        <span class="tagline text-xl"> {{movie.tagline}} </span>
+                        <span class="tagline text-xl"> {{show.tagline}} </span>
                     </div>
                 </div>
                 {% endif %}
 
                 <!--Tagline row -->
-                {% if movie.overview %}
+                {% if show.overview %}
                 <div class="row ">
                     <div class="col-12">
                         <h3 class="text-2xl fw-600">Overview</h3>
-                        <p class="fw-400 pr-1"> {{ movie.overview }} </p>
+                        <p class="fw-400 pr-1"> {{ show.overview }} </p>
                         <hr class="bg-light mt-4 mb-5">
                     </div>
                 </div>
@@ -82,22 +82,30 @@ background-position: center;
 
                 {% endif %}
                 <div class=" row">
-                    <div class="col-6 row">
+                    <div class="col-8 row">
+                        <div class="col-4 d-flex flex-column">
+                            <span class="fw-600">Seasons</span>
+                            <span>{{ show.number_of_seasons }} </span>
+                        </div>
                         <div class="col-6 d-flex flex-column pb-3">
-                            <span class="fw-600">Budget</span>
-                            <span>{{ budget }} </span>
+                            <span class="fw-600">Creator(s)</span>
+                            <div>
+                                {% for creator in show.created_by %}
+                                <span>{{ creator.name }},</span>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="col-6 d-flex flex-column">
-                            <span class="fw-600">Release</span>
-                            <span>{{ release_date }} </span>
-                        </div>
-                        <div class="col-6 d-flex flex-column">
-                            <span class="fw-600">Box Office</span>
-                            <span>{{ revenue }} </span>
+                        <div class="col-4 d-flex flex-column">
+                            <span class="fw-600">Episodes</span>
+                            <span>{{ show.number_of_episodes }} </span>
                         </div>
                         <div class="col-6 d-flex flex-column">
                             <span class="fw-600">Runtime</span>
-                            <span>{{ runtime }} </span>
+                            <span>
+                                {% for runtime in show.episode_run_time %}
+                                <p>{{ runtime }} minutes</p>
+                                {% endfor %}
+                            </span>
                         </div>
                     </div>
                     <div class="col-4 ">
@@ -119,43 +127,6 @@ background-position: center;
                 </div>
             </div>
         </div>
-
-    </div>
-    </div>
-    </div>
 </section>
-{% comment %} <section class="flex flex-col items-center ">
-    <h2 class=" text-2xl w-11/12 pb-3 text-zinc-100 font-semibold pt-5 pl-2">Top Billed Cast</h2>
-    <div class="grid grid-cols-8 gap-4 w-11/12">
-        {% for actor in movie.credits.cast %}
-        {% if actor.profile_path != None %}
-        {% if forloop.counter < 9 %}
-        <div>
-            <div class=" bg-white border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 w-fit
-                flex flex-col rounded-md">
-                <a href="{% url 'actor' actor.id %}">
-                    <img class=" w-full rounded-md" src="http://image.tmdb.org/t/p/original{{actor.profile_path}}">
-                </a>
-                <div class="pl-3 ">
-                    <a href="#">
-                        <h5 class=" font-bold  tracking-tight text-gray-900 dark:text-white">{{actor.name}}
-                        </h5>
-                        <span class="text-sm">{{actor.character}}</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
-        {% endif %}
-        {% endif %}
-        {% endfor %}
-    </div>
-</section> {% endcomment %}
-
-
-
-
-
 
 {% endblock body %}

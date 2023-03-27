@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<h1 class="text-center text-6xl">
+    Trending Television
+</h1>
+<div class="container">
+    <div class="row">
+
+        {% for show in shows %}
+        {% if show.poster_path != None %}
+        {% if forloop.counter < 19 %}
+        <div class="col-2">
+            <a href=" {% url 'show' show.id %}">
+                <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{show.poster_path}}">
+            </a>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock body %}

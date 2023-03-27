@@ -6,11 +6,6 @@
 // my variables
 
 // bootstrap overrides
-$yellow: #facc15;
-$dark: #0f172a;
-$body-bg: #1e293b;
-$body-color: $primary;
-$navbar-dark-color: $primary;
 
 @import "bootstrap.scss";
 
@@ -18,6 +13,17 @@ $navbar-dark-color: $primary;
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1rem;
   line-height: 1.5rem; /* 24px */
+}
+
+.nav-search {
+  input {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+  }
+  div {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
 }
 
 input,

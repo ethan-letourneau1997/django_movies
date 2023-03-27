@@ -139,3 +139,49 @@ def movie(request, movie_id):
         'similar': released_similar_movies,
     }
     return render(request, 'movies/movie.html', context)
+
+
+def shows(request):
+    # Pull data from third party rest api
+    response = requests.get(
+        f'https://api.themoviedb.org/3/trending/tv/week?api_key={API_KEY}'
+    )
+
+    # Convert response data into json
+    shows = response.json()['results']
+
+    context = {
+        'shows': shows,
+    }
+
+    return render(request, 'tv/shows.html', context)
+
+
+def show(request, show_id):
+    response = requests.get(
+        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US&append_to_response=seasons,episodes,watch/providers')
+
+    show = response.json()
+
+    # > Get any streaming services the movie is available on
+    if 'US' in show['watch/providers']['results'] and \
+            show['watch/providers']['results']['US'].get('flatrate'):
+        streaming_services = show['watch/providers']['results']['US']['flatrate']
+    else:
+        streaming_services = None
+
+    # > Get URL of image
+    image_url = show['poster_path']
+    image_url = f'http://image.tmdb.org/t/p/w500{image_url}'
+
+    # > Get backdrop filter gradient
+    backdrop_filter = get_image_overlay(
+        f'http://image.tmdb.org/t/p/w92{image_url}')
+
+    # * Create context for template.
+    context = {
+        'show': show,
+        'backdrop_filter': backdrop_filter,
+        'streaming_services': streaming_services,
+    }
+    return render(request, 'tv/show.html', context)

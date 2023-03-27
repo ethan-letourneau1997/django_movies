@@ -68,10 +68,10 @@
         </div>
         {% elif item.media_type == 'tv' %}
         <div class='col-2 p-3'>
-            {% comment %} <a href="{% url 'show' item.id %}"> {% endcomment %}
+            <a href="{% url 'show' item.id %}">
                 <img class="img-fluid media-card" id="movie"
                     src="http://image.tmdb.org/t/p/original{{item.poster_path}}">
-                {% comment %} </a> {% endcomment %}
+            </a>
         </div>
         {% elif item.media_type == 'person' %}
         <div class='col-2 p-3'>

@@ -32,14 +32,14 @@
                         <a class="nav-link" href="{% url 'movies' %}">Movies <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link" href="#">Television</a>
+                        <a class="nav-link" href="{% url 'shows' %}"">Television</a>
                     </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="#">People</a>
+                    <li class=" nav-item mx-2">
+                            <a class="nav-link" href="#">People</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <div class="input-group">
+                    <div class="input-group nav-search">
                         <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
                             <button class="btn btn-outline-light border-0" type="submit">
@@ -56,6 +56,10 @@
         {% block body %}
         {% endblock body %}
 
+        <!--Chart JS-->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
+
+        <!--Bootstrap-->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
         </script>
