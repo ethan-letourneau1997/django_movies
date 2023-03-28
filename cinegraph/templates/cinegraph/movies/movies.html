@@ -2,19 +2,34 @@
 
 {% block body %}
 
-<h1 class="text-center text-6xl">
+<h1 class="text-6xl text-center">
     Trending Movies
 </h1>
-<div class="container">
-    <div class="row">
+
+<div class="container trending">
+    <div class="row d-grid " style="grid-template-columns: repeat(6, 1fr);row-gap: 30px;">
 
         {% for movie in movies %}
         {% if movie.poster_path != None %}
         {% if forloop.counter < 19 %}
-        <div class="col-2">
-            <a href=" {% url 'movie' movie.id %}">
-                <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}">
-            </a>
+        <div class="col d-flex">
+            <div class="position-relative bg-dark">
+                <a href=" {% url 'movie' movie.id %}">
+                    <img class="img-fluid rounded-3" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}">
+                </a>
+                <div class="py-3 div score" style="position: absolute; top: 67%; left: 75%;">
+                    <div class="col-12 d-flex">
+                        <span
+                            class="fw-700 text-sm rounded-circle
+                            {% if movie.vote_average >= 7.5 %}positive{% elif movie.vote_average >= 6 %}neutral{% else %}negetive{% endif %}">
+                            {{ movie.vote_average|floatformat:1 }}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-4 pt-4 pb-3">
+                    {{movie.title}}
+                </div>
+            </div>
         </div>
         {% endif %}
         {% endif %}

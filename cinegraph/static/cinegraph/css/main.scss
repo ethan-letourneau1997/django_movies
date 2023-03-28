@@ -77,3 +77,71 @@ input,
 pre {
   color: $primary;
 }
+
+.season-card {
+  background-color: $dark;
+  border-radius: 10px;
+
+  .img-fluid {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+}
+
+#module {
+  width: 500px;
+}
+
+.card {
+  border-radius: 10px;
+
+  img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+}
+
+/* Show the element for screens larger than 768px */
+@media screen and (min-width: 768px) {
+  .hide-mobile {
+    visibility: visible;
+  }
+}
+
+/* Hide the element for screens smaller than 768px */
+@media screen and (max-width: 767px) {
+  .hide-mobile {
+    visibility: hidden;
+  }
+}
+
+.card-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  // scrollbar-width: none; /* hide scrollbar in Firefox */
+  // -ms-overflow-style: none; /* hide scrollbar in Internet Explorer and Edge */
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 300px; /* set the width of your card */
+  margin-right: 20px; /* add margin between cards */
+}
+
+// h_ Bootstrap custom border-radius
+
+$border-radius-lg: 20rem;
+
+// .rounded-3 {
+//   border-radius: 0.5rem !important;
+// }
+
+.rounded-start-3 {
+  border-top-left-radius: $border-radius-lg;
+  border-bottom-left-radius: $border-radius-lg;
+}
+.rounded-end-3 {
+  border-top-right-radius: $border-radius-lg;
+  border-bottom-right-radius: $border-radius-lg;
+}

@@ -165,7 +165,7 @@ def shows(request):
 
 def show(request, show_id):
     response = requests.get(
-        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US&append_to_response=seasons,episodes,watch/providers')
+        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US&append_to_response=seasons,episodes,watch/providers,credits')
 
     show = response.json()
 
@@ -184,18 +184,23 @@ def show(request, show_id):
     backdrop_filter = get_image_overlay(
         f'http://image.tmdb.org/t/p/w92{image_url}')
 
-    # > Get episode ratings
+    # > Get season information
+
+    # h_ Get episode ratings
 
     data = get_episode_ratings(show_id, API_KEY)
     # * Create context for template.
 
-    color_key = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white', 'gray', 'teal', 'navy', 'maroon', 'olive', 'coral', 'turquoise', 'lavender', 'peach', 'magenta']
+    # h_ Parse rating information
 
-    colors = [] 
+    color_key = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white',
+                 'gray', 'teal', 'navy', 'maroon', 'olive', 'coral', 'turquoise', 'lavender', 'peach', 'magenta']
+
+    colors = []
     episodes = []
-    ratings = []  
-    names = []  
-    air_dates = [] 
+    ratings = []
+    names = []
+    air_dates = []
 
     for item in data:
         # append the rating value to the ratings array
@@ -205,16 +210,16 @@ def show(request, show_id):
             air_dates.append(item['air_date'])
             episodes.append(len(episodes) + 1)
 
-
             colors.append(color_key[item['season_number']])
 
-
     names_json = json.dumps(names)
-    print(colors)
 
-  # print the ratings array to verify the result
+    # > reverse seasons for display
+    seasons_reversed = list(reversed(show['seasons']))
 
- 
+    print(show['seasons'])
+    for season in show['seasons']:
+        print(season['name'])
 
     context = {
         'show': show,
@@ -226,9 +231,8 @@ def show(request, show_id):
         'names': names_json,
         'colors': colors,
         'episodes': episodes,
+        'seasons_reversed': seasons_reversed,
+
 
     }
     return render(request, 'tv/show.html', context)
-
-
-
