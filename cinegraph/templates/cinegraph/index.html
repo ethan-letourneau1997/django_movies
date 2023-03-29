@@ -4,86 +4,178 @@
 
 
 {% block body %}
+{% load static %}
 
 <style>
-
     .filter {
      background: rgba(17,24,39,.7);
      background: linear-gradient(90deg, rgba(17,24,39,.9) 0%, rgba(17,24,39,0.7) 50%, rgba(17,24,39,.9) 100%);
     }
 
     .hero {
-    background: url("http://image.tmdb.org/t/p/original{{hero}}");
+
+    background: url("{% static 'cinegraph/img/succession_banner.jpg' %}");
     background-size: cover;
     background-position:top;
-    height: 60vh;
     }
- 
-
 </style>
+<!--height: 60vh;-->
 
-<div class="container-fluid p-0">
-    <div class="row hero no-gutters">
-        <div class="row filter h-100 w-100 no-gutters">
-
-            <div class="col-8 mx-auto my-auto">
-                <div class="row  d-flex flex-column text-white">
-                    <span class="text-5xl fw-600 pb-2">Welcome.
-                    </span>
-                    <span class="text-4xl fw-600 text-white pb-3">Discover movies, shows, and more!</span>
-                </div>
-                <div class="row input-group ">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-search border-0"></i></span>
-                    </div>
-                    <input placeholder="Search for a Movies, a TV show, a Person..." class="form-control " type="search"
-                        id="example-search-input">
-
-                    <span class="input-group-append home-search-append">
-                        <button class=" btn btn-outline-light border-0 p-0" type="button">
-                            <div class="w-100 h-100 d-flex mr-4 ">
-                                <i class="fa fa-search bg-warning mx-auto my-auto p-2 px-3 rounded"></i>
-                            </div>
-                        </button>
-                    </span>
-                </div>
+<section class="banner hero d-flex">
+    <div class="container-fluid filter d-flex align-items-center justify-content-center ">
+        <div class="d-flex flex-column gap-3 px-1 hero-content">
+            <span>
+                <h1 class="text-5xl fw-600">Welcome.</h1>
+                <h2 class="text-3xl">Discover movies, shows, and more!</h2>
+            </span>
+            <div class="input-group rounded-3">
+                <input type="text" class="form-control flex-grow-1" placeholder="Search...">
+                <span class="p-1 ">
+                    <button class="btn btn-warning" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
             </div>
         </div>
-        <div class="col"></div>
     </div>
-</div>
-<div class="container-fluid trending-container">
-    <div class="row mx-auto">
-        <div class="col">
-            <p class="fw-600 mb-0 pt-3 text-2xl pl-1"> Trending</p>
-        </div>
+</section>
+
+<div class="container-fluid media-container">
+    <div class="row trending-title mb-2 p-0">
+        <h3 class="mt-4 text-2xl ">Trending</h3>
     </div>
-    <div class="row mx-auto">
-        {% for item in trending %}
-        {% if item.media_type == 'movie' %}
-        <div class='col-2 p-3'>
-            <a href="{% url 'movie' item.id %}">
-                <img class="img-fluid media-card" id="movie" src="http://image.tmdb.org/t/p/w500{{item.poster_path}}">
-            </a>
+    <ul class="nav  nav-pills mb-1 d-flex gap-2 p-0 pb-3" id="pills-tab" role="tablist">
+        <li class="nav-item bg-dark rounded-3" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                type="button" role="tab" aria-controls="pills-home" aria-selected="true">Movie</button>
+        </li>
+        <li class="nav-item bg-dark rounded-3" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Television</button>
+        </li>
+        <li class="nav-item bg-dark rounded-3" role="presentation">
+            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
+                type="button" role="tab" aria-controls="pills-contact" aria-selected="false">People</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <section>
+                <div class="container-fluid ">
+
+                    <div class="row card-row flex-nowrap overflow-auto pb-4 ">
+                        {% for item in movies %}
+                        <div class=" d-flex  card-offset p-0">
+                            <div class="card bg-transparent border-0 d-flex position-relative">
+                                <img src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
+                                    class="card-img-top">
+                                <span
+                                    class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
+                                    <div>
+                                        {% if item.vote_average %}
+                                        {{ item.vote_average|floatformat:1 }}
+                                        {% endif %}
+                                    </div>
+                                </span>
+                                <div class="card-body pb-0">
+
+
+                                    <div class="card-title m-0 text-base fw-500">
+                                        {% if item.title %}
+                                        {{ item.title }}
+                                        {% endif %}
+                                    </div>
+                                    <span class="card-text fw-200 text-secondary">
+                                        {% if item.formatted_date %}
+                                        {{ item.formatted_date|date:'M d, Y' }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
         </div>
-        {% elif item.media_type == 'tv' %}
-        <div class='col-2 p-3'>
-            <a href="{% url 'show' item.id %}">
-                <img class="img-fluid media-card" id="movie"
-                    src="http://image.tmdb.org/t/p/original{{item.poster_path}}">
-            </a>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <section>
+                <div class="container-fluid">
+
+                    <div class="row card-row flex-nowrap overflow-auto ">
+                        {% for item in shows %}
+                        <div class=" d-flex  card-offset p-0">
+                            <div class="card bg-transparent border-0 d-flex position-relative">
+                                <img src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
+                                    class="card-img-top">
+                                <span
+                                    class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
+                                    <div class="text-sm  ">
+                                        {% if item.vote_average %}
+                                        {{ item.vote_average|floatformat:1 }}
+                                        {% endif %}
+                                    </div>
+                                </span>
+                                <div class="card-body pb-0">
+                                    <div class="card-title m-0 text-base fw-500">
+                                        {% if item.name %}
+                                        {{ item.name }}
+                                        {% endif %}
+                                    </div>
+                                    <span class="card-text fw-200 text-secondary">
+                                        {% if item.formatted_date %}
+                                        {{ item.formatted_date|date:'M d, Y' }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
         </div>
-        {% elif item.media_type == 'person' %}
-        <div class='col-2 p-3'>
-            {% comment %} <a href="{% url 'actor' item.id %}"> {% endcomment %}
-                <img class="img-fluid media-card" id="movie" src="http://image.tmdb.org/t/p/w500{{item.profile_path}}">
-                {% comment %} </a> {% endcomment %}
+        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <section>
+                <div class="container-fluid">
+
+                    <div class="row card-row flex-nowrap overflow-auto ">
+                        {% for item in people %}
+                        <div class=" d-flex  card-offset p-0">
+                            <div class="card bg-transparent border-0 d-flex position-relative">
+                                <img src="http://image.tmdb.org/t/p/original{{item.profile_path}}" alt=""
+                                    class="card-img-top">
+                                <span
+                                    class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
+                                    <div class="text-sm  ">
+                                        {% if item.vote_average %}
+                                        {{ item.vote_average|floatformat:1 }}
+                                        {% endif %}
+                                    </div>
+                                </span>
+                                <div class="card-body pb-0">
+                                    <div class="card-title m-0 text-base fw-500">
+                                        {% if item.name %}
+                                        {{ item.name }}
+                                        {% endif %}
+                                    </div>
+                                    <span class="card-text fw-200 text-secondary">
+                                        {% if item.formatted_date %}
+                                        {{ item.formatted_date|date:'M d, Y' }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
         </div>
-        {% endif %}
-        {% endfor %}
     </div>
 </div>
 
+<!--TODO trending trailers-->
 
 
 

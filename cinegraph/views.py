@@ -18,15 +18,45 @@ def index(request):
     trending_response = requests.get(
         f'https://api.themoviedb.org/3/trending/all/week?api_key={API_KEY}&page=1'
     )
-    hero_response = requests.get(
-        f'https://api.themoviedb.org/3/tv/76331?api_key={API_KEY}&language=en-US&append_to_response=seasons,episodes,watch/providers')
+    movies_response = requests.get(
+        f'https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}&language=en-US&page=1')
+
+    tv_response = requests.get(
+        f'https://api.themoviedb.org/3/trending/tv/week?api_key={API_KEY}'
+    )
+
+    person_response = requests.get(
+        f'https://api.themoviedb.org/3/trending/person/week?api_key={API_KEY}'
+    )
 
     trending = trending_response.json()['results']
-    hero = hero_response.json()['backdrop_path']
+    movies = movies_response.json()['results']
+    shows = tv_response.json()['results']
+    people = person_response.json()['results']
 
+    for item in trending:
+        if 'release_date' in item:
+            formatted_date = datetime.strptime(
+                item['release_date'], '%Y-%m-%d')
+            item['formatted_date'] = formatted_date
+
+    for item in movies:
+        if 'release_date' in item:
+            formatted_date = datetime.strptime(
+                item['release_date'], '%Y-%m-%d')
+            item['formatted_date'] = formatted_date
+
+    for item in shows:
+        if 'first_air_date' in item:
+            formatted_date = datetime.strptime(
+                item['first_air_date'], '%Y-%m-%d')
+            item['formatted_date'] = formatted_date
+    print(people)
     context = {
         'trending': trending,
-        'hero': hero,
+        'movies': movies,
+        'shows': shows,
+        'people': people,
     }
 
     return render(request, 'index.html', context)
@@ -40,6 +70,12 @@ def movies(request):
 
     # Convert response data into json
     movies = response.json()['results']
+
+    for movie in movies:
+        if 'release_date' in movie:
+            formatted_date = datetime.strptime(
+                movie['release_date'], '%Y-%m-%d')
+            movie['formatted_date'] = formatted_date
 
     context = {
         'movies': movies,
@@ -155,6 +191,12 @@ def shows(request):
 
     # Convert response data into json
     shows = response.json()['results']
+
+    for show in shows:
+        if 'first_air_date' in show:
+            formatted_date = datetime.strptime(
+                show['first_air_date'], '%Y-%m-%d')
+            show['formatted_date'] = formatted_date
 
     context = {
         'shows': shows,

@@ -1,5 +1,6 @@
 @import "../variables/colors.scss";
-@import "../variables/typescale.scss";
+@import "../variables/typography.scss";
+// @import "../bootstrap.scss";
 
 .backdrop-filter {
   .poster-col {
@@ -7,8 +8,6 @@
     img {
       border-radius: 1rem;
     }
-  }
-  .poster {
   }
 
   .score {
@@ -57,7 +56,7 @@ hr {
       border-radius: 0.3rem;
       color: $white;
       font-family: "Arial", sans-serif;
-      color: $dark;
+      // color: $dark;
     }
     .positive {
       background-color: $green;

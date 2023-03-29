@@ -1,0 +1,188 @@
+@import "./variables/colors.scss";
+
+.banner {
+  // account for fixed nav
+  margin-top: 40px;
+
+  .filter {
+    min-height: 45vh;
+  }
+  .input-group {
+    background: $input-bg;
+  }
+}
+
+.card-row {
+  .score {
+    position: absolute;
+    margin-top: 140% !important;
+    margin-left: 75%;
+  }
+
+  .positive {
+    background-color: $green;
+    color: $dark;
+  }
+  .neutral {
+    background-color: $yellow;
+    color: $dark;
+  }
+  .negetive {
+    background-color: $red;
+  }
+}
+
+/* Extra small devices (phones) */
+@media (max-width: 575.98px) {
+  .banner {
+    min-height: 45vh;
+    .hero-content {
+      width: 95%;
+    }
+  }
+  .media-container {
+    padding-left: 0.5rem !important;
+    .trending-title {
+      padding-left: 0.5rem !important;
+    }
+    .nav {
+      padding-left: 0.5rem !important;
+    }
+    .card-row {
+      gap: 1rem !important;
+      padding-left: 0.5rem !important;
+      .card-offset {
+        width: 37vw !important;
+        .card-body {
+          min-height: 100px !important;
+        }
+      }
+    }
+  }
+}
+
+/* Small devices (tablets) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .banner {
+    min-height: 45vh;
+    .hero-content {
+      width: 85%;
+    }
+  }
+  .media-container {
+    padding-left: 1rem !important;
+    .trending-title {
+      padding-left: 1rem !important;
+    }
+    .nav {
+      padding-left: 1rem !important;
+    }
+    .card-row {
+      padding-left: 1rem !important;
+      gap: 0.6rem;
+      .card-offset {
+        width: 21vw !important;
+        .card-body {
+          min-height: 100px !important;
+        }
+      }
+    }
+  }
+}
+
+/* Medium devices (desktops) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .banner {
+    min-height: 50vh;
+    .hero-content {
+      width: 80%;
+    }
+  }
+  .media-container {
+    padding-left: 1.5rem !important;
+    .trending-title {
+      padding-left: 1rem !important;
+    }
+    .nav {
+      padding-left: 1rem !important;
+    }
+    .card-row {
+      gap: 1rem;
+      padding-left: 1rem !important;
+      .card-offset {
+        width: 18vw !important;
+        .card-body {
+          min-height: 100px !important;
+        }
+      }
+    }
+  }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .banner {
+    min-height: 50vh;
+    .hero-content {
+      width: 70%;
+    }
+  }
+  .media-container {
+    padding-left: 2rem !important;
+    .trending-title {
+      padding-left: 2rem !important;
+    }
+    .nav {
+      padding-left: 2rem !important;
+    }
+    .card-row {
+      gap: 0.8rem;
+      padding-left: 2rem !important;
+      .card-offset {
+        width: 15vw !important;
+        .card-body {
+          min-height: 75px !important;
+        }
+      }
+    }
+  }
+}
+
+/* Extra large devices (large desktops) */
+@media (min-width: 1200px) {
+  .banner {
+    min-height: 65vh;
+    .hero-content {
+      width: 70%;
+    }
+  }
+  .media-container {
+    padding-left: 3rem !important;
+    .trending-title {
+      padding-left: 2rem !important;
+    }
+    .nav {
+      padding-left: 2rem !important;
+    }
+    .card-row {
+      gap: 1rem;
+      padding-left: 2rem;
+      .card-offset {
+        width: 12vw !important;
+
+        .card-body {
+          min-height: 100px !important;
+        }
+      }
+    }
+  }
+}
+
+.nav-link.active {
+  background-color: $yellow !important;
+  color: $dark !important;
+}
+.nav-pills .nav-link.active {
+  position: relative;
+  z-index: 1;
+}

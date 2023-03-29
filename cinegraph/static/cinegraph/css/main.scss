@@ -1,13 +1,19 @@
-@import "./variables/typescale.scss";
+// @use "./variables/typography.scss" as type;
 @import "./variables/colors.scss";
 @import "./movies/movie.scss";
+@import "./components/nav.scss";
+@import "./components/hero.scss";
+@import "./layouts/details.scss";
+@import "./utlis/utils.scss";
+@import "./homepage.scss";
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
 
 // my variables
 
 // bootstrap overrides
 
-@import "bootstrap.scss";
+// @use "./bootstrap.scss" as *;
+@import "./bootstrap.scss";
 
 * {
   font-family: "Source Sans Pro", sans-serif;
@@ -15,90 +21,20 @@
   line-height: 1.5rem; /* 24px */
 }
 
-.nav-search {
-  input {
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
-  }
-  div {
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-  }
-}
+$subtract-width: 20px;
 
-input,
-.input-group-append,
-.input-group-prepend,
-.input-group-text {
-  background-color: #374151 !important;
-  border: 0 !important;
-}
-
-.hero {
-  .input-group {
-    border: 1px solid #4b5563;
-    border-radius: 8px;
-  }
-
-  .input-group-prepend {
-    i {
-      color: #9ca3af !important;
-    }
-  }
-
-  input {
-    height: 45px;
-  }
-  input::placeholder {
-    font-size: 1rem;
-    color: #9ca3af;
-  }
-
-  i {
-    border: 1px solid $dark;
-    color: $dark;
-    font-size: 0.9rem;
-  }
-}
-
-.media-card {
-  border-radius: 0.6rem;
-}
-
-.trending-container {
-  // padding-left: 2rem;
-  // padding-right: 2rem;
-
-  .row {
-    width: 90%;
-  }
-}
+// .trending-container {
+//   .row {
+//     width: 90%;
+//   }
+// }
 
 pre {
   color: $primary;
 }
 
-.season-card {
-  background-color: $dark;
-  border-radius: 10px;
-
-  .img-fluid {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-  }
-}
-
 #module {
   width: 500px;
-}
-
-.card {
-  border-radius: 10px;
-
-  img {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
 }
 
 /* Show the element for screens larger than 768px */
@@ -115,33 +51,70 @@ pre {
   }
 }
 
-.card-container {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  // scrollbar-width: none; /* hide scrollbar in Firefox */
-  // -ms-overflow-style: none; /* hide scrollbar in Internet Explorer and Edge */
-}
-
-.card {
-  flex: 0 0 auto;
-  width: 300px; /* set the width of your card */
-  margin-right: 20px; /* add margin between cards */
-}
+// .card {
+//   flex: 0 0 auto;
+//   width: 300px; /* set the width of your card */
+//   margin-right: 20px; /* add margin between cards */
+// }
 
 // h_ Bootstrap custom border-radius
 
-$border-radius-lg: 20rem;
+// $border-radius-lg: 0.5rem !important;
 
 // .rounded-3 {
-//   border-radius: 0.5rem !important;
+//   border-radius: 0.3rem !important;
 // }
 
-.rounded-start-3 {
-  border-top-left-radius: $border-radius-lg;
-  border-bottom-left-radius: $border-radius-lg;
+/* Slide transitions */
+.slideUp {
+  -webkit-transform: translateY(-100px);
+  transform: translateY(-100px);
+  transition: transform 0.5s ease-out;
 }
-.rounded-end-3 {
-  border-top-right-radius: $border-radius-lg;
-  border-bottom-right-radius: $border-radius-lg;
+
+.slideDown {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  transition: transform 0.5s ease-out;
+}
+
+/* Extra small devices (phones) */
+@media (max-width: 575.98px) {
+  /* Show edge of card offscreen */
+  .card-offset {
+    width: 40vw !important;
+  }
+}
+
+/* Small devices (tablets) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  /* Show edge of card offscreen */
+}
+
+/* Medium devices (desktops) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+}
+
+/* Large devices (desktops) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+/* Extra large devices (large desktops) */
+@media (min-width: 1200px) {
+}
+
+.card-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+$border-radius-lg: 0.35rem !important;
+
+.card-img-top,
+.input-group,
+.input-group .btn {
+  border-radius: 0.35rem !important;
 }

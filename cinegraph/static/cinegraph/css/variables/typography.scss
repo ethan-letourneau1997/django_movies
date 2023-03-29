@@ -1,0 +1,150 @@
+/* Type Scale Utility Classes */
+$text-xs-font-size: 0.75rem; /* 12px */
+$text-xs-line-height: 1rem;
+
+$text-sm-font-size: 0.875rem;
+$text-sm-line-height: 1.25rem;
+
+$text-base-font-size: 1rem;
+$text-base-line-height: 1.5rem;
+
+$text-lg-font-size: 1.125rem;
+$text-lg-line-height: 1.75rem;
+
+$text-xl-font-size: 1.25rem;
+$text-xl-line-height: 1.75rem;
+
+$text-2xl-font-size: 1.5rem;
+$text-2xl-line-height: 2rem;
+
+$text-3xl-font-size: 1.875rem;
+$text-3xl-line-height: 2.25rem;
+
+$text-4xl-font-size: 2.25rem;
+$text-4xl-line-height: 2.5rem;
+
+$text-5xl-font-size: 3rem;
+$text-5xl-line-height: 3rem;
+
+$text-6xl-font-size: 4rem;
+$text-6xl-line-height: 3.75rem;
+
+$text-7xl-font-size: 5rem;
+$text-7xl-line-height: 4.5rem;
+
+$text-8xl-font-size: 6rem;
+$text-8xl-line-height: 6rem;
+
+$text-9xl-font-size: 8rem;
+$text-9xl-line-height: 8rem;
+
+$fw-100: 100;
+$fw-200: 200;
+$fw-300: 300;
+$fw-400: 400;
+$fw-500: 500;
+$fw-600: 600;
+$fw-700: 700;
+$fw-800: 800;
+$fw-900: 900;
+
+.text-xs {
+  font-size: $text-xs-font-size;
+  line-height: $text-xs-line-height;
+}
+
+.text-sm {
+  font-size: $text-sm-font-size;
+  line-height: $text-sm-line-height;
+}
+
+.text-base {
+  font-size: $text-base-font-size;
+  line-height: $text-base-line-height;
+}
+
+.text-lg {
+  font-size: $text-lg-font-size;
+  line-height: $text-lg-line-height;
+}
+
+.text-xl {
+  font-size: $text-xl-font-size;
+  line-height: $text-xl-line-height;
+}
+
+.text-2xl {
+  font-size: $text-2xl-font-size;
+  line-height: $text-2xl-line-height;
+}
+
+.text-3xl {
+  font-size: $text-3xl-font-size;
+  line-height: $text-3xl-line-height;
+}
+
+.text-4xl {
+  font-size: $text-4xl-font-size;
+  line-height: $text-4xl-line-height;
+}
+
+.text-5xl {
+  font-size: $text-5xl-font-size;
+  line-height: $text-5xl-line-height;
+}
+
+.text-6xl {
+  font-size: $text-6xl-font-size;
+  line-height: $text-6xl-line-height;
+}
+
+.text-7xl {
+  font-size: $text-7xl-font-size;
+  line-height: $text-7xl-line-height;
+}
+
+.text-8xl {
+  font-size: $text-8xl-font-size;
+  line-height: $text-8xl-line-height;
+}
+
+.text-9xl {
+  font-size: $text-9xl-font-size;
+  line-height: $text-9xl-line-height;
+}
+
+.fw-100 {
+  font-weight: 100;
+}
+
+.fw-200 {
+  font-weight: 200;
+}
+
+.fw-300 {
+  font-weight: 300;
+}
+
+.fw-400 {
+  font-weight: 400;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
+.fw-800 {
+  font-weight: 800;
+}
+
+.fw-900 {
+  font-weight: 900;
+}

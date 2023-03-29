@@ -18,23 +18,23 @@ background-position: center;
 </style>
 
 
-<section class="backdrop hide-mobile">
-    <div class="container-fluid backdrop-filter pl-4 hide-mobile">
-        <div class="row d-block d-md-none backdrop mobile-backdrop visible">
+<section class="mb-4 backdrop hide-mobile">
+    <div class="pl-4 container-fluid backdrop-filter hide-mobile">
+        <div class="visible row d-block d-md-none backdrop mobile-backdrop">
 
         </div>
         <!-- Hero col -->
-        <div class=" row d-flex visible">
+        <div class="visible row d-flex">
             <!-- Poster col -->
-            <div class="d-none d-md-block col-3 py-4 poster-col ">
+            <div class="py-4 d-none d-md-block col-3 poster-col ">
                 <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{show.poster_path}}" alt="">
             </div>
             <!-- Content col -->
-            <div class="col-12 col-md-8 py-4">
+            <div class="py-4 col-12 col-md-8">
                 <!-- Title row -->
                 <div class="row">
                     <div class="col-12 d-flex">
-                        <h1 class="text-4xl fw-700 mb-0">{{show.name}}&nbsp; </h1>
+                        <h1 class="mb-0 text-4xl fw-700">{{show.name}}&nbsp; </h1>
                         <span class="text-4xl fw-300">({{ show.first_air_date|slice:"0:4" }})
                         </span>
                     </div>
@@ -43,7 +43,7 @@ background-position: center;
                 <div class="row">
                     <div class="col-12">
                         {% if rating %}
-                        <span class="mpaa-rating text-sm">{{rating}}</span>
+                        <span class="text-sm mpaa-rating">{{rating}}</span>
                         {% endif %}
                         {% for genre in show.genres %}
                         <span class="text-sm">{{ genre.name }},&nbsp;&nbsp; </span>
@@ -52,7 +52,7 @@ background-position: center;
                 </div>
                 <!--Score row -->
                 {% comment %} !TODO refactor to just switch class {% endcomment %}
-                <div class="row score py-3">
+                <div class="py-3 row score">
                     <div class="col-12 d-flex ">
                         {% if show.vote_average >= 7.5 %}
                         <span class=" positive">{{ show.vote_average|floatformat:1  }}</span>
@@ -68,7 +68,7 @@ background-position: center;
                 {% if show.tagline %}
                 <div class="row">
                     <div class="col-12">
-                        <span class="tagline text-xl"> {{show.tagline}} </span>
+                        <span class="text-xl tagline"> {{show.tagline}} </span>
                     </div>
                 </div>
                 {% endif %}
@@ -78,8 +78,8 @@ background-position: center;
                 <div class="row ">
                     <div class="col-12">
                         <h3 class="text-2xl fw-600">Overview</h3>
-                        <p class="fw-400 pr-1"> {{ show.overview }} </p>
-                        <hr class="bg-light mt-4 mb-5">
+                        <p class="pr-1 fw-400"> {{ show.overview }} </p>
+                        <hr class="mt-4 mb-5 bg-light">
                     </div>
                 </div>
 
@@ -91,7 +91,7 @@ background-position: center;
                             <span class="fw-600">Seasons</span>
                             <span>{{ show.number_of_seasons }} </span>
                         </div>
-                        <div class="col-6 d-flex flex-column pb-3">
+                        <div class="pb-3 col-6 d-flex flex-column">
                             <span class="fw-600">Creator(s)</span>
                             <div>
                                 {% for creator in show.created_by %}
@@ -99,11 +99,11 @@ background-position: center;
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="col-6 col-md-4 d-flex flex-column pt-3 justify-content-center">
+                        <div class="pt-3 col-6 col-md-4 d-flex flex-column justify-content-center">
                             <span class="fw-600">Episodes</span>
                             <span>{{ show.number_of_episodes }} </span>
                         </div>
-                        <div class="col-6 d-flex flex-column pt-3">
+                        <div class="pt-3 col-6 d-flex flex-column">
                             <span class="fw-600">Runtime</span>
                             <span>
                                 {% for runtime in show.episode_run_time %}
@@ -120,8 +120,8 @@ background-position: center;
                         <div class="row">
 
                             {% for service in streaming_services %}
-                            <div class="col-2 col-md-3 p-2">
-                                <img class="img-fluid streaming rounded"
+                            <div class="p-2 col-2 col-md-3">
+                                <img class="rounded img-fluid streaming"
                                     src="http://image.tmdb.org/t/p/original{{service.logo_path}}" alt="">
                             </div>
                             {% endfor %}
@@ -134,13 +134,13 @@ background-position: center;
     </div>
 </section>
 
-<section>
-    <div class="container-fluid">
-        <div class="col-12">
-            <h2 class="text-3xl py-2">Cast</h2>
-            <div class="row flex-row flex-nowrap card-container">
+<section class="mb-4">
+    <div class="px-5 container-fluid">
+        <div class=" col-12">
+            <h3 class="py-2 text-3xl">Cast</h3>
+            <div class="flex-row row flex-nowrap card-container">
                 {% for credit in show.credits.cast %}
-                <div class=" col-6 col-md-2 px-3 pb-3 d-flex">
+                <div class="px-3 pb-3 col-6 col-md-2 d-flex">
                     <div class="card bg-dark w-100">
                         <img class="card-img-top" style="height: 200px; object-fit: cover;"
                             src="http://image.tmdb.org/t/p/original{{credit.profile_path}}" alt="Card image cap" />
@@ -156,22 +156,25 @@ background-position: center;
     </div>
 </section>
 
-<section>
-    <div class="container-fluid">
+<section class="mb-4">
+    <div class="px-5 container-fluid">
         <div class="row">
-            <div class="col-12 col-md-6">
-                <h2>Most Recent Episode</h2>
+            <h2 class="text-3xl">Most Recent Episode</h2>
+        </div>
+        <div class="row">
+            <div class="px-4 col-12 col-md-6">
                 <div>
-                    <div class="row bg-dark p-3">
-                        <div class="col"><img class=" img-fluid"
+                    <div class="p-3 row rounded-3 bg-dark">
+                        <div class="col "><img class=" img-fluid"
                                 src="http://image.tmdb.org/t/p/original{{show.last_episode_to_air.still_path}}" alt=""
                                 style="max-height: 200px;"> </div>
                         <div class="col">
-                            <h3> {{show.last_episode_to_air.name}}</h3>
+                            <h3 class="text-xl fw-500"> {{show.last_episode_to_air.name}}</h3>
                             {% if show.last_episode_to_air.overview|length > 100 %}
-                            <p class="d-none d-md-block">{{ show.last_episode_to_air.overview|truncatechars:200 }}</p>
+                            <p class="d-none d-md-block fw-300">
+                                {{ show.last_episode_to_air.overview|truncatechars:200 }}</p>
                             {% else %}
-                            <p class="d-none d-md-block">{{ show.last_episode_to_air.overview }}</p>
+                            <p class="d-none d-md-block fw-300">{{ show.last_episode_to_air.overview }}</p>
                             {% endif %}
                         </div>
                     </div>
@@ -181,18 +184,18 @@ background-position: center;
     </div>
 </section>
 
-<section>
-    <div class="container-fluid">
-        <div class="row px-2">
+<section class="mb-4">
+    <div class="px-5 container-fluid">
+        <div class="row">
             <h2 class="text-3xl">Seasons</h2>
         </div>
-        <div class="row px-2">
+        <div class="row" style="row-gap: 20px;">
             {% for season in show.seasons %}
             {% if 'season' in season.name|lower %}
-            <div class="col-6 d-flex p-2">
+            <div class=" col-6 d-flex">
                 <img class="img-fluid rounded-start" src="http://image.tmdb.org/t/p/original{{season.poster_path}}"
                     alt="" style="max-height: 200px;">
-                <div class="bg-dark px-4 py-3 rounded-end-3 w-100">
+                <div class="px-4 py-3 bg-dark rounded-end-3 w-100">
                     <h3 class="text-xl">{{season.name}}</h3>
                     {% if season.overview|length > 250 %}
                     <p class="d-none d-md-block">{{ season.overview|truncatechars:250 }}</p>

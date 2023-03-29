@@ -2,39 +2,46 @@
 
 {% block body %}
 
-<h1 class="text-6xl text-center">
-    Trending Movies
-</h1>
 
-<div class="container trending">
+
+<div class="container pb-5 trending">
+    <h1 class="py-3 text-4xl text-center">
+        Trending Movies
+    </h1>
     <div class="row d-grid " style="grid-template-columns: repeat(6, 1fr);row-gap: 30px;">
 
         {% for movie in movies %}
         {% if movie.poster_path != None %}
         {% if forloop.counter < 19 %}
         <div class="col d-flex">
-            <div class="position-relative bg-dark">
+            <div class="text-sm position-relative bg-dark rounded-3">
                 <a href=" {% url 'movie' movie.id %}">
-                    <img class="img-fluid rounded-3" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}">
+                    <img class="img-fluid rounded-top-3" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}">
                 </a>
-                <div class="py-3 div score" style="position: absolute; top: 67%; left: 75%;">
+                <div class="py-3 div score" style="position: absolute; top: 62%; left: 75%;">
                     <div class="col-12 d-flex">
                         <span
-                            class="fw-700 text-sm rounded-circle
+                            class="fw-700 
                             {% if movie.vote_average >= 7.5 %}positive{% elif movie.vote_average >= 6 %}neutral{% else %}negetive{% endif %}">
                             {{ movie.vote_average|floatformat:1 }}
                         </span>
                     </div>
                 </div>
-                <div class="p-4 pt-4 pb-3">
+                <div class="p-3 pt-4 pb-3 pr-5 fw-600 ">
                     {{movie.title}}
+                    {% if movie.formatted_date %}
+                    <div class="fw-200">{{ movie.formatted_date|date:'M d, Y' }}</div>
+                    {% endif %}
                 </div>
             </div>
+
         </div>
+
         {% endif %}
         {% endif %}
         {% endfor %}
     </div>
+</div>
 </div>
 
 
