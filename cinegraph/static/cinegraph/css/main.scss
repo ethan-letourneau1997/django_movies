@@ -21,6 +21,10 @@
   line-height: 1.5rem; /* 24px */
 }
 
+.body {
+  // padding-top: 70px !important;
+}
+
 $subtract-width: 20px;
 
 // .trending-container {
@@ -51,19 +55,7 @@ pre {
   }
 }
 
-// .card {
-//   flex: 0 0 auto;
-//   width: 300px; /* set the width of your card */
-//   margin-right: 20px; /* add margin between cards */
-// }
-
 // h_ Bootstrap custom border-radius
-
-// $border-radius-lg: 0.5rem !important;
-
-// .rounded-3 {
-//   border-radius: 0.3rem !important;
-// }
 
 /* Slide transitions */
 .slideUp {
@@ -117,4 +109,46 @@ $border-radius-lg: 0.35rem !important;
 .input-group,
 .input-group .btn {
   border-radius: 0.35rem !important;
+}
+
+//> Form
+
+.form-control:focus {
+  box-shadow: none !important; // Remove the box-shadow
+  // background-color: red !important;
+}
+
+//h_ AUTOCOMPLETE
+
+.search-container {
+  background-color: $dark;
+}
+
+.autocomplete-wrapper {
+  background-color: $input-bg !important;
+  padding-left: 40px !important;
+}
+.nav-search-input {
+  border-radius: 0 !important;
+}
+
+.list-group {
+  i {
+    margin-right: 10px;
+  }
+  .list-group-item {
+    background-color: $input-bg !important;
+
+    i {
+      padding-left: 40px !important;
+      display: flex;
+      justify-items: center;
+      align-items: center;
+    }
+    a {
+      display: flex !important;
+      gap: 5px !important;
+      text-decoration: none;
+    }
+  }
 }

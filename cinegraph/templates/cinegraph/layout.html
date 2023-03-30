@@ -1,4 +1,5 @@
 {% load static sass_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,81 +10,250 @@
         <link href="{% sass_src 'cinegraph/css/main.scss' %}" rel="stylesheet" type="text/css" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!--Chart JS-->
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
         <script src="https://kit.fontawesome.com/606aa0c887.js" crossorigin="anonymous"></script>
+
 
         <title>Cinegraph</title>
     </head>
 
-    <body class="body">
+    <style>
+        .search-container {
+            display: none;
+        }
+     
 
+        .search-container.active {
+            display: block;
+            position: absolute;
+            top: 65px;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding-top: 20px;
+        }
 
-        <nav id="navbar"
-            class="px-3 navbar navbar-expand-lg navbar-dark bg-dark justify-content-between align-items-center fixed-top">
-            <a class="navbar-brand" href="{% url 'index' %}">
-                <img src="{% static 'cinegraph/img/cinegraph-logo.png' %}" height="30" alt="Flowbite Logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        @media (max-width: 991.98px) {
+            .offcanvas-start {
+            transform: translateX(-100%);
+            }
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="py-2 mx-auto navbar-nav">
-                    <li class="mx-2 nav-item">
-                        <a class="nav-link" href="{% url 'movies' %}">Movies <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="mx-2 nav-item">
-                        <a class="nav-link" href="{% url 'shows' %}"">Television</a>
+            .offcanvas-start.show {
+            transform: translateX(0);
+            }
+
+            .search-container.active {
+            position: absolute;
+            top: 70px; /* adjust the top value to fit your design */
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding-top: 20px;
+            }
+        }
+
+    @media (max-width: 767.98px) {
+        /* Move the search toggle icon to the top right */
+        .search-icon {
+            position: absolute;
+            top: 10px;
+            right: 70px; /* adjust this value to fine-tune the position */
+            z-index: 9999;
+        }
+
+        /* Move the offcanvas toggle to the top right */
+        .navbar-toggler {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Center the navbar brand */
+        .navbar-brand {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+        
+
+        #navbar {
+            height:70px
+        }
+      
+    </style>
+
+    <body class="body pt-5">
+
+        <div class="nav-wrapper fixed-top">
+            <nav id="navbar"
+                class="px-3 navbar navbar-expand-lg navbar-dark bg-dark justify-content-between align-items-center ">
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <img src="{% static 'cinegraph/img/cinegraph-logo.png' %}" height="30" alt="Flowbite Logo" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#navbarOffcanvas">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="py-2 mx-auto navbar-nav">
+                        <li class="mx-2 nav-item">
+                            <a class="nav-link" href="{% url 'movies' %}">Movies <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="mx-2 nav-item">
+                            <a class="nav-link" href="{% url 'shows' %}"">Television</a>
                     </li>
                     <li class=" mx-2 nav-item">
-                            <a class="nav-link" href="#">People</a>
-                    </li>
-                </ul>
-                <form class="my-2 form-inline my-lg-0">
-                    <div class="input-group nav-search">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="border-0 btn btn-outline-light" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                                <a class="nav-link" href="{% url 'people' %}">People</a>
+                        </li>
+                    </ul>
+                    <span>
+                        <i class="fa fa-search search-icon"></i>
+                    </span>
 
+                </div>
+            </nav>
+            <div class="search-container">
+                <div class=" row">
+                    {% include 'search_form.html' %}
+                </div>
+                <div class="row">
+                    <ul id="autocomplete-list" class="list-group list-group-flush"></ul>
+                </div>
             </div>
-        </nav>
+        </div>
+
+
 
         {% block body %}
         {% endblock body %}
 
-        <!-- Navbar logic -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="navbarOffcanvas">
+            <div class="offcanvas-header">
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
         <script>
-            var new_scroll_position = 0;
-            var last_scroll_position;
-            var header = document.getElementById("navbar");
+            const searchIcon = document.querySelector('.fa-search');
+            const searchContainer = document.querySelector('.search-container');
 
-            window.addEventListener('scroll', function (e) {
-                last_scroll_position = window.scrollY;
-
-                // Scrolling down
-                if (new_scroll_position < last_scroll_position && last_scroll_position > 200) {
-                    // header.removeClass('slideDown').addClass('slideUp');
-                    header.classList.remove("slideDown");
-                    header.classList.add("slideUp");
-
-                    // Scrolling up
-                } else if (new_scroll_position > last_scroll_position) {
-                    // header.removeClass('slideUp').addClass('slideDown');
-                    header.classList.remove("slideUp");
-                    header.classList.add("slideDown");
+            searchIcon.addEventListener('click', function () {
+                searchContainer.classList.toggle('active');
+                if (searchContainer.classList.contains('active')) {
+                    searchIcon.classList.remove('fa-search');
+                    searchIcon.classList.add('fa-times');
+                } else {
+                    searchIcon.classList.add('fa-search');
+                    searchIcon.classList.remove('fa-times');
                 }
+            });
 
-                new_scroll_position = last_scroll_position;
+            document.addEventListener('click', function (event) {
+                if (!searchContainer.contains(event.target) && event.target !== searchIcon) {
+                    searchContainer.classList.remove('active');
+                    searchIcon.classList.add('fa-search');
+                    searchIcon.classList.remove('fa-times');
+                }
             });
         </script>
+
+
+
+
+        <script>
+            $(document).ready(function () {
+                // listen for input changes on the search input field
+                $('#search-input').on('input', function () {
+                    // get the current value of the search input field
+                    var query = $(this).val();
+                    if (query.length > 0) {
+                        // make an AJAX request to the autocomplete URL with the current query as a parameter
+                        $.ajax({
+                            url: '/autocomplete/',
+                            data: {
+                                query: query
+                            },
+                            success: function (response) {
+                                // handle the JSON response from the autocomplete view
+                                var suggestions = response.suggestions;
+                                $('#autocomplete-list').empty();
+                                // display the autocomplete suggestions in a list
+                                suggestions.slice(0, 10).forEach(function (movie) {
+                                    var li = $('<li>').addClass(
+                                        'list-group-item list-group-item-dark '
+                                    );
+                                    if (movie.id && movie.id !== '') {
+                                        var link;
+                                        if (movie.media_type === 'movie') {
+                                            link = $('<a>').attr('href',
+                                                    '/movies/' + movie.id + '/')
+                                                .text(movie.title);
+                                            var icon = $('<i>').addClass(
+                                                'fa-sharp fa-solid fa-video');
+                                            var span = $('<span>').text(
+                                                'in movies');
+                                        } else if (movie.media_type === 'tv') {
+                                            link = $('<a>').attr('href', '/shows/' +
+                                                movie.id +
+                                                '/').text(movie.title);
+                                            var icon = $('<i>').addClass(
+                                                'fa-solid fa-tv');
+                                            var span = $('<span>').text('in shows');
+                                        } else if (movie.media_type === 'person') {
+                                            link = $('<a>').attr('href',
+                                                '/people/' + movie.id +
+                                                '/').text(movie.name);
+                                            var icon = $('<i>').addClass(
+                                                'fa-solid fa-person');
+                                            var span = $('<span>').text(
+                                                'in person');
+                                        }
+                                        var anchor = $('<a>').attr('href',
+                                                link.attr('href')).append(icon)
+                                            .append(' ').append(link).append(' ')
+                                            .append(span);
+                                        li.append(anchor);
+                                    } else {
+                                        li.text(movie.title);
+                                    }
+                                    $('#autocomplete-list').append(li);
+                                });
+                            }
+                        });
+                    } else {
+                        // clear the autocomplete list if the search input field is empty
+                        $('#autocomplete-list').empty();
+                    }
+                });
+            });
+        </script>
+
+
 
         <!--Bootstrap-->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
@@ -96,3 +266,29 @@
     </body>
 
 </html>
+
+<!-- Navbar logic -->
+{% comment %} <script>
+    var new_scroll_position = 0;
+    var last_scroll_position;
+    var header = document.getElementById("navbar");
+
+    window.addEventListener('scroll', function (e) {
+        last_scroll_position = window.scrollY;
+
+        // Scrolling down
+        if (new_scroll_position < last_scroll_position && last_scroll_position > 200) {
+            // header.removeClass('slideDown').addClass('slideUp');
+            header.classList.remove("slideDown");
+            header.classList.add("slideUp");
+
+            // Scrolling up
+        } else if (new_scroll_position > last_scroll_position) {
+            // header.removeClass('slideUp').addClass('slideDown');
+            header.classList.remove("slideUp");
+            header.classList.add("slideDown");
+        }
+
+        new_scroll_position = last_scroll_position;
+    });
+</script> {% endcomment %}

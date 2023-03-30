@@ -7627,12 +7627,11 @@ textarea.form-control-lg {
   border-top-right-radius: 0.3rem;
   border-top-left-radius: 0.3rem; }
 
-.banner {
-  margin-top: 40px; }
-  .banner .filter {
-    min-height: 45vh; }
-  .banner .input-group {
-    background: #384252; }
+.banner .filter {
+  min-height: 45vh; }
+
+.banner .input-group {
+  background: #384252; }
 
 .card-row .score {
   position: absolute;
@@ -15255,5 +15254,33 @@ pre {
 .input-group,
 .input-group .btn {
   border-radius: 0.35rem !important; }
+
+.form-control:focus {
+  box-shadow: none !important; }
+
+.search-container {
+  background-color: #0f172a; }
+
+.autocomplete-wrapper {
+  background-color: #384252 !important;
+  padding-left: 40px !important; }
+
+.nav-search-input {
+  border-radius: 0 !important; }
+
+.list-group i {
+  margin-right: 10px; }
+
+.list-group .list-group-item {
+  background-color: #384252 !important; }
+  .list-group .list-group-item i {
+    padding-left: 40px !important;
+    display: flex;
+    justify-items: center;
+    align-items: center; }
+  .list-group .list-group-item a {
+    display: flex !important;
+    gap: 5px !important;
+    text-decoration: none; }
 
 /*# sourceMappingURL=main.css.map */

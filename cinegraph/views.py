@@ -1,23 +1,82 @@
 from datetime import datetime
 import math
+from django import forms
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import requests
 from .utils.imageUtils import get_image_overlay
 from .utils.getEpisodeRatings import get_episode_ratings
 import json
 from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
+from django.utils.safestring import mark_safe
+
+# > FORMS
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(label=mark_safe('<i class="fa fa-search"></i>'), label_suffix='', widget=forms.TextInput(
+        attrs={'placeholder': 'Search...', 'class': 'form-control nav-search-input', 'id': 'search-input', 'autocomplete': 'off'}))
 
 
 # Create your views here.
 API_KEY = '0fd7a8764e6522629a3b7e78c452c348'
 
 
+def autocomplete(request):
+    query = request.GET.get('query')
+    url = f'https://api.themoviedb.org/3/search/multi?api_key={API_KEY}&query={query}'
+    response = requests.get(url)
+    results = response.json()['results']
+    suggestions = []
+    for result in results:
+        if result['media_type'] == 'movie':
+            suggestions.append(
+                {'id': result['id'], 'title': result['title'], 'media_type': result['media_type']})
+        elif result['media_type'] == 'tv':
+            suggestions.append(
+                {'id': result['id'], 'title': result['name'], 'media_type': result['media_type']})
+        elif result['media_type'] == 'person':
+            suggestions.append(
+                {'id': result['id'], 'name': result['name'], 'media_type': result['media_type']})
+    return JsonResponse({'suggestions': suggestions})
+
+
+def search_template(request):
+    context = {
+        'form': SearchForm()
+    }
+    return render(request, 'search_form.html', {'search_form': context})
+
+
+def search(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search = form.cleaned_data['search']
+            # print('Query:', search)
+            # response = HttpResponse(search)
+
+            response = requests.get(
+                f'https://api.themoviedb.org/3/search/multi?api_key={API_KEY}&language=en-US&query={search}&page=1&include_adult=false')
+
+            results = response.json()['results']
+
+            context = {
+                'results': results,
+                'form': SearchForm(),
+            }
+            return render(request, 'search.html', context)
+
+        else:
+            response = HttpResponse('Form is not valid')
+            return response
+    else:
+        response = HttpResponse('no_luck')
+        return response
+
+
 def index(request):
-    trending_response = requests.get(
-        f'https://api.themoviedb.org/3/trending/all/week?api_key={API_KEY}&page=1'
-    )
     movies_response = requests.get(
         f'https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}&language=en-US&page=1')
 
@@ -29,16 +88,9 @@ def index(request):
         f'https://api.themoviedb.org/3/trending/person/week?api_key={API_KEY}'
     )
 
-    trending = trending_response.json()['results']
     movies = movies_response.json()['results']
     shows = tv_response.json()['results']
     people = person_response.json()['results']
-
-    for item in trending:
-        if 'release_date' in item:
-            formatted_date = datetime.strptime(
-                item['release_date'], '%Y-%m-%d')
-            item['formatted_date'] = formatted_date
 
     for item in movies:
         if 'release_date' in item:
@@ -51,12 +103,12 @@ def index(request):
             formatted_date = datetime.strptime(
                 item['first_air_date'], '%Y-%m-%d')
             item['formatted_date'] = formatted_date
-    print(people)
+
     context = {
-        'trending': trending,
         'movies': movies,
         'shows': shows,
         'people': people,
+        'form': SearchForm
     }
 
     return render(request, 'index.html', context)
@@ -79,6 +131,7 @@ def movies(request):
 
     context = {
         'movies': movies,
+        'form': SearchForm()
     }
 
     return render(request, 'movies/movies.html', context)
@@ -179,6 +232,7 @@ def movie(request, movie_id):
         'runtime': runtime,
         'rating': rating,
         'similar': released_similar_movies,
+        'form': SearchForm()
     }
     return render(request, 'movies/movie.html', context)
 
@@ -200,6 +254,7 @@ def shows(request):
 
     context = {
         'shows': shows,
+        'form': SearchForm()
     }
 
     return render(request, 'tv/shows.html', context)
@@ -259,10 +314,6 @@ def show(request, show_id):
     # > reverse seasons for display
     seasons_reversed = list(reversed(show['seasons']))
 
-    print(show['seasons'])
-    for season in show['seasons']:
-        print(season['name'])
-
     context = {
         'show': show,
         'backdrop_filter': backdrop_filter,
@@ -274,7 +325,57 @@ def show(request, show_id):
         'colors': colors,
         'episodes': episodes,
         'seasons_reversed': seasons_reversed,
+        'form': SearchForm()
 
 
     }
     return render(request, 'tv/show.html', context)
+
+
+def people(request):
+
+    # Pull data from third party rest api
+    response = requests.get(
+        f'https://api.themoviedb.org/3/trending/person/week?api_key={API_KEY}&language=en-US&page=1&append_to_response=movie_credits,')
+
+    # Convert response data into json
+    people = response.json()['results']
+
+    for person in people:
+        titles = []
+        for item in person['known_for']:
+            if 'title' in item:
+                titles.append(item['title'])
+            elif 'name' in item:
+                titles.append(item['name'])
+            else:
+                titles.append("Unknown title")
+        titles_str = ", ".join(titles)
+        titles = titles_str
+        person['title_str'] = titles_str
+
+    # for person in people:
+    #     if person['known_for']:
+    #         for title in person['known_for']['title']:
+    #             print(json.dumps(title, indent=4))
+
+    context = {
+        'people': people,
+        'form': SearchForm()
+    }
+
+    return render(request, 'people/people.html', context)
+
+
+def person(request, person_id):
+    response = requests.get(
+        f'https://api.themoviedb.org/3/person/{person_id}?api_key={API_KEY}&language=en-US&append_to_response=seasons,episodes,watch/providers,credits')
+
+    person = response.json()
+
+    context = {
+        'person': person,
+        'form': SearchForm()
+    }
+
+    return render(request, 'people/person.html', context)

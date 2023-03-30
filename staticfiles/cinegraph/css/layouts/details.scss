@@ -1,0 +1,8 @@
+// scrollable card container for cast
+.card-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  // scrollbar-width: none; /* hide scrollbar in Firefox */
+  // -ms-overflow-style: none; /* hide scrollbar in Internet Explorer and Edge */
+}

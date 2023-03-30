@@ -4,17 +4,12 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    # path('search/', views.search, name='search'),
     path('movies/', views.movies, name='movies'),
-    path('movies/<str:movie_id>', views.movie, name='movie'),
+    path('movies/<int:movie_id>/', views.movie, name='movie'),
     path('shows/', views.shows, name='shows'),
-    path('shows/<str:show_id>', views.show, name="show"),
-    # path('json/', views.episode_ratings, name='json'),
-
-    # path('shows/<str:show_id>/season/<str:season_number>/',
-    #      views.season, name="season"),
-    # path('shows/<str:show_id>/season/<str:season_number>/episodes/<str:episode_number>/',
-    #      views.episode, name="episode"),
-    # path('actors', views.actors, name="actors"),
-    # path('actors/<str:actor_id>', views.actor, name="actor"),
+    path('shows/<int:show_id>/', views.show, name="show"),
+    path('people/', views.people, name='people'),
+    path('people/<int:person_id>/', views.person, name='person'),
+    path('search/', views.search, name='search'),
+    path('autocomplete/', views.autocomplete, name='autocomplete'),
 ]

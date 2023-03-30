@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        {% for result in results %}
+        {% if result.name %}
+        <div class="col">
+            <p> {{ result.name }}</p>
+        </div>
+
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}

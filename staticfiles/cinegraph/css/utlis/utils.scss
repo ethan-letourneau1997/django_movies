@@ -1,0 +1,21 @@
+@import "../bootstrap.scss";
+
+
+.rounded-start-3 {
+  border-top-left-radius: $border-radius-lg;
+  border-bottom-left-radius: $border-radius-lg;
+}
+.rounded-end-3 {
+  border-top-right-radius: $border-radius-lg;
+  border-bottom-right-radius: $border-radius-lg;
+}
+
+.rounded-bottom-3 {
+  border-bottom-right-radius: $border-radius-lg;
+  border-bottom-left-radius: $border-radius-lg;
+}
+
+.rounded-top-3 {
+  border-top-right-radius: $border-radius-lg;
+  border-top-left-radius: $border-radius-lg;
+}
