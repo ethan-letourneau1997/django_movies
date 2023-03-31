@@ -1,3 +1,5 @@
+// Hide nav on scroll down, show on scroll up
+
 var new_scroll_position = 0;
 var last_scroll_position;
 var header = document.getElementById("navbar");
@@ -29,6 +31,8 @@ window.addEventListener("scroll", function (e) {
 
   new_scroll_position = last_scroll_position;
 });
+
+// Move search to top when nav hides on scroll
 
 $(document).ready(function () {
   $(window).scroll(function () {
