@@ -15220,8 +15220,8 @@ pre {
 
 /* Slide transitions */
 .slideUp {
-  -webkit-transform: translateY(-100px);
-  transform: translateY(-100px);
+  -webkit-transform: translateY(-65px);
+  transform: translateY(-65px);
   transition: transform 0.5s ease-out; }
 
 .slideDown {
