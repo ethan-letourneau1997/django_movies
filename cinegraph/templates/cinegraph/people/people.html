@@ -2,59 +2,35 @@
 
 {% block body %}
 
-<h1 class="py-3 text-4xl text-center">
+<h1 class="pt-5 text-4xl text-center">
     Trending People
 </h1>
 
-<section>
-    <h1>Autocomplete Example</h1>
-    <input type="text" id="search-input">
-    <ul id="autocomplete-list"></ul>
-</section>
+
+
 
 <section>
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid" id="People">
+        <div class="row px-lg-5 px-md-4 px-sm-3 px-xs-2">
             {% for person in people %}
             {% if person.profile_path != None %}
-            <div class="col-12">
-                {{person.name}}
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex flex-column align-items-center py-3">
+                <a href="{% url 'person' person.id %}" class="h-100 bg-dark h-100 rounded-3 pb-3 person-card">
+                    <img loading="lazy" src="http://image.tmdb.org/t/p/w470_and_h470_face{{person.profile_path}}" alt=""
+                        class="rounded-top-3 img-fluid w-100">
+
+                    <div class="fw-600 px-2 pt-2">
+                        {{person.name}}
+                    </div>
+                    <div class="text-secondary text-sm text-truncate px-2">
+                        {{person.title_str}}
+                    </div>
+                </a>
             </div>
             {% endif %}
             {% endfor %}
         </div>
     </div>
 </section>
-
-{% comment %} <div class="container pb-5 trending">
-    <div class="row ">
-        {% for person in people %}
-        {% if person.profile_path != None %}
-        {% if forloop.counter < 19 %}
-        <div class="col-2 flex">
-            <div class="text-sm position-relative bg-dark rounded-3">
-                <a href=" {% url 'person' person.id %}">
-                    <img class="img-fluid rounded-top-3"
-                        src="http://image.tmdb.org/t/p/original{{person.profile_path}}">
-                </a>
-                <div class="">
-                    <span class="text-xl fw-600">
-                        {{ person.name }}
-                    </span>
-                    {% if person.title_str %}
-                    <span class="d-inline-block text-truncate text-sm fw-300" style="max-width: 90%;">
-                        {{ person.title_str}}
-                    </span>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
-        {% endif %}
-        {% endif %}
-        {% endfor %}
-    </div>
-</div> {% endcomment %}
-
 
 {% endblock body %}

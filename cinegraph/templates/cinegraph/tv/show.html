@@ -18,7 +18,7 @@ background-position: center;
 </style>
 
 
-<section class="mb-4 backdrop hide-mobile">
+<section class="mb-4 backdrop hide-mobile mt-4">
     <div class="pl-4 container-fluid backdrop-filter hide-mobile">
         <div class="visible row d-block d-md-none backdrop mobile-backdrop">
 
@@ -121,7 +121,7 @@ background-position: center;
 
                             {% for service in streaming_services %}
                             <div class="p-2 col-2 col-md-3">
-                                <img class="rounded img-fluid streaming"
+                                <img loading="lazy" class="rounded img-fluid streaming"
                                     src="http://image.tmdb.org/t/p/original{{service.logo_path}}" alt="">
                             </div>
                             {% endfor %}

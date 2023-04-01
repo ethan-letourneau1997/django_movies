@@ -1,0 +1,136 @@
+{% block biography %}
+{% comment %}h_ md and larger breakdpoints{% endcomment %}
+<div class="d-none ">
+    {{ person.biography}}
+</div>
+
+{% comment %}h_ Expand text for xs and sm breakpoints {% endcomment %}
+
+{% comment %}h_ XS BREAKPOINT {% endcomment %}
+<div class="d-sm-none">
+    {% if person.biography|length > 250 %}
+    {% endif %}
+    <div class="m-0">
+        {{ person.biography|slice:":250" }}
+        <span id="points">...</span>
+    </div>
+    <div class="d-flex justify-content-end w-100">
+        {% if person.biography|length > 250 %}
+        <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Read More
+        </button>
+        {% endif %}
+    </div>
+</div>
+
+{% comment %}h_ SM BREAKPOINT {% endcomment %}
+<div class="d-none d-sm-block d-md-none">
+    {% if person.biography|length > 350 %}
+    {% endif %}
+    <div class="m-0">
+        {{ person.biography|slice:":350" }}
+        <span id="points">...</span>
+    </div>
+    <div class="d-flex justify-content-end w-100">
+        {% if person.biography|length > 350 %}
+        <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Read More
+        </button>
+        {% endif %}
+    </div>
+</div>
+
+
+{% comment %}h_ MD BREAKPOINT {% endcomment %}
+<div class="d-none d-md-block d-lg-none">
+    {% if person.biography|length > 500 %}
+    {% endif %}
+    <div class="m-0">
+        {{ person.biography|slice:":500" }}
+        <span id="points">...</span>
+    </div>
+    <div class="d-flex justify-content-end w-100">
+        {% if person.biography|length > 500 %}
+        <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Read More
+        </button>
+        {% endif %}
+    </div>
+</div>
+
+
+{% comment %}h_ LG BREAKPOINT {% endcomment %}
+<div class="d-none d-lg-block d-xl-none">
+    {% if person.biography|length > 1000 %}
+    {% endif %}
+    <div class="m-0">
+        {{ person.biography|slice:":1000" }}
+        <span id="points">...</span>
+    </div>
+    <div class="d-flex justify-content-end w-100">
+        {% if person.biography|length > 1000 %}
+        <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Read More
+        </button>
+        {% endif %}
+    </div>
+</div>
+
+
+{% comment %}h_ XL BREAKPOINT {% endcomment %}
+<div class="d-none d-xl-block ">
+    {% if person.biography|length > 900 %}
+    {% endif %}
+    <div class="m-0">
+        {{ person.biography|slice:":900" }}
+        <span id="points">...</span>
+    </div>
+    <div class="d-flex justify-content-end w-100">
+        {% if person.biography|length > 900 %}
+        <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Read More
+        </button>
+        {% endif %}
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" ">
+    <div class=" modal-dialog modal-fullscreen modal-xl">
+    <div class="modal-content bg-dark rounded-3">
+        <div class="modal-header border-0 px-4 py-0 pt-3">
+            <h5 class="modal-title text-2xl fw-500" id="exampleModalLabel">Biography</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+            {{ person.biography}}
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+<script>
+    function toggleText() {
+
+        // Get all the elements from the page
+
+        var textButton =
+            document.getElementById("textButton");
+
+        var showMoreText =
+            document.getElementById("moreText");
+
+
+        showMoreText.style.display = "inline";
+
+        textButton.style.display = "none";
+
+
+    }
+</script>
+
+{% endblock biography %}

@@ -23,7 +23,7 @@
 </style>
 <!--height: 60vh;-->
 
-<section class="banner hero d-flex">
+<section class="banner hero d-flex ">
     <div class="container-fluid filter d-flex align-items-center justify-content-center ">
         <div class="d-flex flex-column gap-3 px-1 hero-content">
             <span>
@@ -70,7 +70,7 @@
                         {% for item in movies %}
                         <div class=" d-flex  card-offset p-0 ">
                             <div class="card bg-transparent border-0 d-flex position-relative">
-                                <img src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
+                                <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
                                     class="card-img-top ">
                                 <span
                                     class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
@@ -109,7 +109,7 @@
                         {% for item in shows %}
                         <div class=" d-flex  card-offset p-0">
                             <div class="card bg-transparent border-0 d-flex position-relative">
-                                <img src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
+                                <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
                                     class="card-img-top">
                                 <span
                                     class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
@@ -146,7 +146,7 @@
                         {% for item in people %}
                         <div class=" d-flex  card-offset p-0">
                             <div class="card bg-transparent border-0 d-flex position-relative">
-                                <img src="http://image.tmdb.org/t/p/original{{item.profile_path}}" alt=""
+                                <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.profile_path}}" alt=""
                                     class="card-img-top">
                                 <span
                                     class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">

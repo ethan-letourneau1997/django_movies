@@ -12,93 +12,53 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!--Chart JS-->
-
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
         <script src="https://kit.fontawesome.com/606aa0c887.js" crossorigin="anonymous"></script>
-
 
         <title>Cinegraph</title>
     </head>
 
     <style>
-        .search-container {
-            display: none;
+    .search-container {
+        display: none;
+    }
+
+    .search-container.active {
+        display: block;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+        padding-top: 20px;
+    }
+
+    @media (max-width: 991.98px) {
+        .offcanvas-start {
+        transform: translateX(-100%);
         }
 
-        .search-container {
-        transition-delay: 0.5s;
+        .offcanvas-start.show {
+        transform: translateX(0);
         }
-
-     
 
         .search-container.active {
-            display: block;
-            position: absolute;
-            top: 65px;
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            padding-top: 20px;
-        }
-
-      
-
-        @media (max-width: 991.98px) {
-            .offcanvas-start {
-            transform: translateX(-100%);
-            }
-
-            .offcanvas-start.show {
-            transform: translateX(0);
-            }
-
-            .search-container.active {
-            position: absolute;
-            top: 65px; /* adjust the top value to fit your design */
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            padding-top: 20px;
-            }
-        }
-
-    @media (max-width: 767.98px) {
-        /* Move the search toggle icon to the top right */
-        .search-icon {
-            position: absolute;
-            top: 10px;
-            right: 70px; /* adjust this value to fine-tune the position */
-            z-index: 9999;
-        }
-
-        /* Move the offcanvas toggle to the top right */
-        .navbar-toggler {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        /* Center the navbar brand */
-        .navbar-brand {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        position: absolute;
+        top: 65px; /* adjust the top value to fit your design */
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+        padding-top: 20px;
         }
     }
 
-        
 
-        #navbar {
-            height:75px
-        }
-      
-    </style>
+   
+</style>
 
     <body class="body pt-5">
         <div class="nav-wrapper fixed-top">
-            <nav id="navbar"
-                class="px-3 navbar navbar-expand-lg navbar-dark bg-dark justify-content-between align-items-center ">
+            <nav id="navbar" class="px-3 navbar navbar-expand-lg navbar-dark bg-dark  align-items-center ">
                 <a class="navbar-brand" href="{% url 'index' %}">
                     <img src="{% static 'cinegraph/img/cinegraph-logo.png' %}" height="30" alt="Flowbite Logo" />
                 </a>
@@ -107,8 +67,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="py-2 mx-auto navbar-nav">
+                <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+                    <ul class="py-2  navbar-nav">
                         <li class="mx-2 nav-item">
                             <a class="nav-link" href="{% url 'movies' %}">Movies <span
                                     class="sr-only">(current)</span></a>
@@ -123,14 +83,14 @@
                     <span>
                         <i class="fa fa-search search-icon"></i>
                     </span>
-
                 </div>
+
             </nav>
             <div class="search-container">
                 <div class=" row">
                     {% include 'search_form.html' %}
                 </div>
-                <div class="row">
+                <div class="row ">
                     <ul id="autocomplete-list" class="list-group list-group-flush">
                         <li></li>
                     </ul>

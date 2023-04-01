@@ -1,0 +1,113 @@
+{% load static %}
+{% block credits %}
+
+<div class="row d-flex justify-content-center">
+
+    <div class="col-12 col-lg-10 col-xl-8">
+        <h2>Credits</h2>
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                    type="button" role="tab" aria-controls="pills-home" aria-selected="true">All</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                    type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Movies</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
+                    type="button" role="tab" aria-controls="pills-contact" aria-selected="false">TV</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <ul class="list-group bg-tranparent">
+                    {% for credit in credits %}
+                    <div class="list-group-item d-flex bg-transparent p-0 py-2 border-0">
+                        <div class="col-2 col-sm-1 credit-img-col">
+                            {% if credit.poster_path %}
+                            <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt=""
+                                class="img-fluid">
+                            {% else %}
+                            <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="img-fluid">
+                            {% endif %}
+                        </div>
+                        <div class="col px-3 pt-1 ">
+                            <div class="row">
+                                <a class="col-12 col-sm-8 text-lg text-primary fw-600 text-truncate d-flex
+                                    justify-content-between" href='{% url "movie" credit.id %}'>
+                                    {% if credit.media_type == 'movie' %}
+                                    {{credit.title}}
+                                    {% else %}
+                                    {{credit.name}}
+                                    {% endif %}
+                                    <i class="d-sm-none  fa-solid fa-circle-info my-auto"></i>
+                                </a>
+                                <div class="col-12 text-primary order-sm-3 text-secondary">{{credit.character}}</div>
+                                <div
+                                    class="col-12 text-secondary col-sm-auto flex-sm-grow-1 d-flex justify-content-sm-end align-items-top gap-2">
+                                    {% if credit.media_type == 'movie' %}
+                                    {{credit.release_date|slice:"0:4"}}
+                                    {% else %}
+                                    {{credit.first_air_date|slice:"0:4"}}
+                                    {% endif %}
+                                    <i class="d-none d-sm-block fa-solid fa-circle-info pt-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <ul class="list-group bg-tranparent">
+                    {% for credit in credits %}
+                    {% if credit.media_type == 'movie' %}
+                    <div class="list-group-item d-flex bg-transparent p-0 py-2 border-0">
+                        <div class="col-2">
+                            {% if credit.poster_path %}
+                            <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt=""
+                                class="img-fluid">
+                            {% else %}
+                            <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="img-fluid">
+                            {% endif %}
+                        </div>
+                        <div class="col-8 px-3">
+                            <div class="text-lg text-primary fw-600 text-truncate"> {{credit.title}}</div>
+                            <div class="text-primary">{{credit.character}}</div>
+                            <div class="text-secondary">{{credit.release_date |slice:"0:4" }}</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <ul class="list-group bg-tranparent">
+                    {% for credit in credits %}
+                    {% if credit.media_type == 'tv' %}
+                    <div class="list-group-item d-flex bg-transparent p-0 py-2 border-0">
+                        <div class="col-2">
+                            {% if credit.poster_path %}
+                            <img loading="lazy" src="http://image.tmdb.org/t/p/w780{{credit.poster_path}}" alt=""
+                                class="img-fluid ">
+                            {% else %}
+                            <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="img-fluid">
+                            {% endif %}
+                        </div>
+                        <div class="col-8 px-3">
+                            <div class="text-lg text-primary fw-600 text-truncate"> {{credit.name}}</div>
+                            <div class="text-primary">{{credit.character}}</div>
+                            <div class="text-secondary">{{credit.first_air_date |slice:"0:4"}}</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock credits %}

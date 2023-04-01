@@ -354,11 +354,6 @@ def people(request):
         titles = titles_str
         person['title_str'] = titles_str
 
-    # for person in people:
-    #     if person['known_for']:
-    #         for title in person['known_for']['title']:
-    #             print(json.dumps(title, indent=4))
-
     context = {
         'people': people,
         'form': SearchForm()
@@ -369,13 +364,59 @@ def people(request):
 
 def person(request, person_id):
     response = requests.get(
-        f'https://api.themoviedb.org/3/person/{person_id}?api_key={API_KEY}&language=en-US&append_to_response=seasons,episodes,watch/providers,credits')
+        f'https://api.themoviedb.org/3/person/{person_id}?api_key={API_KEY}&language=en-US&append_to_response=combined_credits,tv_credits,movie_credits')
 
     person = response.json()
 
+    formatted_birthday = None
+    if 'birthday' in person:
+        formatted_birthday = datetime.strptime(
+            person['birthday'], '%Y-%m-%d')
+
+    formatted_deathday = None
+    if 'deathday' in person and person['deathday']:
+        formatted_deathday = datetime.strptime(
+            person['deathday'], '%Y-%m-%d')
+
+    # for credit in person['combined_credits']['cast']:
+    #     if credit['media_type'] == 'movie':
+    #         print(credit['title'])
+    #     if credit['media_type'] == 'tv':
+    #         print(credit['name'])
+
+    # Sort the credits by date
+    sorted_credits = sorted(person['combined_credits']['cast'], key=lambda x: x.get(
+        'release_date') or x.get('first_air_date') or '0000-00-00', reverse=True)
+
+    # for credit in sorted_credits:
+    #     if credit['media_type'] == 'movie':
+    #         print(credit['title'])
+    #         print(credit['release_date'])
+    #     if credit['media_type'] == 'tv':
+    #         print(credit['name'])
+
+    known_for = []
+
+    for credit in person['combined_credits']['cast']:
+        if credit['media_type'] == 'movie':
+            known_for.append(credit)
+        elif credit['media_type'] == 'tv':
+            known_for.append(credit)
+
+    # sort the credits by popularity in descending order
+    sorted_known_for = sorted(
+        known_for, key=lambda x: x['vote_count'], reverse=True)
+
+    # TODO check for lists shorter than 6
+    known_for = [credit for credit in sorted_known_for[:4]]
+
     context = {
         'person': person,
-        'form': SearchForm()
+        'form': SearchForm(),
+        'birthday': formatted_birthday,
+        'deathday': formatted_deathday,
+        'credits': sorted_credits,
+        'known_for': known_for,
     }
 
     return render(request, 'people/person.html', context)

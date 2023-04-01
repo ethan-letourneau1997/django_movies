@@ -1,0 +1,81 @@
+@import "../variables/colors.scss";
+@import "../variables/typography.scss";
+
+#People {
+  a {
+    text-decoration: none;
+    max-width: 95%;
+
+    .person-card {
+      background-color: #1e293b;
+      box-shadow: 0 8px 16px 0 rgba(15, 23, 42, 0.2) !important;
+    }
+  }
+}
+
+#Credits {
+  .list-group-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.185) !important;
+  }
+}
+
+#Actor-details {
+  //   background-color: hsl(222, 46%, 13%);
+
+  //   background: linear-gradient(to top left, #0f1729, #1b2436);
+}
+
+#known-for {
+  //   .known-for-card {
+  //     width: 344px;
+  //   }
+  .text-truncate {
+  }
+  .green {
+    background-color: $green;
+    color: $dark;
+  }
+  .yellow {
+    background-color: $yellow;
+    color: $dark;
+  }
+  .red {
+    background-color: $red !important;
+  }
+}
+
+a {
+  text-decoration: none !important;
+}
+
+$dark: #0f1729;
+// $body-bg: hsl(217, 33%, 17%);
+
+@media (max-width: 575.98px) {
+  /* Show edge of card offscreen */
+}
+
+/* Small devices (tablets) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+}
+
+/* Medium devices (desktops) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .credit-img-col {
+    width: 40px !important;
+  }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .credit-img-col {
+    width: 40px !important;
+  }
+}
+
+/* Extra large devices (large desktops) */
+@media (min-width: 1200px) {
+  .credit-img-col {
+    width: 40px !important;
+  }
+}

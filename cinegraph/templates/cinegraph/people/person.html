@@ -1,10 +1,120 @@
 {% extends 'layout.html' %}
-
+{% load static %}
 {% block body %}
 
-<div class="container pt-5">
-    {{person.name}}
+<style>
+  .bio-content.collapsed {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+  }
+
+    .read-more {
+        display: none;
+    }
+
+    
+    /* Initially, hide the extra text that
+        can be revealed with the button */
+    #moreText {
+        /* Display nothing for the element */
+        display: none;
+    }
+
+</style>
+
+<div id="Actor-details" class="container-fluid px-4 pt-5">
+    {% comment %} <div class="row ">
+        <div class="col-12 text-center d-md-none">
+            <h1>
+                {{person.name}}
+            </h1>
+        </div>
+    </div> {% endcomment %}
+    <div class="row py-3 d-flex ">
+        <div class="col-6 col-sm-4 col-md-3 col-xl-2 d-flex mx-auto align-items-center d-sm-block ">
+            <img loading="lazy" src="http://image.tmdb.org/t/p/w470_and_h470_face{{person.profile_path}}" alt=""
+                class="img-fluid d-block d-sm-none rounded-3 ">
+            <img loading="lazy" src="http://image.tmdb.org/t/p/original{{person.profile_path}}" alt=""
+                class="img-fluid d-none d-sm-block rounded-3 ">
+        </div>
+
+
+        <div class="col-12 col-sm-8 col-md-9 col-xl-10 order-md-2">
+            <div class="col-12  ">
+                <div class="col-12 text-center text-sm-start  pt-4 pt-sm-0">
+                    <h1 class="text-3xl fw-600">
+                        {{person.name}}
+                    </h1>
+                </div>
+            </div>
+            {% include 'people/biography.html' %}
+        </div>
+    </div>
+
 </div>
+
+<div id="known-for" class="container-fluid pt-3">
+    <div class="row px-3">
+        <h3>Known For</h3>
+    </div>
+    <div class="row flex-nowrap  overflow-scroll px-4 gap-3 gap-lg-0 ">
+        {% for credit in known_for %}
+        <a class="col-11 col-sm-8 col-md-5  py-2" href='{% url "movie" credit.id %}'>
+            <div class="row rounded known-for-card">
+                <div class="col-auto col-sm-3 col-sm-2 col-lg-auto p-0">
+                    <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt=""
+                        class="known-for-img rounded-start-3" height="110" width="auto">
+                </div>
+                <div class="col-9  pt-1  bg-dark">
+                    <div class=" text-truncate fw-500">
+                        {% if credit.media_type == 'movie' %}
+                        {{credit.title}}
+                        {% else %}
+                        {{credit.name}}
+                        {% endif %}
+                    </div>
+                    <div class="text-secondary fw-300">{{credit.character}}</div>
+                    <div class="text-secondary fw-300">
+                        {% if credit.media_type == 'movie' %}
+                        {{credit.release_date|slice:"0:4"}}
+                        {% else %}
+                        {{credit.first_air_date|slice:"0:4"}}
+                        {% endif %}
+                    </div>
+                    <span class="d-flex justify-content-end">
+                        <div
+                            class="{% if credit.vote_average >= 7.5 %}green{% elif credit.vote_average >= 6 %}yellow{% else %}red{% endif %} score p-1 rounded-3 d-inline-block ">
+                            <div class="text-sm">
+                                {% if credit.vote_average %}
+                                {{ credit.vote_average|floatformat:1 }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% comment %} for movie in person['movie_credits']['cast']:
+print(movie['title']) {% endcomment %}
+
+
+
+<div id="Credits" class="container-fluid px-4 pt-4">
+    {% include 'people/credits.html' %}
+</div>
+
+{% comment %} <script>
+    // get the parent element's width
+    var parentWidth = document.querySelector('.col').offsetWidth;
+
+    // set the max-width of the text element to 80% of the parent's width
+    var textElement = document.querySelector('#credit-name');
+    textElement.style.maxWidth = Math.floor(parentWidth * 0.8) + 'px';
+</script> {% endcomment %}
 
 
 {% endblock body %}

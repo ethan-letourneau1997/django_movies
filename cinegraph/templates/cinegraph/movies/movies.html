@@ -16,7 +16,8 @@
         <div class="col d-flex">
             <div class="text-sm position-relative bg-dark rounded-3">
                 <a href=" {% url 'movie' movie.id %}">
-                    <img class="img-fluid rounded-top-3" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}">
+                    <img loading="lazy" class="img-fluid rounded-top-3"
+                        src="http://image.tmdb.org/t/p/original{{movie.poster_path}}">
                 </a>
                 <div class="py-3 div score" style="position: absolute; top: 62%; left: 75%;">
                     <div class="col-12 d-flex">

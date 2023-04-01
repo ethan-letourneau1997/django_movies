@@ -22,7 +22,8 @@ background-position: center;
             <!-- Poster col -->
             <div class="col-3 py-4 poster-col ">
 
-                <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}" alt="">
+                <img loading="lazy" class="img-fluid" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}"
+                    alt="">
 
             </div>
             <!-- Content col -->
@@ -109,7 +110,7 @@ background-position: center;
 
                             {% for service in streaming_services %}
                             <div class="col-3 p-2">
-                                <img class="img-fluid streaming rounded"
+                                <img loading="lazy" class="img-fluid streaming rounded"
                                     src="http://image.tmdb.org/t/p/original{{service.logo_path}}" alt="">
                             </div>
                             {% endfor %}
