@@ -1,17 +1,15 @@
- <form action="/search/" method="post" class="my-2 form-inline my-lg-0 >
+ <form action="/search/" method="post" class="my-2 form-inline my-lg-0">
      {% csrf_token %}
-     <div class=" input-group nav-search ">
+     <div class="input-group nav-search">
          {% comment %} <input class=" form-control" type="text" name="{{ form.query.name }}" placeholder="Search"
-     aria-label="Search" required> {% endcomment %}
-     <span class="autocomplete-wrapper w-100 bg-danger d-flex align-items-center">
-         {{ form }}
-
-
-         <div class="input-group-append h-75">
-             <button class="border-0 btn btn-outline-light h-100" type="submit">
-                 {% comment %} <i class="fa fa-search"></i> {% endcomment %}
-             </button>
-         </div>
-     </span>
+             aria-label="Search" required> {% endcomment %}
+         <span class="autocomplete-wrapper w-100 bg-danger d-flex align-items-center">
+             {{ form }}
+             <div class="input-group-append h-75">
+                 <button class="border-0 btn btn-outline-light h-100" type="submit">
+                     {% comment %} <i class="fa fa-search"></i> {% endcomment %}
+                 </button>
+             </div>
+         </span>
      </div>
  </form>

@@ -4,9 +4,13 @@
 @import "./components/nav.scss";
 @import "./components/hero.scss";
 @import "./layouts/details.scss";
+@import "./layouts/cards.scss";
 @import "./utlis/utils.scss";
 @import "./homepage.scss";
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
+@import "./variables/typography.scss";
+@import "./layouts/trending.scss";
+@import
+  url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
 
 // my variables
 
@@ -18,20 +22,8 @@
 * {
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1rem;
-  line-height: 1.5rem; /* 24px */
+  line-height: 1.5rem;
 }
-
-.body {
-  // padding-top: 70px !important;
-}
-
-$subtract-width: 20px;
-
-// .trending-container {
-//   .row {
-//     width: 90%;
-//   }
-// }
 
 pre {
   color: $primary;
@@ -57,19 +49,6 @@ pre {
 
 // h_ Bootstrap custom border-radius
 
-/* Slide transitions */
-.slideUp {
-  -webkit-transform: translateY(-100px);
-  transform: translateY(-100px);
-  transition: transform 0.5s ease-out;
-}
-
-.slideDown {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-  transition: transform 0.5s ease-out;
-}
-
 /* Extra small devices (phones) */
 @media (max-width: 575.98px) {
   /* Show edge of card offscreen */
@@ -80,7 +59,6 @@ pre {
 
 /* Small devices (tablets) */
 @media (min-width: 576px) and (max-width: 767.98px) {
-  /* Show edge of card offscreen */
 }
 
 /* Medium devices (desktops) */
@@ -103,14 +81,6 @@ pre {
   -webkit-box-orient: vertical;
 }
 
-$border-radius-lg: 0.35rem !important;
-
-.card-img-top,
-.input-group,
-.input-group .btn {
-  border-radius: 0.35rem !important;
-}
-
 //> Form
 
 .form-control:focus {
@@ -118,7 +88,7 @@ $border-radius-lg: 0.35rem !important;
   // background-color: red !important;
 }
 
-//h_ AUTOCOMPLETE
+//< AUTOCOMPLETE
 
 .search-container {
   background-color: $dark;
@@ -132,7 +102,7 @@ $border-radius-lg: 0.35rem !important;
   border-radius: 0 !important;
 }
 
-.list-group {
+#autocomplete-list {
   i {
     margin-right: 10px;
   }

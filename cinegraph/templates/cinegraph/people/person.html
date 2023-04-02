@@ -58,21 +58,30 @@
     <div class="row px-3">
         <h3>Known For</h3>
     </div>
-    <div class="row flex-nowrap  overflow-scroll px-4 gap-3 gap-lg-0 ">
+    <div class="row flex-nowrap   overflow-scroll px-4 gap-3 gap-lg-0 ">
         {% for credit in known_for %}
         <a class="col-11 col-sm-8 col-md-5  py-2" href='{% url "movie" credit.id %}'>
             <div class="row rounded known-for-card">
-                <div class="col-auto col-sm-3 col-sm-2 col-lg-auto p-0">
+                <div class="col-auto col-sm-3 col-sm-2 col-lg-auto p-0 bg-dark">
                     <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt=""
                         class="known-for-img rounded-start-3" height="110" width="auto">
                 </div>
-                <div class="col-9  pt-1  bg-dark">
-                    <div class=" text-truncate fw-500">
+                <div class="col-9 bg-dark pt-2">
+                    <div class=" text-truncate d-inline-block fw-500 d-flex justify-content-between">
                         {% if credit.media_type == 'movie' %}
                         {{credit.title}}
                         {% else %}
                         {{credit.name}}
                         {% endif %}
+
+                        <div
+                            class="{% if credit.vote_average >= 7.5 %}green{% elif credit.vote_average >= 6 %}yellow{% else %}red{% endif %} score p-1 rounded-3 d-inline-block">
+                            <div class="text-sm ">
+                                {% if credit.vote_average %}
+                                {{ credit.vote_average|floatformat:1 }}
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                     <div class="text-secondary fw-300">{{credit.character}}</div>
                     <div class="text-secondary fw-300">
@@ -82,16 +91,16 @@
                         {{credit.first_air_date|slice:"0:4"}}
                         {% endif %}
                     </div>
-                    <span class="d-flex justify-content-end">
+                    {% comment %} <span class="d-flex justify-content-end pb-2">
                         <div
-                            class="{% if credit.vote_average >= 7.5 %}green{% elif credit.vote_average >= 6 %}yellow{% else %}red{% endif %} score p-1 rounded-3 d-inline-block ">
-                            <div class="text-sm">
+                            class="{% if credit.vote_average >= 7.5 %}green{% elif credit.vote_average >= 6 %}yellow{% else %}red{% endif %} score p-1 rounded-3 d-inline-block">
+                            <div class="text-sm ">
                                 {% if credit.vote_average %}
                                 {{ credit.vote_average|floatformat:1 }}
                                 {% endif %}
                             </div>
                         </div>
-                    </span>
+                    </span> {% endcomment %}
                 </div>
             </div>
         </a>

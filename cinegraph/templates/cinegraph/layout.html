@@ -10,7 +10,12 @@
         <link href="{% sass_src 'cinegraph/css/main.scss' %}" rel="stylesheet" type="text/css" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <!--Jquery CDN-->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!--D3 CDN-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.4/d3.min.js"
+            integrity="sha512-nfUlp2ZWPKWlnAH/OsMeAqRSYBxOdPYeBXwceyw6QqqZ7uTT/s5/eS1hMKphjVBouk0jf/JQ8ULVJRnEqSHkXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!--Chart JS-->
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
         <script src="https://kit.fontawesome.com/606aa0c887.js" crossorigin="anonymous"></script>
@@ -52,9 +57,9 @@
         }
     }
 
-
-   
 </style>
+
+
 
     <body class="body pt-5">
         <div class="nav-wrapper fixed-top">
@@ -102,20 +107,20 @@
         {% endblock body %}
 
         <div class="offcanvas offcanvas-start" tabindex="-1" id="navbarOffcanvas">
-            <div class="offcanvas-header">
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+            <div class="offcanvas-header bg-dark">
+                <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body">
+            <div class="offcanvas-body bg-dark">
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link" href="{% url 'movies' %}"">Movies</a>
+                    </li>
+                    <li class=" nav-item">
+                            <a class="nav-link" href="{% url 'shows' %}">Television</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="{% url 'people' %}">People</a>
                     </li>
                 </ul>
             </div>

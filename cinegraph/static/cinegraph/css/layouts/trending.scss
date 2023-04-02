@@ -1,0 +1,22 @@
+.media-card {
+  display: grid;
+
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(0, auto);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  background-position: center;
+  background-size: cover;
+
+  .media-img {
+    grid-area: 1 / 1 / 6 / 11;
+  }
+  .media-score {
+    z-index: 10;
+    grid-area: 5 / 5 / 7 / 7;
+  }
+  .media-info {
+    grid-area: 6 / 1 / 9 / 11;
+  }
+}

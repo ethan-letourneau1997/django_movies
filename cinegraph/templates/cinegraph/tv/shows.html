@@ -2,64 +2,37 @@
 
 {% block body %}
 
-<style>
-     {
-        width: 250px !important;
-    }
-
-    .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-
-    }
-
-    .item-card{
-    width: 180px;
-  
-    }
 
 
-</style>
-
-
-
-<div class="container-fluid px-5 pb-5 trending">
-    <h1 class="py-3 pt-5 text-4xl text-center">
-        Trending Shows
-    </h1>
-    <div class="row  ">
-
+<div class="container mt-5 " id="Shows">
+    <div class="row align-text ">
+        <h1 class="text-center fw-500 text-4xl">Popular Shows</h1>
+    </div>
+    <div class="row">
         {% for show in shows %}
         {% if show.poster_path != None %}
-        {% if forloop.counter < 19 %}
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2  d-flex p-3 p-xl-3">
-            <div class="text-sm position-relative bg-dark rounded-3 ">
-                <a href=" {% url 'show' show.id %}">
-                    <img loading="lazy" class="img-fluid rounded-top-3"
+        <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex py-3">
+            <div class="media-card shadow-lg bg-dark rounded-top-4 rounded-bottom-4  pb-3">
+                <a class="media-img" href="{% url 'show' show.id %}">
+                    <img loading="lazy" class=" img-fluid rounded-top-3 rounded-top-4"
                         src="http://image.tmdb.org/t/p/original{{show.poster_path}}">
                 </a>
-                <div class="py-3 div score" style="position: absolute; top: 58%; left: 80%;">
-                    <div class="col-12 d-flex">
-                        <span
-                            class="fw-700 
-                            {% if show.vote_average >= 7.5 %}positive{% elif show.vote_average >= 6 %}neutral{% else %}negetive{% endif %}">
-                            {{ show.vote_average|floatformat:1 }}
-                        </span>
-                    </div>
+                <div class="media-score d-flex justify-content-center align-items-center"> <span class="fw-700 
+                            {% if show.vote_average >= 7.5 %}green{% elif show.vote_average >= 6 %}yellow{% else %}red{% endif %}
+                            p-2 rounded-3">
+                        {{ show.vote_average|floatformat:1 }}
+                    </span></div>
+                <div class="media-info pt-4 px-3">
+                    <a href="{% url 'show' show.id %}">
+                        <div class="pb-1 fw-600 text-xl text-truncate"> {{show.name}}</div>
+                    </a>
+                    <div class="fw-300">{{ show.formatted_date|date:'M d, Y' }}</div>
                 </div>
-                <div class="p-3 py-3 pr-5 fw-600 ">
-                    {{show.name}}
-                    <div class="fw-200">{{ show.formatted_date|date:'M d, Y' }}</div>
-                </div>
-
             </div>
         </div>
-        {% endif %}
         {% endif %}
         {% endfor %}
     </div>
 </div>
-
 
 {% endblock body %}

@@ -117,20 +117,35 @@ def index(request):
 def movies(request):
 
     # Pull data from third party rest api
-    response = requests.get(
+    trending = requests.get(
+        f'https://api.themoviedb.org/3/trending/movie/day?api_key={API_KEY}&language=en-US&page=1')
+
+    popular = requests.get(
         f'https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}&language=en-US&page=1')
 
+    #> Trending Movies
     # Convert response data into json
-    movies = response.json()['results']
+    trending_movies = trending.json()['results']
 
-    for movie in movies:
+    for movie in trending_movies:
+        if 'release_date' in movie:
+            formatted_date = datetime.strptime(
+                movie['release_date'], '%Y-%m-%d')
+            movie['formatted_date'] = formatted_date
+
+    # > Trending Movies
+    # Convert response data into json
+    popular_movies = popular.json()['results']
+
+    for movie in popular_movies:
         if 'release_date' in movie:
             formatted_date = datetime.strptime(
                 movie['release_date'], '%Y-%m-%d')
             movie['formatted_date'] = formatted_date
 
     context = {
-        'movies': movies,
+        'trending_movies': trending_movies,
+        'popular_movies' : popular_movies,
         'form': SearchForm()
     }
 
@@ -240,7 +255,7 @@ def movie(request, movie_id):
 def shows(request):
     # Pull data from third party rest api
     response = requests.get(
-        f'https://api.themoviedb.org/3/trending/tv/week?api_key={API_KEY}'
+        f'https://api.themoviedb.org/3/trending/tv/day?api_key={API_KEY}'
     )
 
     # Convert response data into json

@@ -148,3 +148,17 @@ $fw-900: 900;
 .fw-900 {
   font-weight: 900;
 }
+
+.rounded-4 {
+  border-radius: 0.5rem;
+}
+
+.rounded-bottom-4 {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.rounded-top-4 {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}

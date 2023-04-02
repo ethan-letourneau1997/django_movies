@@ -13,10 +13,27 @@
   }
 }
 
+#navbar {
+  height: 75px;
+}
+
 input,
 .input-group-append,
 .input-group-prepend,
 .input-group-text {
   background-color: #374151 !important;
   border: 0 !important;
+}
+
+/* Slide transitions */
+.slideUp {
+  -webkit-transform: translateY(-75px);
+  transform: translateY(-75px);
+  transition: transform 0.5s ease-out;
+}
+
+.slideDown {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  transition: transform 0.5s ease-out;
 }

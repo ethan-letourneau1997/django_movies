@@ -9,7 +9,19 @@ $secondary: rgb(156, 163, 175);
 $yellow: #fc3;
 $dark: #0f172a;
 $body-bg: #1e293b;
-$input-bg: hsl(217, 19%, 27%);
+$input-bg: #384252;
 
 $body-color: $primary;
 $navbar-dark-color: $primary;
+
+ .green {
+    background-color: $green !important;
+    color: $dark;
+  }
+  .yellow {
+    background-color: $yellow !important;
+    color: $dark;
+  }
+  .red {
+    background-color: $red !important;
+  }
