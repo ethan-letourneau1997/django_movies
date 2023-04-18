@@ -24,13 +24,7 @@
 </style>
 
 <div id="Actor-details" class="container-fluid px-4 pt-5">
-    {% comment %} <div class="row ">
-        <div class="col-12 text-center d-md-none">
-            <h1>
-                {{person.name}}
-            </h1>
-        </div>
-    </div> {% endcomment %}
+
     <div class="row py-3 d-flex ">
         <div class="col-6 col-sm-4 col-md-3 col-xl-2 d-flex mx-auto align-items-center d-sm-block ">
             <img loading="lazy" src="http://image.tmdb.org/t/p/w470_and_h470_face{{person.profile_path}}" alt=""
@@ -68,7 +62,7 @@
                 </div>
                 <div class="col-9 bg-dark pt-2">
                     <div class=" text-truncate d-inline-block fw-500 d-flex justify-content-between">
-                        {% if credit.media_type == 'movie' %}
+                        {% if credit.media_type == 'movie' and credit.poster_path %}
                         {{credit.title}}
                         {% else %}
                         {{credit.name}}
@@ -91,39 +85,19 @@
                         {{credit.first_air_date|slice:"0:4"}}
                         {% endif %}
                     </div>
-                    {% comment %} <span class="d-flex justify-content-end pb-2">
-                        <div
-                            class="{% if credit.vote_average >= 7.5 %}green{% elif credit.vote_average >= 6 %}yellow{% else %}red{% endif %} score p-1 rounded-3 d-inline-block">
-                            <div class="text-sm ">
-                                {% if credit.vote_average %}
-                                {{ credit.vote_average|floatformat:1 }}
-                                {% endif %}
-                            </div>
-                        </div>
-                    </span> {% endcomment %}
+
                 </div>
             </div>
         </a>
         {% endfor %}
     </div>
 </div>
-{% comment %} for movie in person['movie_credits']['cast']:
-print(movie['title']) {% endcomment %}
+
 
 
 
 <div id="Credits" class="container-fluid px-4 pt-4">
     {% include 'people/credits.html' %}
 </div>
-
-{% comment %} <script>
-    // get the parent element's width
-    var parentWidth = document.querySelector('.col').offsetWidth;
-
-    // set the max-width of the text element to 80% of the parent's width
-    var textElement = document.querySelector('#credit-name');
-    textElement.style.maxWidth = Math.floor(parentWidth * 0.8) + 'px';
-</script> {% endcomment %}
-
 
 {% endblock body %}

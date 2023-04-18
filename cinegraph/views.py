@@ -123,7 +123,7 @@ def movies(request):
     popular = requests.get(
         f'https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}&language=en-US&page=1')
 
-    #> Trending Movies
+    # > Trending Movies
     # Convert response data into json
     trending_movies = trending.json()['results']
 
@@ -145,7 +145,7 @@ def movies(request):
 
     context = {
         'trending_movies': trending_movies,
-        'popular_movies' : popular_movies,
+        'popular_movies': popular_movies,
         'form': SearchForm()
     }
 
@@ -157,16 +157,20 @@ def movie(request, movie_id):
     # TODO clean up movie view (see show)
 
     response = requests.get(
-        f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US&append_to_response=credits,videos,release_dates,watch/providers,similar')
+        f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US&append_to_response=credits,videos,release_dates,watch/providers,similar,recommendations,images&include_image_language=en,null')
 
     movie = response.json()
 
-    # > Get URL of image
-    image_url = movie['poster_path']
+    # < set default backdrop filter
+    backdrop_filter = 'rgba(0,0,0,0)'
 
-    # > Get backdrop filter gradient
-    backdrop_filter = get_image_overlay(
-        f'http://image.tmdb.org/t/p/w92{image_url}')
+    if movie['poster_path']:
+        # > Get URL of image
+        image_url = movie['poster_path']
+
+        # > Get backdrop filter gradient
+        backdrop_filter = get_image_overlay(
+            f'http://image.tmdb.org/t/p/w92{image_url}')
 
     # h_ Get movie details
 
@@ -213,7 +217,7 @@ def movie(request, movie_id):
     if movie['revenue']:
         revenue = '$' + '{:,}'.format(movie['revenue'])
     else:
-        revenue = None
+        revenue = 'unknown'
 
     # < Get movie release date and format.
     if movie['release_date']:
@@ -235,6 +239,22 @@ def movie(request, movie_id):
         if person['job'] == 'Director':
             pass
 
+    # > Get movie trailers
+    trailers = []
+    for item in movie['videos']['results']:
+        if item['type'] == 'Trailer':
+            trailers.append(item['key'])
+    trailer = None
+    if len(trailers) > 0:
+        trailer = trailers[0]
+
+    # > Batch posters
+    posters = []
+    for poster in movie['images']['posters']:
+        posters.append(poster)
+
+    poster_batches = [posters[i:i+3] for i in range(0, len(posters), 3)]
+
     # * Create context for template.
     context = {
         'movie': movie,
@@ -247,6 +267,8 @@ def movie(request, movie_id):
         'runtime': runtime,
         'rating': rating,
         'similar': released_similar_movies,
+        'trailer': trailer,
+        'poster_batches': poster_batches,
         'form': SearchForm()
     }
     return render(request, 'movies/movie.html', context)
@@ -277,7 +299,7 @@ def shows(request):
 
 def show(request, show_id):
     response = requests.get(
-        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US&append_to_response=seasons,episodes,watch/providers,credits')
+        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US&append_to_response=seasons,episodes,watch/providers,videos,credits,aggregate_credits,recommendations,images&include_image_language=en,null')
 
     show = response.json()
 
@@ -329,6 +351,22 @@ def show(request, show_id):
     # > reverse seasons for display
     seasons_reversed = list(reversed(show['seasons']))
 
+    # > Get show trailers
+    trailers = []
+    for item in show['videos']['results']:
+        if item['type'] == 'Trailer':
+            trailers.append(item['key'])
+    trailer = None
+    if len(trailers) > 0:
+        trailer = trailers[0]
+
+    # > Batch posters
+    posters = []
+    for poster in show['images']['posters']:
+        posters.append(poster)
+
+    poster_batches = [posters[i:i+3] for i in range(0, len(posters), 3)]
+
     context = {
         'show': show,
         'backdrop_filter': backdrop_filter,
@@ -340,6 +378,8 @@ def show(request, show_id):
         'colors': colors,
         'episodes': episodes,
         'seasons_reversed': seasons_reversed,
+        'trailer': trailer,
+        'poster_batches': poster_batches,
         'form': SearchForm()
 
 
@@ -351,7 +391,7 @@ def people(request):
 
     # Pull data from third party rest api
     response = requests.get(
-        f'https://api.themoviedb.org/3/trending/person/week?api_key={API_KEY}&language=en-US&page=1&append_to_response=movie_credits,')
+        f'https://api.themoviedb.org/3/trending/person/week?api_key={API_KEY}&language=en-US&page=1&append_to_response=movie_credits')
 
     # Convert response data into json
     people = response.json()['results']
@@ -384,7 +424,7 @@ def person(request, person_id):
     person = response.json()
 
     formatted_birthday = None
-    if 'birthday' in person:
+    if 'birthday' in person == True:
         formatted_birthday = datetime.strptime(
             person['birthday'], '%Y-%m-%d')
 

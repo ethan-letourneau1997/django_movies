@@ -23,6 +23,26 @@ background-position: center;
 .season_card img {
     height: 200px
 }
+
+.headshot-wrapper img {
+object-fit: cover;
+}
+
+.embed-responsive-custom {
+position: relative;
+width: 100%;
+height: 0;
+padding-top: 56.25%;
+}
+
+.youtube {
+position: absolute;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+border-radius: 0.375rem;
+}
 </style>
 
 <div class="container-fluid mt-3 d-md-none">
@@ -213,37 +233,10 @@ background-position: center;
     </div>
 </section>
 
-<div class="container-fluid media-container p-0 px-4 ">
-    <div class="row mt-3 mb-3">
-        <h3 class="text-2xl fw-600 ">Cast</h3>
-    </div>
-    <div class="row card-row flex-nowrap overflow-auto pb-2 gap-4">
-        {% for credit in show.credits.cast %}
-        <div class=" d-flex  card-offset p-0 ">
-            <a href="{% url 'person' credit.id %}" class="card bg-transparent border-0 d-flex position-relative">
-                <img loading="lazy" src="http://image.tmdb.org/t/p/original{{credit.profile_path}}" alt=""
-                    class="card-img-top ">
-
-                <div class="card-body pb-0 p-2">
-                    <div class="card-title m-0 text-base fw-600">
-                        {% if credit.name %}
-                        {{ credit.name }}
-                        {% endif %}
-                    </div>
-                    <div class="fw-300">
-                        {% if credit.character %}
-                        {{credit.character}}
-                        {% endif %}
-                    </div>
-                </div>
-            </a>
-        </div>
-        {% endfor %}
-    </div>
-</div>
 
 
-<div id="Seasons" class="container-fluid px-4">
+
+{% comment %} <div id="Seasons" class="container-fluid px-4">
     <div class="row mt-3">
         <h3 class="p-0 text-2xl fw-600">Seasons</h3>
     </div>
@@ -272,73 +265,232 @@ background-position: center;
         {% endif %}
         {% endfor %}
     </div>
-</div>
+</div> {% endcomment %}
 
+<div class="container-fluid media-container p-0  ">
+    <div class="row w-100 px-lg-4">
+        <div class="col-12 col-lg-7 pt-4 pt-lg-2  px-lg-4">
 
-
-{% comment %} h_ ------------------- {% endcomment %}
-
-
-{% comment %} <section>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-8">
-                <canvas id="myChart"></canvas>
+            <div class="row mt-3 mb-3 px-3 px-lg-3">
+                <h3 class="text-4xl fw-600 mx-lg-3 w-100 ">Top Cast</h3>
             </div>
-            <div class="col"></div>
+            <div class="row pb-2 flex-nowrap overflow-auto flex-md-wrap px-4">
+                {% for credit in show.aggregate_credits.cast|slice:":12" %}
+                {% if credit.profile_path %}
+                <div class="col-5 col-sm-4 col-md-6 ">
+                    <div class="row no-gutters px-3 px-lg-0">
+                        <div class="col-12 col-md-4 p-lg-3 p-2 p-sm-1 p-lg-0 ">
+                            <a href="{% url 'person' credit.id %}">
+                                <div class="headshot-wrapper ratio ratio-1x1 ">
+                                    <img loading="lazy" src="http://image.tmdb.org/t/p/h632{{credit.profile_path}}"
+                                        alt="" class="img-fluid rounded-circle p-1">
+                                </div>
+                            </a>
+                        </div>
+                        <div
+                            class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center  align-items-lg-baseline text-truncate">
+                            <a href="{% url 'person' credit.id %}"
+                                class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
+                            <span class="fw-300 text-sm d-inline-block text-truncate">{{credit.character}}</span>
+                        </div>
+                    </div>
+
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% if trailer or poster_batches > 0 or show.images.backdrops > 0 %}
+        <div class="col-12 col-lg-5 d-flex flex-column px-3 px-lg-5">
+            <div class="row mt-3 mb-3 w-100">
+                <h3 class="text-4xl fw-600 px-3 ">Media</h3>
+            </div>
+            {% if trailer %}
+            <div class="container-fluid d-flex flex-column gap-3 h-100">
+                <div class="row pt-2 ">
+                    <div class="embed-responsive-custom rounded-3">
+                        <iframe class="youtube" src="https://www.youtube.com/embed/{{ trailer }}" class="rounded-2"
+                            allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                {% if poster_batches|length != 0 %}
+                <div class="row ">
+                    <div id="posterCarouselControls" class="carousel slide p-0" data-bs-ride="carousel"
+                        data-bs-interval="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                {% for batch in poster_batches|slice:":1" %}
+                                <div class="row">
+                                    {% for poster in batch %}
+                                    <div class="col-4 p-0">
+                                        <img src="http://image.tmdb.org/t/p/w342{{poster.file_path}}"
+                                            class="d-block img-fluid rounded-3" alt="...">
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% for batch in poster_batches|slice:"1:" %}
+                            <div class="carousel-item ">
+                                <div class="row">
+                                    {% for poster in batch %}
+                                    <div class="col-4 p-0">
+                                        <img src="http://image.tmdb.org/t/p/w342{{poster.file_path}}"
+                                            class="d-block img-fluid rounded-3" alt="...">
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#posterCarouselControls"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#posterCarouselControls"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if show.images.backdrops|length != 0 %}
+                <div class="row">
+                    <div id="backdropCarouselControls" class="carousel slide p-0" data-bs-ride="carousel"
+                        data-bs-interval="false">
+                        <div class="carousel-inner">
+
+                            <div class="carousel-item active">
+                                {% for backdrop in show.images.backdrops|slice:":1" %}
+                                <img src="http://image.tmdb.org/t/p/w780{{backdrop.file_path}}"
+                                    class="d-block w-100 rounded-3" alt="...">
+                                {% endfor %}
+                            </div>
+                            {% for backdrop in show.images.backdrops|slice:"1:" %}
+                            <img loading="lazy" src="http://image.tmdb.org/t/p/original{{backdrop.file_path}}" alt=""
+                                class="img-fluid rounded-3 carousel-item">
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#backdropCarouselControls"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#backdropCarouselControls"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+
+
+    {% if show.recommendations.results|length != 0 %}
+    <div class="container-fluid media-container p-0 px-4 mt-lg-5 bg-dark">
+        <div class="row mt-5 mt-lg-3 mb-3  w-100 pt-3">
+            <h3 class="text-4xl fw-600 mx-lg-3 ">More like this</h3>
+        </div>
+        <div class="row card-row flex-nowrap overflow-auto pb-2 gap-3">
+            {% for show in show.recommendations.results %}
+
+            {% if show.poster_path %}
+            <div class=" d-flex  card-offset p-0 ">
+                <a href="{% url 'show' show.id %}" class="card bg-transparent border-0 d-flex position-relative">
+                    <img loading="lazy" src="http://image.tmdb.org/t/p/original{{show.poster_path}}" alt=""
+                        class="card-img-top ">
+
+                    <div class="card-body pb-0 p-2">
+                        <div class="card-title m-0 text-base fw-600">
+                            {% if show.name %}
+                            {{ show.name }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
-</section> {% endcomment %}
+    {% endif %}
 
-<script>
-    // Get the canvas element
-    var ctx = document.getElementById("myChart").getContext("2d");
-    // Get the canvas element
-    var ctx = document.getElementById("myChart").getContext("2d");
 
-    // Create the chart
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: {
-                {
-                    episodes | safe
-                }
-            },
-            datasets: [{
-                label: 'Show Ratings',
-                data: {
+
+    {% comment %} h_ ------------------- {% endcomment %}
+
+
+    {% comment %} <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-8">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </section> {% endcomment %}
+
+    <script>
+        // Get the canvas element
+        var ctx = document.getElementById("myChart").getContext("2d");
+        // Get the canvas element
+        var ctx = document.getElementById("myChart").getContext("2d");
+
+        // Create the chart
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {
                     {
-                        ratings | safe
+                        episodes | safe
                     }
                 },
-                backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                borderColor: {
-                    {
-                        colors | safe
+                datasets: [{
+                    label: 'Show Ratings',
+                    data: {
+                        {
+                            ratings | safe
+                        }
+                    },
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    borderColor: {
+                        {
+                            colors | safe
+                        }
+                    },
+                    borderWidth: 3,
+                    fill: false, // set fill to false to remove the line between points
+                    showLine: false //<- set this
+
+                }]
+            },
+            options: {
+                responsive: true,
+                display: false,
+                scales: {
+                    y: {
+                        type: 'linear',
+                        grace: '30%'
                     }
                 },
-                borderWidth: 3,
-                fill: false, // set fill to false to remove the line between points
-                showLine: false //<- set this
-
-            }]
-        },
-        options: {
-            responsive: true,
-            display: false,
-            scales: {
-                y: {
-                    type: 'linear',
-                    grace: '30%'
+                plugins: {
+                    legend: false
                 }
-            },
-            plugins: {
-                legend: false
             }
-        }
-    });
-</script>
+        });
+    </script>
 
 
-{% endblock body %}
+    {% endblock body %}

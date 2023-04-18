@@ -19,6 +19,19 @@
     background-position:top;
     }
 
+    .form-inline {
+           flex-grow: 1 !important;
+           display:flex;
+           align-items:center;
+    }
+
+    .hero input {
+        flex-grow: 1;
+     
+        
+     
+    }
+
    
 </style>
 <!--height: 60vh;-->
@@ -32,13 +45,16 @@
             </span>
             <div class="input-group rounded 3"></div>
             <div class="input-group rounded-3">
-                <input type="text" class="form-control flex-grow-1" placeholder="Search...">
+                {% include 'search_form.html' %}
+                {% comment %} <input type="text" class="form-control flex-grow-1" placeholder="Search...">
+                {% endcomment %}
+
+
                 <span class="p-1 ">
                     <button class="btn btn-warning" type="submit">
                         <i class="fa fa-search"></i>
                     </button>
                 </span>
-
             </div>
         </div>
     </div>
@@ -73,6 +89,7 @@
                             <div class="card bg-transparent border-0 d-flex position-relative">
                                 <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
                                     class="card-img-top ">
+                                {% if item.vote_average %}
                                 <span
                                     class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
                                     <div>
@@ -81,6 +98,7 @@
                                         {% endif %}
                                     </div>
                                 </span>
+                                {% endif %}
                                 <div class="card-body pb-0">
 
 
@@ -113,6 +131,7 @@
                                 class="card bg-transparent border-0 d-flex position-relative">
                                 <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
                                     class="card-img-top">
+                                {% if item.vote_average %}
                                 <span
                                     class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
                                     <div class="text-sm  ">
@@ -121,6 +140,7 @@
                                         {% endif %}
                                     </div>
                                 </span>
+                                {% endif %}
                                 <div class="card-body pb-0">
                                     <div class="card-title m-0 text-base fw-500">
                                         {% if item.name %}
@@ -150,14 +170,7 @@
                             <div class="card bg-transparent border-0 d-flex position-relative">
                                 <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.profile_path}}" alt=""
                                     class="card-img-top">
-                                <span
-                                    class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
-                                    <div class="text-sm  ">
-                                        {% if item.vote_average %}
-                                        {{ item.vote_average|floatformat:1 }}
-                                        {% endif %}
-                                    </div>
-                                </span>
+
                                 <div class="card-body pb-0">
                                     <div class="card-title m-0 text-base fw-500">
                                         {% if item.name %}
