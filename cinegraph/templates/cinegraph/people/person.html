@@ -23,20 +23,19 @@
 
 </style>
 
-<div id="Actor-details" class="container-fluid px-4 pt-5">
+<div id="Actor-details" class="px-4 pt-5 container-fluid">
 
-    <div class="row py-3 d-flex ">
-        <div class="col-6 col-sm-4 col-md-3 col-xl-2 d-flex mx-auto align-items-center d-sm-block ">
+    <div class="py-3 row d-flex ">
+        <div class="mx-auto col-6 col-sm-4 col-md-3 col-xl-2 d-flex align-items-center d-sm-block ">
             <img loading="lazy" src="http://image.tmdb.org/t/p/w470_and_h470_face{{person.profile_path}}" alt=""
                 class="img-fluid d-block d-sm-none rounded-3 ">
             <img loading="lazy" src="http://image.tmdb.org/t/p/original{{person.profile_path}}" alt=""
                 class="img-fluid d-none d-sm-block rounded-3 ">
         </div>
 
-
         <div class="col-12 col-sm-8 col-md-9 col-xl-10 order-md-2">
-            <div class="col-12  ">
-                <div class="col-12 text-center text-sm-start  pt-4 pt-sm-0">
+            <div class="col-12 ">
+                <div class="pt-4 text-center col-12 text-sm-start pt-sm-0">
                     <h1 class="text-3xl fw-600">
                         {{person.name}}
                     </h1>
@@ -45,58 +44,60 @@
             {% include 'people/biography.html' %}
         </div>
     </div>
-
 </div>
 
-<div id="known-for" class="container-fluid pt-3">
-    <div class="row px-3">
-        <h3>Known For</h3>
+
+{% if known_for|length != 0 %}
+<div class="p-0 px-4 container-fluid media-container mt-lg-5 bg-dark">
+    <div class="pt-3 mt-5 mb-3 row mt-lg-3 w-100">
+        <h3 class="text-4xl fw-600 mx-lg-3 ">Known for</h3>
     </div>
-    <div class="row flex-nowrap   overflow-scroll px-4 gap-3 gap-lg-0 ">
-        {% for credit in known_for %}
-        <a class="col-11 col-sm-8 col-md-5  py-2" href='{% url "movie" credit.id %}'>
-            <div class="row rounded known-for-card">
-                <div class="col-auto col-sm-3 col-sm-2 col-lg-auto p-0 bg-dark">
-                    <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt=""
-                        class="known-for-img rounded-start-3" height="110" width="auto">
-                </div>
-                <div class="col-9 bg-dark pt-2">
-                    <div class=" text-truncate d-inline-block fw-500 d-flex justify-content-between">
-                        {% if credit.media_type == 'movie' and credit.poster_path %}
-                        {{credit.title}}
-                        {% else %}
-                        {{credit.name}}
-                        {% endif %}
+    <div class="gap-3 pb-2 overflow-auto row card-row flex-nowrap">
+        {% for item in known_for %}
 
-                        <div
-                            class="{% if credit.vote_average >= 7.5 %}green{% elif credit.vote_average >= 6 %}yellow{% else %}red{% endif %} score p-1 rounded-3 d-inline-block">
-                            <div class="text-sm ">
-                                {% if credit.vote_average %}
-                                {{ credit.vote_average|floatformat:1 }}
-                                {% endif %}
-                            </div>
+        {% if item.poster_path %}
+        <div class="p-0 d-flex card-offset">
+            {% if item.media_type == 'movie' %}
+            <a href="{% url 'movie' item.id %}" class="bg-transparent border-0 card d-flex position-relative">
+                {% else %}
+                <a href="{% url 'show' item.id %}" class="bg-transparent border-0 card d-flex position-relative">
+                    {% endif %}
+                    <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
+                        class="card-img-top ">
+                    {% if item.vote_average %}
+                    {% comment %} <span
+                        class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
+                        <div>
+                            {% if item.vote_average %}
+                            {{ item.vote_average|floatformat:1 }}
+                            {% endif %}
                         </div>
-                    </div>
-                    <div class="text-secondary fw-300">{{credit.character}}</div>
-                    <div class="text-secondary fw-300">
-                        {% if credit.media_type == 'movie' %}
-                        {{credit.release_date|slice:"0:4"}}
-                        {% else %}
-                        {{credit.first_air_date|slice:"0:4"}}
-                        {% endif %}
-                    </div>
+                    </span> {% endcomment %}
+                    {% endif %}
 
-                </div>
-            </div>
-        </a>
+                    <div class="p-2 pb-0 card-body">
+                        <div class="px-2 pt-1 m-0 text-base card-title fw-600">
+                            {% if item.title %}
+                            {{ item.title }}
+                            {% elif item.name %}
+                            {{ item.name }}
+                            {% endif %}
+
+                        </div>
+                        <div class="px-2 text-secondary">
+                            {{item.character}}
+                        </div>
+
+                    </div>
+                </a>
+        </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>
+{% endif %}
 
-
-
-
-<div id="Credits" class="container-fluid px-4 pt-4">
+<div id="Credits" class="px-4 pt-4 container-fluid">
     {% include 'people/credits.html' %}
 </div>
 

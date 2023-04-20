@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+<div class="container pt-5" class="Seasons">
+    <div class="row">
+        <h1>{{ show.name }}</h1>
+    </div>
+
+    <div class="row w-100">
+        {% for season in show.seasons %}
+        <div class="p-0 pb-3 m-0 col-12 row">
+            <div class="col-3 col-lg-2">
+                <img src="http://image.tmdb.org/t/p/original{{season.poster_path}}" alt="" class="img-fluid rounded-3">
+
+            </div>
+            <div class="col-9">
+                <div class="text-3xl fw-500">
+                    <a href="{% url 'season_detail' show.id season.season_number %}"
+                        class="text-2xl fw-500">{{season.name}}&nbsp;&nbsp;
+                        <i class="fa-solid fa-chevron-right text-secondary"></i></a>
+                </div>
+                <div class="pb-3 fw-600">
+                    <span> {{season.air_date|slice:"0:4"}}&nbsp;&nbsp;|&nbsp;&nbsp; </span>
+                    <span> {{season.episode_count|slice:"0:4"}}</span>&nbsp;episodes
+                </div>
+
+                <p class="fw-300">{{season.overview}}</p>
+            </div>
+            <hr class="mx-2 my-3 ">
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}

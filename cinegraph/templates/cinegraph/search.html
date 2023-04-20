@@ -8,25 +8,31 @@
 </style>
 
 {% block body %}
-<div class="container search-me mt-5">
+<div class="container mt-5 search-me">
     <div class="row">
         {% for result in results %}
 
-        {% if result.media_type == 'movie' and result.poster_path != None %}
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2 my-3 px-3">
-            <div class="media-card shadow-lg bg-dark rounded-top-4 rounded-bottom-4  pb-3">
+        {% if result.media_type == 'movie' %}
+        <div class="px-3 my-3 col-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="pb-3 shadow-lg media-card bg-dark rounded-top-4 rounded-bottom-4">
                 <a class="media-img" href="{% url 'movie' result.id %}">
+                    {% if result.poster_path %}
                     <img loading="lazy" class=" img-fluid rounded-top-3 rounded-top-4"
                         src="http://image.tmdb.org/t/p/original{{result.poster_path}}">
+                    {% else %}
+                    <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="img-fluid">
+                    {% endif %}
                 </a>
+                {% if result.vote_average > 0 %}
                 <div class="media-score d-flex justify-content-center align-items-center"> <span class="fw-700 
                             {% if result.vote_average >= 7.5 %}green{% elif result.vote_average >= 6 %}yellow{% else %}red{% endif %}
                             p-2 rounded-3">
                         {{ result.vote_average|floatformat:1 }}
                     </span></div>
-                <div class="media-info pt-4 px-3">
+                {% endif %}
+                <div class="px-3 pt-4 media-info">
                     <a href="{% url 'movie' result.id %}">
-                        <div class="pb-1 fw-600 text-lg text-truncate"> {{result.title}}</div>
+                        <div class="pb-1 text-lg fw-600 text-truncate"> {{result.title}}</div>
                     </a>
                     {% if result.release_date %}
                     <div class="fw-300"> {{result.release_date|slice:"0:4"}}</div>
@@ -38,21 +44,26 @@
         </div>
         {% endif %}
 
-        {% if result.media_type == 'tv' and result.poster_path != None %}
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2 my-3 px-3">
-            <div class="media-card shadow-lg bg-dark rounded-top-4 rounded-bottom-4 pb-3 ">
-                <a class="media-img" href="{% url 'movie' result.id %}">
+        {% if result.media_type == 'tv'  %}
+        <div class="px-3 my-3 col-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="pb-3 shadow-lg media-card bg-dark rounded-top-4 rounded-bottom-4 ">
+                <a class="media-img" href="{% url 'show' result.id %}">
+                    {% if result.poster_path %}
                     <img loading="lazy" class=" img-fluid rounded-top-3 rounded-top-4"
                         src="http://image.tmdb.org/t/p/original{{result.poster_path}}">
+                    {% else %}
+                    <img src="{% static 'cinegraph/img/tv-placeholder.svg' %}" alt="" class="img-fluid">{% endif %}
                 </a>
+                {% if result.vote_average > 0 %}
                 <div class="media-score d-flex justify-content-center align-items-center"> <span class="fw-700 
                             {% if result.vote_average >= 7.5 %}green{% elif result.vote_average >= 6 %}yellow{% else %}red{% endif %}
                             p-2 rounded-3">
                         {{ result.vote_average|floatformat:1 }}
                     </span></div>
-                <div class="media-info pt-4 px-3">
-                    <a href="{% url 'movie' result.id %}">
-                        <div class="pb-1 fw-600 text-lg text-truncate"> {{result.name}}</div>
+                {% endif %}
+                <div class="px-3 pt-4 media-info">
+                    <a href="{% url 'show' result.id %}">
+                        <div class="pb-1 text-lg fw-600 text-truncate"> {{result.name}}</div>
                     </a>
                     {% if result.first_air_date %}
                     <div class="fw-300"> {{result.first_air_date|slice:"0:4"}}</div>
@@ -65,18 +76,22 @@
         </div>
         {% endif %}
 
-        {% if result.media_type == 'person' and result.profile_path != None %}
+        {% if result.media_type == 'person' %}
 
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2 my-3 px-3">
-            <div class="media-card shadow-lg bg-dark rounded-top-4 rounded-bottom-4  pb-3">
-                <a class="media-img" href="{% url 'movie' result.id %}">
+        <div class="px-3 my-3 col-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="pb-3 shadow-lg media-card bg-dark rounded-top-4 rounded-bottom-4">
+                <a class="media-img" href="{% url 'person' result.id %}">
+                    {% if result.profile_path %}
                     <img loading="lazy" class=" img-fluid rounded-top-3 rounded-top-4"
                         src="http://image.tmdb.org/t/p/original{{result.profile_path}}">
+                    {% else %}
+                    <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt="" class="img-fluid">
+                    {% endif %}
                 </a>
 
-                <div class="media-info pt-4 px-3">
-                    <a href="{% url 'movie' result.id %}">
-                        <div class="pb-1 fw-600 text-lg text-truncate"> {{result.name}}</div>
+                <div class="px-3 pt-4 media-info">
+                    <a href="{% url 'person' result.id %}">
+                        <div class="pb-1 text-lg fw-600 text-truncate"> {{result.name}}</div>
                     </a>
                     {% if result.release_date %}
                     <div class="fw-300"> {{result.release_date|slice:"0:4"}}</div>

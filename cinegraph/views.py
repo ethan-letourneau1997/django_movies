@@ -3,6 +3,7 @@ import math
 from django import forms
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.urls import reverse
 import requests
 from .utils.imageUtils import get_image_overlay
 from .utils.getEpisodeRatings import get_episode_ratings
@@ -318,39 +319,6 @@ def show(request, show_id):
     backdrop_filter = get_image_overlay(
         f'http://image.tmdb.org/t/p/w92{image_url}')
 
-    # > Get season information
-
-    # h_ Get episode ratings
-
-    data = get_episode_ratings(show_id, API_KEY)
-    # * Create context for template.
-
-    # h_ Parse rating information
-
-    color_key = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white',
-                 'gray', 'teal', 'navy', 'maroon', 'olive', 'coral', 'turquoise', 'lavender', 'peach', 'magenta']
-
-    colors = []
-    episodes = []
-    ratings = []
-    names = []
-    air_dates = []
-
-    for item in data:
-        # append the rating value to the ratings array
-        if item['rating'] > 0:
-            ratings.append(item['rating'])
-            names.append(item['name'])
-            air_dates.append(item['air_date'])
-            episodes.append(len(episodes) + 1)
-
-            colors.append(color_key[item['season_number']])
-
-    names_json = json.dumps(names)
-
-    # > reverse seasons for display
-    seasons_reversed = list(reversed(show['seasons']))
-
     # > Get show trailers
     trailers = []
     for item in show['videos']['results']:
@@ -371,20 +339,81 @@ def show(request, show_id):
         'show': show,
         'backdrop_filter': backdrop_filter,
         'streaming_services': streaming_services,
-        'episode_data': data,
-        'ratings': ratings,
-        'air_dates': air_dates,
-        'names': names_json,
-        'colors': colors,
-        'episodes': episodes,
-        'seasons_reversed': seasons_reversed,
         'trailer': trailer,
         'poster_batches': poster_batches,
-        'form': SearchForm()
+        'form': SearchForm(),
 
 
     }
     return render(request, 'tv/show.html', context)
+
+
+def seasons(request, show_id):
+
+    response = requests.get(
+        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US')
+
+    show = response.json()
+
+    context = {
+        'show': show,
+    }
+
+    return render(request, 'tv/seasons.html', context)
+
+
+def season_detail(request, show_id, season_number):
+
+    # Make API call to retrieve season details
+    response = requests.get(
+        f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}?api_key={API_KEY}&language=en-US')
+    season = response.json()
+
+    show_response = requests.get(
+        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US')
+
+    show = show_response.json()
+
+    name = show['name']
+
+    context = {
+        'season': season,
+        'name': name,
+        'show': show,
+    }
+
+    return render(request, 'tv/season_detail.html', context)
+
+
+def episode_detail(request, show_id, season_number, episode_number):
+
+    response = requests.get(
+        f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}/episode/{episode_number}?api_key={API_KEY}&language=en-US&append_to_response=credits')
+
+    episode = response.json()
+
+    my_json = json.dumps(episode['credits'], indent=4)
+
+    print(my_json)
+
+    context = {
+        'episode': episode,
+    }
+
+    return render(request, 'tv/episode_detail.html', context)
+
+
+def episode_credits(request, show_id, season_number, episode_number):
+    response = requests.get(
+        f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}/episode/{episode_number}/credits?api_key={API_KEY}&language=en-US')
+
+    credits = response.json()
+
+    context = {
+        'credits': credits,
+    }
+
+    return render(request, 'cast_and_crew.html', context)
 
 
 def people(request):
@@ -463,7 +492,7 @@ def person(request, person_id):
         known_for, key=lambda x: x['vote_count'], reverse=True)
 
     # TODO check for lists shorter than 6
-    known_for = [credit for credit in sorted_known_for[:4]]
+    known_for = [credit for credit in sorted_known_for[:10]]
 
     context = {
         'person': person,

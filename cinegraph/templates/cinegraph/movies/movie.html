@@ -142,8 +142,8 @@ object-fit: cover;
                 <div class="py-4 col-12 col-md-8">
                     <!-- Title row -->
                     <div class="row">
-                        <div class="col-12 d-flex">
-                            <h1 class="mb-0 text-4xl fw-700">{{movie.title}}&nbsp; </h1>
+                        <div class="col-12">
+                            <h1 class="mb-0 text-4xl fw-700 d-inline-block">{{movie.title}}&nbsp; </h1>
                             <span class="text-4xl fw-300">({{ movie.release_date|slice:"0:4" }})
                             </span>
                         </div>
@@ -161,6 +161,7 @@ object-fit: cover;
                     </div>
                     <!--Score row -->
                     {% comment %} !TODO refactor to just switch class {% endcomment %}
+                    {% if movie.vote_average %}
                     <div class="py-3 row score">
                         <div class="col-12 d-flex ">
                             {% if movie.vote_average >= 7.5 %}
@@ -172,6 +173,9 @@ object-fit: cover;
                             {% endif %}
                         </div>
                     </div>
+                    {% else %}
+                    <div class="pt-3"></div>
+                    {% endif %}
 
                     <!--Tagline row -->
                     {% if movie.tagline %}
@@ -270,8 +274,9 @@ object-fit: cover;
                         <div
                             class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center  align-items-lg-baseline text-truncate">
                             <a href="{% url 'person' credit.id %}"
-                                class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
-                            <span class="fw-300 text-sm d-inline-block text-truncate">{{credit.character}}</span>
+                                class="fw-600 d-inline-block text-truncate cast-text">{{credit.name}}</a>
+                            <span
+                                class="fw-300 text-sm d-inline-block text-truncate cast-text">{{credit.character}}</span>
                         </div>
                     </div>
 
@@ -280,11 +285,12 @@ object-fit: cover;
                 {% endfor %}
             </div>
         </div>
-        {% if trailer or poster_batches > 0 or movie.images.backdrops > 0 %}
+
         <div class="col-12 col-lg-5 d-flex flex-column px-3 px-lg-5 pt-lg-2">
             <div class="row mt-3 mb-3 w-100">
                 <h3 class="text-4xl fw-600 px-3 ">Movie Media</h3>
             </div>
+            {% if trailer or poster_batches > 0 or movie.images.backdrops > 0 %}
             {% if trailer %}
             <div class="container-fluid d-flex flex-column gap-3 h-100">
                 <div class="row pt-2 ">
@@ -371,8 +377,10 @@ object-fit: cover;
 
             </div>
             {% endif %}
+            {% else %}
+            {% endif %}
         </div>
-        {% endif %}
+
     </div>
 
 

@@ -58,9 +58,39 @@
                     </div>
                     {% endfor %}
                 </ul>
-
             </div>
             <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <ul class="list-group bg-tranparent">
+                    {% for credit in credits %}
+                    {% if credit.media_type == 'movie' %}
+                    <div class="list-group-item d-flex bg-transparent p-0 py-2 border-0">
+                        <div class="col-2 col-sm-1 credit-img-col">
+                            {% if credit.poster_path %}
+                            <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt=""
+                                class="img-fluid">
+                            {% else %}
+                            <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="img-fluid">
+                            {% endif %}
+                        </div>
+                        <div class="col px-3 pt-1 ">
+                            <div class="row">
+                                <a class="col-12 col-sm-8 text-lg text-primary fw-600 text-truncate d-flex
+                                    justify-content-between" href='{% url "movie" credit.id %}'>
+                                    {{credit.title}}
+                                    <i class="d-sm-none  fa-solid fa-circle-info my-auto"></i>
+                                </a>
+                                <div class="col-12 text-primary order-sm-3 text-secondary">{{credit.character}}</div>
+                                <div
+                                    class="col-12 text-secondary col-sm-auto flex-sm-grow-1 d-flex justify-content-sm-end align-items-top gap-2">
+                                    {{credit.release_date|slice:"0:4"}}
+                                    <i class="d-none d-sm-block fa-solid fa-circle-info pt-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
                 <ul class="list-group bg-tranparent">
                     {% for credit in credits %}
                     {% if credit.media_type == 'movie' %}
@@ -88,18 +118,28 @@
                     {% for credit in credits %}
                     {% if credit.media_type == 'tv' %}
                     <div class="list-group-item d-flex bg-transparent p-0 py-2 border-0">
-                        <div class="col-2">
+                        <div class="col-2 col-sm-1 credit-img-col">
                             {% if credit.poster_path %}
-                            <img loading="lazy" src="http://image.tmdb.org/t/p/w780{{credit.poster_path}}" alt=""
-                                class="img-fluid ">
+                            <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt=""
+                                class="img-fluid">
                             {% else %}
                             <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="img-fluid">
                             {% endif %}
                         </div>
-                        <div class="col-8 px-3">
-                            <div class="text-lg text-primary fw-600 text-truncate"> {{credit.name}}</div>
-                            <div class="text-primary">{{credit.character}}</div>
-                            <div class="text-secondary">{{credit.first_air_date |slice:"0:4"}}</div>
+                        <div class="col px-3 pt-1 ">
+                            <div class="row">
+                                <a class="col-12 col-sm-8 text-lg text-primary fw-600 text-truncate d-flex
+                                    justify-content-between" href='{% url "movie" credit.id %}'>
+                                    {{credit.name}}
+                                    <i class="d-sm-none  fa-solid fa-circle-info my-auto"></i>
+                                </a>
+                                <div class="col-12 text-primary order-sm-3 text-secondary">{{credit.character}}</div>
+                                <div
+                                    class="col-12 text-secondary col-sm-auto flex-sm-grow-1 d-flex justify-content-sm-end align-items-top gap-2">
+                                    {{credit.first_air_date|slice:"0:4"}}
+                                    <i class="d-none d-sm-block fa-solid fa-circle-info pt-1"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {% endif %}

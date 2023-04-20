@@ -15566,4 +15566,21 @@ pre {
     gap: 5px !important;
     text-decoration: none; }
 
+.positive {
+  background-color: #6c3;
+  color: #0f172a; }
+
+.neutral {
+  background-color: #fc3;
+  color: #0f172a; }
+
+.negetive {
+  background-color: #dc2626; }
+
+.headshot-wrapper img {
+  object-fit: cover; }
+
+.cast-text {
+  width: 95%; }
+
 /*# sourceMappingURL=main.css.map */

@@ -121,3 +121,25 @@ pre {
     }
   }
 }
+
+.positive {
+  background-color: $green;
+  color: $dark;
+}
+.neutral {
+  background-color: $yellow;
+  color: $dark;
+}
+.negetive {
+  background-color: $red;
+}
+
+// prevent cast images from stretching
+.headshot-wrapper img {
+  object-fit: cover;
+}
+
+// width for cast name and character truncation
+.cast-text {
+  width: 95%;
+}
