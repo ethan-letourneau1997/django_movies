@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "django_browser_reload",
+    # "django_browser_reload",
     'sass_processor',
     'chartjs',
     'cinegraph',
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     # "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+# DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
 DEBUG = False
 
