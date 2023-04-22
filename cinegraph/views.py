@@ -170,8 +170,6 @@ def movie(request, movie_id):
 
     movie = response.json()
 
-    print(movie['recommendations'])
-
     # < set default backdrop filter
     backdrop_filter = 'rgba(0,0,0,0)'
 
@@ -286,10 +284,15 @@ def movie(request, movie_id):
 
 
 def movie_credits(request, movie_id):
-    response = requests.get(
+    credits_response = requests.get(
         f'https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={API_KEY}&language=en-US')
 
-    credits = response.json()
+    movie_response = requests.get(
+        f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US')
+
+    movie = movie_response.json()
+
+    credits = credits_response.json()
 
     cast_count = len(credits['cast'])
     crew_count = len(credits['crew'])
@@ -302,34 +305,38 @@ def movie_credits(request, movie_id):
     unique_departments.add('Acting')
 
     context = {
+        'form': SearchForm(),
         'credits': credits,
         'cast_count': cast_count,
         'crew_count': crew_count,
         'departments': unique_departments,
+        'title': movie,
     }
 
     return render(request, 'cast_and_crew/cast_and_crew.html', context)
 
 
 def show_credits(request, show_id):
-    response = requests.get(
+    credit_response = requests.get(
         f'https://api.themoviedb.org/3/tv/{show_id}/aggregate_credits?api_key={API_KEY}&language=en-US')
 
-    credits = response.json()
+    show_response = requests.get(
+        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US')
+
+    show = show_response.json()
+
+    credits = credit_response.json()
 
     cast_count = len(credits['cast'])
     crew_count = len(credits['crew'])
 
-    print(credits['cast'])
-
-    for credit in credits['cast']:
-        for role in credit['roles']:
-            print(role)
-
     context = {
+        'form': SearchForm(),
         'credits': credits,
         'cast_count': cast_count,
         'crew_count': crew_count,
+        'departments': get_department_list(credits),
+        'title': show,
     }
 
     return render(request, 'cast_and_crew/cast_and_crew.html', context)
@@ -428,6 +435,7 @@ def seasons(request, show_id):
     show = response.json()
 
     context = {
+        'form': SearchForm(),
         'show': show,
     }
 
@@ -460,7 +468,13 @@ def season_detail(request, show_id, season_number):
     if season['season_number'] < show['number_of_seasons']:
         next_season = season['season_number'] + 1
 
+    for episode in season['episodes']:
+        if 'air_date' in episode:
+            formatted_date = datetime.strptime(episode['air_date'], '%Y-%m-%d')
+            episode['formatted_date'] = formatted_date.strftime('%b. %d, %Y')
+
     context = {
+        'form': SearchForm(),
         'season': season,
         'show': show,
         'cast_count': cast_count,
@@ -486,9 +500,8 @@ def episode_detail(request, show_id, season_number, episode_number):
     guest_count = len(credits['guest_stars'])
     crew_count = len(credits['crew'])
 
-    print(crew_count)
-
     context = {
+        'form': SearchForm(),
         'episode': episode,
         'departments': get_department_list(credits),
         'cast_count': cast_count,
@@ -506,6 +519,7 @@ def episode_credits(request, show_id, season_number, episode_number):
     credits = response.json()
 
     context = {
+        'form': SearchForm(),
         'credits': credits,
     }
 
@@ -598,8 +612,6 @@ def person(request, person_id):
 
     if cast_credits:
         unique_departments.add('Acting')
-
-    print(unique_departments)
 
     context = {
         'person': person,

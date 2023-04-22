@@ -18,7 +18,7 @@
                 <a class="media-img" href="{% url 'movie' result.id %}">
                     {% if result.poster_path %}
                     <img loading="lazy" class=" img-fluid rounded-top-3 rounded-top-4"
-                        src="http://image.tmdb.org/t/p/original{{result.poster_path}}">
+                        src="http://image.tmdb.org/t/p/w780{{result.poster_path}}">
                     {% else %}
                     <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="img-fluid">
                     {% endif %}
@@ -50,7 +50,7 @@
                 <a class="media-img" href="{% url 'show' result.id %}">
                     {% if result.poster_path %}
                     <img loading="lazy" class=" img-fluid rounded-top-3 rounded-top-4"
-                        src="http://image.tmdb.org/t/p/original{{result.poster_path}}">
+                        src="http://image.tmdb.org/t/p/w780{{result.poster_path}}">
                     {% else %}
                     <img src="{% static 'cinegraph/img/tv-placeholder.svg' %}" alt="" class="img-fluid">{% endif %}
                 </a>
@@ -83,7 +83,7 @@
                 <a class="media-img" href="{% url 'person' result.id %}">
                     {% if result.profile_path %}
                     <img loading="lazy" class=" img-fluid rounded-top-3 rounded-top-4"
-                        src="http://image.tmdb.org/t/p/original{{result.profile_path}}">
+                        src="http://image.tmdb.org/t/p/h632{{result.profile_path}}">
                     {% else %}
                     <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt="" class="img-fluid">
                     {% endif %}

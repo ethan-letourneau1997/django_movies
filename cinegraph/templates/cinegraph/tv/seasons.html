@@ -3,16 +3,24 @@
 
 
 {% block body %}
+<div class="mt-5 container-fluid">
+    <a class="text-secondary" href="{% url 'show' show.id %}">
+        <span>
+            <i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp; {{show.name}}
+        </span>
+    </a>
+</div>
 <div class="container pt-5" class="Seasons">
-    <div class="row">
+    {% comment %} <div class="row">
         <h1>{{ show.name }}</h1>
-    </div>
+    </div> {% endcomment %}
+
 
     <div class="row w-100">
         {% for season in show.seasons %}
         <div class="p-0 pb-3 m-0 col-12 row">
             <div class="col-3 col-lg-2">
-                <img src="http://image.tmdb.org/t/p/original{{season.poster_path}}" alt="" class="img-fluid rounded-3">
+                <img src="http://image.tmdb.org/t/p/w780{{season.poster_path}}" alt="" class="img-fluid rounded-3">
 
             </div>
             <div class="col-9">

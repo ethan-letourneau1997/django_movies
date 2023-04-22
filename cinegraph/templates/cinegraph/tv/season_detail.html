@@ -2,7 +2,7 @@
 
 
 {% block body %}
-<div class="container-fluid pt-5 pb-3 px-3">
+<div class="px-3 pb-3 mt-5 container-fluid">
     <div class="d-flex justify-content-between">
         {% if prev_season %}
         <a href="{% url 'season_detail' show.id prev_season %}" class="text-secondary">
@@ -27,15 +27,15 @@
 <div class="container">
     <div class="row d-flex justify-content-center">
         <div class="container d-flex flex-column col-xl-10">
-            <div class="row d-flex justify-content-center pb-4">
+            <div class="pb-4 row d-flex justify-content-center">
                 <div class="col-11 col-md-12">
-                    <div class="text-2xl">{{show.name}}</div>
+                    <a href="{% url 'show' show.id %}" class="text-2xl">{{show.name}}</a>
                     <div class="text-xl">{{season.name}}</div>
                 </div>
             </div>
             {% for episode in season.episodes %}
             <div class="row d-flex justify-content-center">
-                <div class="col-11 col-md-4 pb-3">
+                <div class="pb-3 col-11 col-md-4">
                     <img src="http://image.tmdb.org/t/p/original{{episode.still_path}}" alt=""
                         class="img-fluid rounded-3" loading="lazy">
 
@@ -47,7 +47,7 @@
                                 {{episode.episode_number}}.&nbsp;{{episode.name}}
                             </div>
                             <div class="pb-3 fw-300">
-                                {{episode.air_date}}
+                                {{episode.formatted_date}}
                             </div>
                         </span>
                         <span class="pt-1 d-flex align-items-start">
@@ -75,7 +75,7 @@
                     <div class="accordion-item">
                         <span class="d-flex justify-content-center">
                             <div class="accordion-header" id=" flush-headingOne">
-                                <a class="accordion-button collapsed text-secondary mx-1 p-0" type=""
+                                <a class="p-0 mx-1 accordion-button collapsed text-secondary" type=""
                                     data-bs-toggle="collapse" data-bs-target="#ep{{episode.id}}" aria-expanded="false"
                                     aria-controls="ep{{episode.id}}">
                                     Cast and crew
@@ -85,23 +85,23 @@
                         <div id="ep{{episode.id}}" class="accordion-collapse collapse"
                             aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                                <div class="container-fluid p-0 pt-4">
+                                <div class="p-0 pt-4 container-fluid">
                                     <div class="row">
                                         <div class="col-12 col-sm-6">
                                             <div class="row">
                                                 <div class="col">
-                                                    <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2">
+                                                    <h3 class="p-0 pb-2 m-0 text-xl fw-600 d-flex align-items-center">
                                                         Season
                                                         Cast
                                                         <span
-                                                            class="fw-200 text-xl text-secondary">&nbsp;{{cast_count}}</span>
+                                                            class="text-xl fw-200 text-secondary">&nbsp;{{cast_count}}</span>
                                                     </h3>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
                                                     {% for credit in season.credits.cast %}
-                                                    <div class="col-12 col-md-8 col-lg-7 pb-2">
+                                                    <div class="pb-2 col-12 col-md-8 col-lg-7">
                                                         {% include 'cast_and_crew/tv_cast_and_crew.html' %}
                                                     </div>
                                                     {% endfor %}
@@ -109,20 +109,20 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <div class="row pb-2">
+                                            <div class="pb-2 row">
                                                 <div class="col">
-                                                    <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2">
+                                                    <h3 class="p-0 pb-2 m-0 text-xl fw-600 d-flex align-items-center">
                                                         Season
                                                         Crew
                                                         <span
-                                                            class="fw-200 text-xl text-secondary">&nbsp;{{crew_count}}</span>
+                                                            class="text-xl fw-200 text-secondary">&nbsp;{{crew_count}}</span>
                                                     </h3>
                                                 </div>
                                             </div>
                                             {% for department in departments %}
-                                            <div class="row pb-2">
+                                            <div class="pb-2 row">
                                                 <div class="col">
-                                                    <h3 class="text-base fw-600 p-0 m-0 d-flex align-items-center">
+                                                    <h3 class="p-0 m-0 text-base fw-600 d-flex align-items-center">
                                                         {{department}} </h3>
                                                 </div>
                                             </div>
@@ -130,7 +130,7 @@
                                                 <div class="col-12">
                                                     {% for credit in season.credits.crew %}
                                                     {% if credit.department == department %}
-                                                    <div class="col-12 col-md-8 col-lg-7 pb-2">
+                                                    <div class="pb-2 col-12 col-md-8 col-lg-7">
                                                         {% include 'cast_and_crew/tv_cast_and_crew.html' %}
                                                     </div>
                                                     {% endif %}

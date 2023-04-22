@@ -38,12 +38,12 @@
 
 <section class="banner hero d-flex ">
     <div class="container-fluid filter d-flex align-items-center justify-content-center ">
-        <div class="d-flex flex-column gap-3 px-1 hero-content">
+        <div class="gap-3 px-1 d-flex flex-column hero-content">
             <span>
                 <h1 class="text-5xl fw-600">Welcome.</h1>
                 <h2 class="text-3xl">Discover movies, shows, and more!</h2>
             </span>
-            <div class="input-group rounded 3"></div>
+            <div class="rounded input-group 3"></div>
             <div class="input-group rounded-3">
                 {% include 'search_form.html' %}
                 {% comment %} <input type="text" class="form-control flex-grow-1" placeholder="Search...">
@@ -61,10 +61,10 @@
 </section>
 
 <div class="container-fluid media-container">
-    <div class="row trending-title mb-2 p-0">
+    <div class="p-0 mb-2 row trending-title">
         <h3 class="mt-4 text-2xl ">Trending</h3>
     </div>
-    <ul class="nav  nav-pills mb-1 d-flex gap-2 p-0 pb-3" id="pills-tab" role="tablist">
+    <ul class="gap-2 p-0 pb-3 mb-1 nav nav-pills d-flex" id="pills-tab" role="tablist">
         <li class="nav-item bg-dark rounded-3" role="presentation">
             <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
                 type="button" role="tab" aria-controls="pills-home" aria-selected="true">Movie</button>
@@ -83,11 +83,11 @@
             <section>
                 <div class="container-fluid ">
 
-                    <div class="row card-row flex-nowrap overflow-auto pb-4 ">
+                    <div class="pb-4 overflow-auto row card-row flex-nowrap ">
                         {% for item in movies %}
-                        <a href="{% url 'movie' item.id %}" class=" d-flex  card-offset p-0 ">
-                            <div class="card bg-transparent border-0 d-flex position-relative">
-                                <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
+                        <a href="{% url 'movie' item.id %}" class="p-0 d-flex card-offset">
+                            <div class="bg-transparent border-0 card d-flex position-relative">
+                                <img loading="lazy" src="http://image.tmdb.org/t/p/w780{{item.poster_path}}" alt=""
                                     class="card-img-top ">
                                 {% if item.vote_average %}
                                 <span
@@ -99,10 +99,10 @@
                                     </div>
                                 </span>
                                 {% endif %}
-                                <div class="card-body pb-0">
+                                <div class="pb-0 card-body">
 
 
-                                    <div class="card-title m-0 text-base fw-500">
+                                    <div class="m-0 text-base card-title fw-500">
                                         {% if item.title %}
                                         {{ item.title }}
                                         {% endif %}
@@ -124,25 +124,25 @@
             <section>
                 <div class="container-fluid">
 
-                    <div class="row card-row flex-nowrap overflow-auto ">
+                    <div class="overflow-auto row card-row flex-nowrap ">
                         {% for item in shows %}
-                        <div class=" d-flex  card-offset p-0">
+                        <div class="p-0 d-flex card-offset">
                             <a href="{% url 'show' item.id %}"
-                                class="card bg-transparent border-0 d-flex position-relative">
-                                <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
+                                class="bg-transparent border-0 card d-flex position-relative">
+                                <img loading="lazy" src="http://image.tmdb.org/t/p/w780{{item.poster_path}}" alt=""
                                     class="card-img-top">
                                 {% if item.vote_average %}
                                 <span
                                     class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
-                                    <div class="text-sm  ">
+                                    <div class="text-sm ">
                                         {% if item.vote_average %}
                                         {{ item.vote_average|floatformat:1 }}
                                         {% endif %}
                                     </div>
                                 </span>
                                 {% endif %}
-                                <div class="card-body pb-0">
-                                    <div class="card-title m-0 text-base fw-500">
+                                <div class="pb-0 card-body">
+                                    <div class="m-0 text-base card-title fw-500">
                                         {% if item.name %}
                                         {{ item.name }}
                                         {% endif %}
@@ -164,15 +164,15 @@
             <section>
                 <div class="container-fluid">
 
-                    <div class="row card-row flex-nowrap overflow-auto ">
+                    <div class="overflow-auto row card-row flex-nowrap ">
                         {% for item in people %}
-                        <a href="{% url 'show' item.id %}" class=" d-flex  card-offset p-0">
-                            <div class="card bg-transparent border-0 d-flex position-relative">
-                                <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.profile_path}}" alt=""
+                        <a href="{% url 'show' item.id %}" class="p-0 d-flex card-offset">
+                            <div class="bg-transparent border-0 card d-flex position-relative">
+                                <img loading="lazy" src="http://image.tmdb.org/t/p/h632{{item.profile_path}}" alt=""
                                     class="card-img-top">
 
-                                <div class="card-body pb-0">
-                                    <div class="card-title m-0 text-base fw-500">
+                                <div class="pb-0 card-body">
+                                    <div class="m-0 text-base card-title fw-500">
                                         {% if item.name %}
                                         {{ item.name }}
                                         {% endif %}

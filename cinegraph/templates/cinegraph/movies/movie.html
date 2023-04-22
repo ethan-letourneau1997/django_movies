@@ -9,13 +9,13 @@
 }
 
 .backdrop {
-background: url('http://image.tmdb.org/t/p/original{{movie.backdrop_path}}');
+background: url('http://image.tmdb.org/t/p/w1280{{movie.backdrop_path}}');
 background-size: cover;
 background-position: center;
 }
 
 .backdrop {
-background: url('http://image.tmdb.org/t/p/original{{movie.backdrop_path}}');
+background: url('http://image.tmdb.org/t/p/w1280{{movie.backdrop_path}}');
 background-size: cover;
 background-position: center;
 }
@@ -65,7 +65,7 @@ object-fit: cover;
 
         <div class="col-12">
             {% if rating %}
-            <span class="text-sm mpaa-rating">{{rating}}</span>
+            <span class="text-sm mpaa-rating ">{{rating}}</span>
             {% endif %}
             {% for genre in movie.genres %}
             <span class="text-sm">{{ genre.name }},&nbsp;&nbsp; </span>
@@ -132,7 +132,7 @@ object-fit: cover;
                 <!-- Poster col -->
                 <div class="py-4 d-none d-md-block col-3 poster-col ">
                     {% if movie.poster_path %}
-                    <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}" alt="">
+                    <img class="img-fluid" src="http://image.tmdb.org/t/p/w780{{movie.poster_path}}" alt="">
                     {% else %}
                     <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" class="img-fluid" alt="">
 
@@ -150,9 +150,9 @@ object-fit: cover;
                     </div>
                     <!-- Rating and genre row -->
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 mt-1">
                             {% if rating %}
-                            <span class="text-sm mpaa-rating">{{rating}}</span>
+                            <span class="text-sm mpaa-rating ">{{rating}}</span>
                             {% endif %}
                             {% for genre in movie.genres %}
                             <span class="text-sm">{{ genre.name }},&nbsp;&nbsp; </span>
@@ -202,25 +202,38 @@ object-fit: cover;
                         <div class="col-12 col-md-7 col-lg-8 col-xl-9 row d-none d-md-flex">
                             <div class="col-6 col-md-4 d-flex flex-column">
                                 <span class="fw-600">Budget</span>
+                                {% if budget %}
                                 <span>{{ budget }} </span>
+                                {% else %}
+                                <span>unknown</span>
+                                {% endif %}
                             </div>
                             <div class="pb-3 col-6 d-flex flex-column">
                                 <span class="fw-600">Release</span>
                                 <div>
-
+                                    {% if movie.release_date %}
                                     <span>{{ movie.release_date }}</span>
-
+                                    {% else %}
+                                    <span>unknown</span>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="pt-3 col-6 col-md-4 d-flex flex-column ">
                                 <span class="fw-600">Box Office</span>
+                                {% if revenue %}
                                 <span>{{ revenue }} </span>
+                                {% else %}
+                                <span>unknown</span>
+                                {% endif %}
                             </div>
                             <div class="pt-3 col-6 d-flex flex-column">
                                 <span class="fw-600">Runtime</span>
                                 <span>
-
-                                    <p>{{ runtime }} minutes</p>
+                                    {% if runtime %}
+                                    <span>{{ runtime }} minutes</span>
+                                    {% else %}
+                                    <span>unknown</span>
+                                    {% endif %}
 
                                 </span>
                             </div>
@@ -235,7 +248,7 @@ object-fit: cover;
                                 {% for service in streaming_services %}
                                 <div class="p-2 col-2 col-md-4">
                                     <img loading="lazy" class="rounded img-fluid streaming"
-                                        src="http://image.tmdb.org/t/p/original{{service.logo_path}}" alt="">
+                                        src="http://image.tmdb.org/t/p/w300{{service.logo_path}}" alt="">
                                 </div>
                                 {% endfor %}
                                 {% endif %}
@@ -248,15 +261,15 @@ object-fit: cover;
             </div>
         </div>
     </div>
-
 </section>
-
-
 <div class="container-fluid media-container p-0 ">
     <div class="row w-100 ">
         <div class="col-12 col-lg-7 pt-4 pt-lg-2  px-lg-4">
             <div class="row mt-3 mb-3 px-3 px-lg-3">
                 <h3 class="text-4xl fw-600 mx-lg-3 w-100 ">Top Cast</h3>
+                <a class="text-secondary mx-2 mx-lg-4" href="{% url 'movie_credits' movie.id %}">
+                    See full cast&nbsp;<i class="fa-solid fa-chevron-right "></i>
+                </a>
             </div>
             <div class="row pb-2 flex-nowrap overflow-auto flex-md-wrap px-4">
                 {% for credit in movie.credits.cast|slice:":12" %}
@@ -266,7 +279,7 @@ object-fit: cover;
                         <div class="col-12 col-md-4 p-lg-3 p-2 p-sm-1 p-lg-0 ">
                             <a href="{% url 'person' credit.id %}">
                                 <div class="headshot-wrapper ratio ratio-1x1 ">
-                                    <img loading="lazy" src="http://image.tmdb.org/t/p/h632{{credit.profile_path}}"
+                                    <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}"
                                         alt="" class="img-fluid rounded-circle p-1">
                                 </div>
                             </a>
@@ -279,13 +292,11 @@ object-fit: cover;
                                 class="fw-300 text-sm d-inline-block text-truncate cast-text">{{credit.character}}</span>
                         </div>
                     </div>
-
                 </div>
                 {% endif %}
                 {% endfor %}
             </div>
         </div>
-
         <div class="col-12 col-lg-5 d-flex flex-column px-3 px-lg-5 pt-lg-2">
             <div class="row mt-3 mb-3 w-100">
                 <h3 class="text-4xl fw-600 px-3 ">Movie Media</h3>
@@ -299,7 +310,6 @@ object-fit: cover;
                             allowfullscreen></iframe>
                     </div>
                 </div>
-
                 {% if poster_batches|length != 0 %}
                 <div class="row ">
                     <div id="posterCarouselControls" class="carousel slide p-0" data-bs-ride="carousel"
@@ -343,7 +353,6 @@ object-fit: cover;
                     </div>
                 </div>
                 {% endif %}
-
                 {% if movie.images.backdrops|length != 0 %}
                 <div class="row">
                     <div id="backdropCarouselControls" class="carousel slide p-0" data-bs-ride="carousel"
@@ -357,7 +366,7 @@ object-fit: cover;
                                 {% endfor %}
                             </div>
                             {% for backdrop in movie.images.backdrops|slice:"1:" %}
-                            <img loading="lazy" src="http://image.tmdb.org/t/p/original{{backdrop.file_path}}" alt=""
+                            <img loading="lazy" src="http://image.tmdb.org/t/p/w1280{{backdrop.file_path}}" alt=""
                                 class="img-fluid rounded-3 carousel-item">
                             {% endfor %}
                         </div>
@@ -374,13 +383,11 @@ object-fit: cover;
                     </div>
                 </div>
                 {% endif %}
-
             </div>
             {% endif %}
             {% else %}
             {% endif %}
         </div>
-
     </div>
 
     {% if movie.recommendations.results|length != 0 %}
@@ -394,6 +401,8 @@ object-fit: cover;
             {% endfor %}
         </div>
     </div>
+    {% else %}
+    <div class="mb-5"></div>
     {% endif %}
 
     {% endblock body %}

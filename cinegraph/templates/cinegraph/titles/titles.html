@@ -1,19 +1,21 @@
 {% if title.poster_path != None %}
-<div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex py-3">
-    <div class="media-card shadow-lg bg-dark rounded-top-4 rounded-bottom-4  pb-3">
+<div class="py-3 col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex">
+    <div class="pb-3 shadow-lg media-card bg-dark rounded-top-4 rounded-bottom-4">
         <a href="{% if title.title %}{% url 'movie' title.id %}{% else %}{% url 'show' title.id %}{% endif %}"
             class="media-img">
             <img loading="lazy" class=" img-fluid rounded-top-3 rounded-top-4"
                 src="http://image.tmdb.org/t/p/w500{{title.poster_path}}">
         </a>
+        {% if title.vote_average > 0 %}
         <div class="media-score d-flex justify-content-center align-items-center"> <span class="fw-700 
                             {% if title.vote_average >= 7.5 %}green{% elif title.vote_average >= 6 %}yellow{% else %}red{% endif %}
                             p-2 rounded-3">
                 {{ title.vote_average|floatformat:1 }}
             </span></div>
-        <div class="media-info pt-4 px-3">
+        {% endif %}
+        <div class="px-3 pt-4 media-info">
             <a href="{% if title.title %}{% url 'movie' title.id %}{% else %}{% url 'show' title.id %}{% endif %}">
-                <div class="pb-1 fw-600 text-lg text-truncate"> {{title.title}}{{title.name}}</div>
+                <div class="pb-1 text-lg fw-600 text-truncate"> {{title.title}}{{title.name}}</div>
             </a>
             <div class="fw-300">{{ title.formatted_date|date:'M d, Y' }}</div>
         </div>

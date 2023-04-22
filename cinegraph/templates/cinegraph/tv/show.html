@@ -8,7 +8,7 @@
 }
 
 .backdrop {
-background: url('http://image.tmdb.org/t/p/original{{show.backdrop_path}}');
+background: url('http://image.tmdb.org/t/p/w1280{{show.backdrop_path}}');
 background-size: cover;
 background-position: center;
 }
@@ -131,7 +131,12 @@ border-radius: 0.375rem;
             <div class=" row d-flex">
                 <!-- Poster col -->
                 <div class="py-4 d-none d-md-block col-3 poster-col ">
-                    <img class="img-fluid" src="http://image.tmdb.org/t/p/original{{show.poster_path}}" alt="">
+                    <img class="img-fluid" src="http://image.tmdb.org/t/p/w780{{show.poster_path}}" alt="">
+                    <span class="pt-2 w-100 d-flex justify-content-center">
+                        <a class="mx-2 text-secondary mx-lg-4" href="{% url 'show_credits' show.id %}">
+                            See seasons and episodes&nbsp;<i class="fa-solid fa-chevron-right "></i>
+                        </a>
+                    </span>
                 </div>
                 <!-- Content col -->
                 <div class="py-4 col-12 col-md-8">
@@ -222,10 +227,10 @@ border-radius: 0.375rem;
                                 <div class="text-lg fw-500">Where to Watch:</div>
                             </div>
                             <div class="row">
-                                {% for service in streaming_services %}
+                                {% for service in streaming_services|slice:":6" %}
                                 <div class="p-2 col-2 col-md-4">
                                     <img loading="lazy" class="rounded img-fluid streaming"
-                                        src="http://image.tmdb.org/t/p/original{{service.logo_path}}" alt="">
+                                        src="http://image.tmdb.org/t/p/w185{{service.logo_path}}" alt="">
                                 </div>
                                 {% endfor %}
                                 {% endif %}
@@ -244,6 +249,9 @@ border-radius: 0.375rem;
 
             <div class="px-3 mt-3 mb-3 row px-lg-3">
                 <h3 class="text-4xl fw-600 mx-lg-3 w-100 ">Top Cast</h3>
+                <a class="mx-2 text-secondary mx-lg-4" href="{% url 'show_credits' show.id %}">
+                    See full cast&nbsp;<i class="fa-solid fa-chevron-right "></i>
+                </a>
             </div>
             <div class="px-4 pb-2 overflow-auto row flex-nowrap flex-md-wrap">
                 {% for credit in show.aggregate_credits.cast|slice:":12" %}
@@ -253,7 +261,7 @@ border-radius: 0.375rem;
                         <div class="p-2 col-12 col-md-4 p-lg-3 p-sm-1 p-lg-0 ">
                             <a href="{% url 'person' credit.id %}">
                                 <div class="headshot-wrapper ratio ratio-1x1 ">
-                                    <img loading="lazy" src="http://image.tmdb.org/t/p/h632{{credit.profile_path}}"
+                                    <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}"
                                         alt="" class="p-1 img-fluid rounded-circle">
                                 </div>
                             </a>
@@ -343,7 +351,7 @@ border-radius: 0.375rem;
                                 {% endfor %}
                             </div>
                             {% for backdrop in show.images.backdrops|slice:"1:" %}
-                            <img loading="lazy" src="http://image.tmdb.org/t/p/original{{backdrop.file_path}}" alt=""
+                            <img loading="lazy" src="http://image.tmdb.org/t/p/w1280{{backdrop.file_path}}" alt=""
                                 class="img-fluid rounded-3 carousel-item">
                             {% endfor %}
                         </div>
@@ -369,10 +377,10 @@ border-radius: 0.375rem;
 
     {% if show.recommendations.results|length != 0 %}
     <div class="container-fluid bg-dark">
-        <div class="row pt-3 mt-5 mb-3 row mt-lg-3 w-100">
+        <div class="pt-3 mt-5 mb-3 row mt-lg-3 w-100">
             <h3 class="text-2xl fw-600 mx-lg-3 ">More like this</h3>
         </div>
-        <div class="row overflow-auto flex-nowrap px-2 hide-scroll pb-4">
+        <div class="px-2 pb-4 overflow-auto row flex-nowrap hide-scroll">
             {% for credit in show.recommendations.results %}
             {% include 'credit_slider.html' %}
             {% endfor %}

@@ -133,13 +133,6 @@
 .backdrop-filter .score .negetive {
   background-color: #dc2626; }
 
-.backdrop-filter .mpaa-rating {
-  border: 1px solid #9ca3af;
-  color: #9ca3af;
-  margin-right: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem; }
-
 .backdrop-filter .tagline {
   color: #9ca3af;
   font-style: italic; }
@@ -15587,5 +15580,12 @@ pre {
   background-color: rgba(255, 0, 0, 0);
   border: none;
   box-shadow: none; }
+
+.mpaa-rating {
+  border: 1px solid #9ca3af;
+  color: #9ca3af;
+  margin-right: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem; }
 
 /*# sourceMappingURL=main.css.map */
