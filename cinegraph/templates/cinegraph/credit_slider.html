@@ -1,0 +1,40 @@
+{% load static %}
+
+<style>
+    .trunc-2 {
+         -webkit-line-clamp: 2 !important;
+         /* autoprefixer: off */
+         -webkit-box-orient: vertical !important;
+         /* autoprefixer: on */
+         overflow: hidden !important;
+         text-overflow: ellipsis !important;
+         display: -webkit-box !important;
+    }
+
+    .credit-card {
+        width: 185px;
+    }
+
+</style>
+
+{% if credit.poster_path %}
+
+<div class="credit-card ">
+    <a
+        href="{% if credit.media_type == 'movie' %}{% url 'movie' credit.id %}{% else %}{% url 'show' credit.id %}{% endif %}">
+
+        {% if credit.poster_path %}
+        <img loading="lazy" src="http://image.tmdb.org/t/p/original{{credit.poster_path}}" alt=""
+            class="img-fluid rounded-1">
+        {% elif credit.media_type == 'movie' %}
+        <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt="" class="img-fluid">
+        {% elif credit.media_type == 'tv' %}
+        <img src="{% static 'cinegraph/img/tv-placeholder.svg' %}" alt="" class="img-fluid">
+        {% endif %}
+        <div class="d-inline-block trunc-2 px-2 pt-2">{{credit.title}}</div>
+        <div class="d-inline-block trunc-2 px-2 pt-2">{{credit.name}}</div>
+        <div class="text-secondary trunc-2 px-2">{{credit.character}}</div>
+    </a>
+</div>
+
+{% endif %}

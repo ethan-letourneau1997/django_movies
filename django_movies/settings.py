@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "django_browser_reload",
     'sass_processor',
     'chartjs',
+    'cinegraph',
+    'slippers',
 ]
 
 MIDDLEWARE = [
@@ -77,9 +79,13 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            "builtins": ["slippers.templatetags.slippers"],
         },
     },
 ]
+
+SLIPPERS_COMPONENTS_FILE = 'cinegraph/templates/cinegraph/components.yml'
+
 
 WSGI_APPLICATION = 'django_movies.wsgi.application'
 

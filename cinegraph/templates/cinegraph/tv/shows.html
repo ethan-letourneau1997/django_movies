@@ -3,35 +3,32 @@
 {% block body %}
 
 
-
-<div class="container mt-5 " id="Shows">
-    <div class="row align-text ">
-        <h1 class="text-center fw-500 text-4xl">Popular Shows</h1>
-    </div>
-    <div class="row">
-        {% for show in shows %}
-        {% if show.poster_path != None %}
-        <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex py-3">
-            <div class="media-card shadow-lg bg-dark rounded-top-4 rounded-bottom-4  pb-3">
-                <a class="media-img" href="{% url 'show' show.id %}">
-                    <img loading="lazy" class=" img-fluid rounded-top-3 rounded-top-4"
-                        src="http://image.tmdb.org/t/p/original{{show.poster_path}}">
-                </a>
-                <div class="media-score d-flex justify-content-center align-items-center"> <span class="fw-700 
-                            {% if show.vote_average >= 7.5 %}green{% elif show.vote_average >= 6 %}yellow{% else %}red{% endif %}
-                            p-2 rounded-3">
-                        {{ show.vote_average|floatformat:1 }}
-                    </span></div>
-                <div class="media-info pt-4 px-3">
-                    <a href="{% url 'show' show.id %}">
-                        <div class="pb-1 fw-600 text-xl text-truncate"> {{show.name}}</div>
-                    </a>
-                    <div class="fw-300">{{ show.formatted_date|date:'M d, Y' }}</div>
-                </div>
-            </div>
+<div class="container">
+    <ul class="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                type="button" role="tab" aria-controls="pills-home" aria-selected="true">Trending</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Popular</button>
+        </li>
+    </ul>
+</div>
+<div class="tab-content container" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="row">
+            {% for title in trending %}
+            {% include 'titles/titles.html' %}
+            {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
+    </div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="row">
+            {% for title in popular %}
+            {% include 'titles/titles.html' %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 

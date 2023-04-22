@@ -21,16 +21,24 @@
         display: none;
     }
 
+
 </style>
 
 <div id="Actor-details" class="px-4 pt-5 container-fluid">
 
     <div class="py-3 row d-flex ">
         <div class="mx-auto col-6 col-sm-4 col-md-3 col-xl-2 d-flex align-items-center d-sm-block ">
+            {% if person.profile_path %}
             <img loading="lazy" src="http://image.tmdb.org/t/p/w470_and_h470_face{{person.profile_path}}" alt=""
                 class="img-fluid d-block d-sm-none rounded-3 ">
             <img loading="lazy" src="http://image.tmdb.org/t/p/original{{person.profile_path}}" alt=""
                 class="img-fluid d-none d-sm-block rounded-3 ">
+            {% else %}
+            <img loading="lazy" src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
+                class="img-fluid d-block d-sm-none rounded-3 ">
+            <img loading="lazy" src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
+                class="img-fluid d-none d-sm-block rounded-3 ">
+            {% endif %}
         </div>
 
         <div class="col-12 col-sm-8 col-md-9 col-xl-10 order-md-2">
@@ -46,59 +54,163 @@
     </div>
 </div>
 
-
 {% if known_for|length != 0 %}
-<div class="p-0 px-4 container-fluid media-container mt-lg-5 bg-dark">
-    <div class="pt-3 mt-5 mb-3 row mt-lg-3 w-100">
-        <h3 class="text-4xl fw-600 mx-lg-3 ">Known for</h3>
+<div class="container-fluid bg-dark">
+    <div class="row pt-3 mt-5 mb-3 row mt-lg-3 w-100">
+        <h3 class="text-2xl fw-600 mx-lg-3 ">Known for</h3>
     </div>
-    <div class="gap-3 pb-2 overflow-auto row card-row flex-nowrap">
-        {% for item in known_for %}
-
-        {% if item.poster_path %}
-        <div class="p-0 d-flex card-offset">
-            {% if item.media_type == 'movie' %}
-            <a href="{% url 'movie' item.id %}" class="bg-transparent border-0 card d-flex position-relative">
-                {% else %}
-                <a href="{% url 'show' item.id %}" class="bg-transparent border-0 card d-flex position-relative">
-                    {% endif %}
-                    <img loading="lazy" src="http://image.tmdb.org/t/p/original{{item.poster_path}}" alt=""
-                        class="card-img-top ">
-                    {% if item.vote_average %}
-                    {% comment %} <span
-                        class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
-                        <div>
-                            {% if item.vote_average %}
-                            {{ item.vote_average|floatformat:1 }}
-                            {% endif %}
-                        </div>
-                    </span> {% endcomment %}
-                    {% endif %}
-
-                    <div class="p-2 pb-0 card-body">
-                        <div class="px-2 pt-1 m-0 text-base card-title fw-600">
-                            {% if item.title %}
-                            {{ item.title }}
-                            {% elif item.name %}
-                            {{ item.name }}
-                            {% endif %}
-
-                        </div>
-                        <div class="px-2 text-secondary">
-                            {{item.character}}
-                        </div>
-
-                    </div>
-                </a>
-        </div>
-        {% endif %}
+    <div class="row overflow-auto flex-nowrap px-2 hide-scroll pb-2">
+        {% for credit in known_for %}
+        {% include 'credit_slider.html' %}
         {% endfor %}
     </div>
 </div>
 {% endif %}
 
+
 <div id="Credits" class="px-4 pt-4 container-fluid">
-    {% include 'people/credits.html' %}
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8 col-xxl-6">
+            <h2 class="text-2xl fw-600">{{person.known_for_department}}</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% include 'people/crew_credits.html' %}
+                {% endfor %}
+            </ul>
+            {% if 'Acting' in departments and person.known_for_department != 'Acting' %}
+            <h2 class="text-2xl fw-600 mt-5">Acting</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.character %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Art' in departments and person.known_for_department != 'Art' %}
+            <h2 class="text-2xl fw-600 mt-5">Art</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Art' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Camera' in departments and person.known_for_department != 'Camera' %}
+            <h2 class="text-2xl fw-600 mt-5">Camera</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Camera' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Costume & Make-Up' in departments and person.known_for_department != 'Costume & Make-Up' %}
+            <h2 class="text-2xl fw-600 mt-5">Camera</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Costume & Make-Up' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Creator' in departments and person.known_for_department != 'Creator' %}
+            <h2 class="text-2xl fw-600 mt-5">Creator</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Creator' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Crew' in departments and person.known_for_department != 'Crew' %}
+            <h2 class="text-2xl fw-600 mt-5">Crew</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Crew' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Directing' in departments and person.known_for_department != 'Directing' %}
+            <h2 class="text-2xl fw-600 mt-5">Director</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Directing' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Editing' in departments and person.known_for_department != 'Editing' %}
+            <h2 class="text-2xl fw-600 mt-5">Editing</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Editing' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Production' in departments and person.known_for_department != 'Production' %}
+            <h2 class="text-2xl fw-600 mt-5">Production</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Production' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Lighting' in departments and person.known_for_department != 'Lighting' %}
+            <h2 class="text-2xl fw-600 mt-5">Lighting</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Lighting' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Sound' in departments and person.known_for_department != 'Sound' %}
+            <h2 class="text-2xl fw-600 mt-5">Sound</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Sound' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Visual Effects' in departments and person.known_for_department != 'Visual Effects' %}
+            <h2 class="text-2xl fw-600 mt-5">Visual Effects</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Visual Effects' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if 'Writing' in departments and person.known_for_department != 'Writing' %}
+            <h2 class="text-2xl fw-600 mt-5">Writing</h2>
+            <ul class="list-group bg-tranparent">
+                {% for credit in credits %}
+                {% if credit.department == 'Writing' %}
+                {% include 'people/crew_credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
 </div>
+
+
 
 {% endblock body %}

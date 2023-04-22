@@ -1,0 +1,29 @@
+{% load static %}
+
+
+<div class="col-12 row py-2">
+    <div class="col-3 col-sm-4 col-md-3 col-xl-2">
+        <a href="{% url 'person' credit.id %} ">
+            <div class="headshot-wrapper ratio ratio-1x1">
+                {% if credit.profile_path %}
+                <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}" alt=""
+                    class="img-fluid rounded">
+                {% else %}
+                <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt="" class="img-fluid rounded">
+                {% endif %}
+            </div>
+        </a>
+    </div>
+    <div class="col-9 col-sm-8 col-md-9 col-xl-8 d-flex flex-column justify-content-center p-0 px-1">
+        <a href="{% url 'person' credit.id %}" class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
+        <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.character}}</span>
+
+        {% for i in credit.roles %}
+        <span class="d-flex gap-2">
+            <span class="text-sm fw-300 d-inline-block text-truncate ">{{i.character}}</span>
+            <span class="text-secondary fw-300 text-sm">{{i.episode_count}}ep.</span>
+        </span>
+        {% endfor %}
+
+    </div>
+</div>

@@ -54,7 +54,7 @@ $(document).ready(function () {
                 var span = $("<span>").text("in movies");
               } else if (movie.media_type === "tv") {
                 link = $("<a>")
-                  .attr("href", "/shows/" + movie.id + "/")
+                  .attr("href", "/tv/" + movie.id + "/")
                   .text(movie.title);
                 var icon = $("<i>").addClass("fa-solid fa-tv");
                 var span = $("<span>").text("in shows");

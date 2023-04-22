@@ -383,44 +383,17 @@ object-fit: cover;
 
     </div>
 
-
     {% if movie.recommendations.results|length != 0 %}
-    <div class="container-fluid media-container p-0 px-4 mt-lg-5 bg-dark">
-        <div class="row mt-5 mt-lg-3 mb-3  w-100 pt-3">
-            <h3 class="text-4xl fw-600 mx-lg-3 ">More like this</h3>
+    <div class="container-fluid bg-dark">
+        <div class="row pt-3 mt-5 mb-3 row mt-lg-3 w-100">
+            <h3 class="text-2xl fw-600 mx-lg-3 ">More like this</h3>
         </div>
-        <div class="row card-row flex-nowrap overflow-auto pb-2 gap-3">
-            {% for movie in movie.recommendations.results %}
-
-            {% if movie.poster_path %}
-            <div class=" d-flex  card-offset p-0 ">
-                <a href="{% url 'movie' movie.id %}" class="card bg-transparent border-0 d-flex position-relative">
-                    <img loading="lazy" src="http://image.tmdb.org/t/p/original{{movie.poster_path}}" alt=""
-                        class="card-img-top ">
-
-                    <div class="card-body pb-0 p-2">
-                        <div class="card-title m-0 text-base fw-600">
-                            {% if movie.title %}
-                            {{ movie.title }}
-                            {% endif %}
-                        </div>
-                    </div>
-                </a>
-            </div>
-            {% endif %}
+        <div class="row overflow-auto flex-nowrap px-2 hide-scroll pb-4">
+            {% for credit in movie.recommendations.results %}
+            {% include 'credit_slider.html' %}
             {% endfor %}
         </div>
     </div>
     {% endif %}
-
-
-
-
-
-
-
-
-
-
 
     {% endblock body %}

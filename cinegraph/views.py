@@ -15,6 +15,16 @@ from django.utils.safestring import mark_safe
 # > FORMS
 
 
+def get_department_list(credits):
+    crew_credits = credits['crew']
+    departments = [credit['department'] for credit in crew_credits]
+    unique_departments = set(departments)
+
+    sorted_departments = sorted(set(unique_departments))
+
+    return sorted_departments
+
+
 class SearchForm(forms.Form):
     search = forms.CharField(label=mark_safe('<i class="fa fa-search"></i>'), label_suffix='', widget=forms.TextInput(
         attrs={'placeholder': 'Search...', 'class': 'form-control nav-search-input', 'id': 'search-input', 'autocomplete': 'off'}))
@@ -55,8 +65,6 @@ def search(request):
         form = SearchForm(request.POST)
         if form.is_valid():
             search = form.cleaned_data['search']
-            # print('Query:', search)
-            # response = HttpResponse(search)
 
             response = requests.get(
                 f'https://api.themoviedb.org/3/search/multi?api_key={API_KEY}&language=en-US&query={search}&page=1&include_adult=false')
@@ -79,7 +87,7 @@ def search(request):
 
 def index(request):
     movies_response = requests.get(
-        f'https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}&language=en-US&page=1')
+        f'https://api.themoviedb.org/3/trending/movie/week?api_key={API_KEY}&language=en-US&page=1')
 
     tv_response = requests.get(
         f'https://api.themoviedb.org/3/trending/tv/week?api_key={API_KEY}'
@@ -118,17 +126,17 @@ def index(request):
 def movies(request):
 
     # Pull data from third party rest api
-    trending = requests.get(
+    trending_movies = requests.get(
         f'https://api.themoviedb.org/3/trending/movie/day?api_key={API_KEY}&language=en-US&page=1')
 
-    popular = requests.get(
+    popular_movies = requests.get(
         f'https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}&language=en-US&page=1')
 
     # > Trending Movies
     # Convert response data into json
-    trending_movies = trending.json()['results']
+    trending = trending_movies.json()['results']
 
-    for movie in trending_movies:
+    for movie in trending:
         if 'release_date' in movie:
             formatted_date = datetime.strptime(
                 movie['release_date'], '%Y-%m-%d')
@@ -136,17 +144,17 @@ def movies(request):
 
     # > Trending Movies
     # Convert response data into json
-    popular_movies = popular.json()['results']
+    popular = popular_movies.json()['results']
 
-    for movie in popular_movies:
+    for movie in popular:
         if 'release_date' in movie:
             formatted_date = datetime.strptime(
                 movie['release_date'], '%Y-%m-%d')
             movie['formatted_date'] = formatted_date
 
     context = {
-        'trending_movies': trending_movies,
-        'popular_movies': popular_movies,
+        'trending': trending,
+        'popular': popular,
         'form': SearchForm()
     }
 
@@ -161,6 +169,8 @@ def movie(request, movie_id):
         f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US&append_to_response=credits,videos,release_dates,watch/providers,similar,recommendations,images&include_image_language=en,null')
 
     movie = response.json()
+
+    print(movie['recommendations'])
 
     # < set default backdrop filter
     backdrop_filter = 'rgba(0,0,0,0)'
@@ -275,23 +285,85 @@ def movie(request, movie_id):
     return render(request, 'movies/movie.html', context)
 
 
+def movie_credits(request, movie_id):
+    response = requests.get(
+        f'https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={API_KEY}&language=en-US')
+
+    credits = response.json()
+
+    cast_count = len(credits['cast'])
+    crew_count = len(credits['crew'])
+
+    # > get all departments for a movie
+    crew_credits = credits['crew']
+    departments = [credit['department'] for credit in crew_credits]
+    unique_departments = set(departments)
+
+    unique_departments.add('Acting')
+
+    context = {
+        'credits': credits,
+        'cast_count': cast_count,
+        'crew_count': crew_count,
+        'departments': unique_departments,
+    }
+
+    return render(request, 'cast_and_crew/cast_and_crew.html', context)
+
+
+def show_credits(request, show_id):
+    response = requests.get(
+        f'https://api.themoviedb.org/3/tv/{show_id}/aggregate_credits?api_key={API_KEY}&language=en-US')
+
+    credits = response.json()
+
+    cast_count = len(credits['cast'])
+    crew_count = len(credits['crew'])
+
+    print(credits['cast'])
+
+    for credit in credits['cast']:
+        for role in credit['roles']:
+            print(role)
+
+    context = {
+        'credits': credits,
+        'cast_count': cast_count,
+        'crew_count': crew_count,
+    }
+
+    return render(request, 'cast_and_crew/cast_and_crew.html', context)
+
+
 def shows(request):
     # Pull data from third party rest api
-    response = requests.get(
-        f'https://api.themoviedb.org/3/trending/tv/day?api_key={API_KEY}'
+    trending_shows = requests.get(
+        f'https://api.themoviedb.org/3/trending/tv/day?api_key={API_KEY}&language=en-US&page=1'
     )
 
-    # Convert response data into json
-    shows = response.json()['results']
+    popular_shows = requests.get(
+        f'https://api.themoviedb.org/3/tv/popular?api_key={API_KEY}&with_original_language=en')
 
-    for show in shows:
+    # Convert response data into json
+    trending = trending_shows.json()['results']
+
+    for show in trending:
+        if 'first_air_date' in show:
+            formatted_date = datetime.strptime(
+                show['first_air_date'], '%Y-%m-%d')
+            show['formatted_date'] = formatted_date
+
+    popular = popular_shows.json()['results']
+
+    for show in popular:
         if 'first_air_date' in show:
             formatted_date = datetime.strptime(
                 show['first_air_date'], '%Y-%m-%d')
             show['formatted_date'] = formatted_date
 
     context = {
-        'shows': shows,
+        'trending': trending,
+        'popular': popular,
         'form': SearchForm()
     }
 
@@ -351,7 +423,7 @@ def show(request, show_id):
 def seasons(request, show_id):
 
     response = requests.get(
-        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US')
+        f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US&append_to_response=credits')
 
     show = response.json()
 
@@ -366,7 +438,7 @@ def season_detail(request, show_id, season_number):
 
     # Make API call to retrieve season details
     response = requests.get(
-        f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}?api_key={API_KEY}&language=en-US')
+        f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}?api_key={API_KEY}&language=en-US&append_to_response=credits')
     season = response.json()
 
     show_response = requests.get(
@@ -374,12 +446,28 @@ def season_detail(request, show_id, season_number):
 
     show = show_response.json()
 
-    name = show['name']
+    credits = season['credits']
+
+    cast_count = len(credits['cast'])
+    crew_count = len(credits['crew'])
+
+    prev_season = None
+    next_season = None
+
+    if season['season_number'] > 1:
+        prev_season = season['season_number'] - 1
+
+    if season['season_number'] < show['number_of_seasons']:
+        next_season = season['season_number'] + 1
 
     context = {
         'season': season,
-        'name': name,
         'show': show,
+        'cast_count': cast_count,
+        'crew_count': crew_count,
+        'departments': get_department_list(credits),
+        'prev_season': prev_season,
+        'next_season': next_season,
     }
 
     return render(request, 'tv/season_detail.html', context)
@@ -392,12 +480,20 @@ def episode_detail(request, show_id, season_number, episode_number):
 
     episode = response.json()
 
-    my_json = json.dumps(episode['credits'], indent=4)
+    credits = episode['credits']
 
-    print(my_json)
+    cast_count = len(credits['cast'])
+    guest_count = len(credits['guest_stars'])
+    crew_count = len(credits['crew'])
+
+    print(crew_count)
 
     context = {
         'episode': episode,
+        'departments': get_department_list(credits),
+        'cast_count': cast_count,
+        'crew_count': crew_count,
+        'guest_count': guest_count,
     }
 
     return render(request, 'tv/episode_detail.html', context)
@@ -462,37 +558,48 @@ def person(request, person_id):
         formatted_deathday = datetime.strptime(
             person['deathday'], '%Y-%m-%d')
 
-    # for credit in person['combined_credits']['cast']:
-    #     if credit['media_type'] == 'movie':
-    #         print(credit['title'])
-    #     if credit['media_type'] == 'tv':
-    #         print(credit['name'])
+    combined_credits = person['combined_credits']
+    cast_credits = combined_credits['cast']
+    crew_credits = combined_credits['crew']
 
-    # Sort the credits by date
-    sorted_credits = sorted(person['combined_credits']['cast'], key=lambda x: x.get(
+    # Combine the cast and crew lists
+    all_credits = cast_credits + crew_credits
+
+    # Sort the combined list by release date or first air date
+    sorted_credits = sorted(all_credits, key=lambda x: x.get(
         'release_date') or x.get('first_air_date') or '0000-00-00', reverse=True)
 
-    # for credit in sorted_credits:
-    #     if credit['media_type'] == 'movie':
-    #         print(credit['title'])
-    #         print(credit['release_date'])
-    #     if credit['media_type'] == 'tv':
-    #         print(credit['name'])
-
     known_for = []
+    known_for_set = set()
 
     for credit in person['combined_credits']['cast']:
-        if credit['media_type'] == 'movie':
+        credit_key = (credit['id'], 'media_type')
+        if credit_key not in known_for_set:
             known_for.append(credit)
-        elif credit['media_type'] == 'tv':
+            known_for_set.add(credit_key)
+
+    for credit in person['combined_credits']['crew']:
+        credit_key = (credit['id'], 'media_type')
+        if credit_key not in known_for_set:
             known_for.append(credit)
+            known_for_set.add(credit_key)
 
     # sort the credits by popularity in descending order
     sorted_known_for = sorted(
         known_for, key=lambda x: x['vote_count'], reverse=True)
 
-    # TODO check for lists shorter than 6
+    # TODO check for lists shorter than 9
     known_for = [credit for credit in sorted_known_for[:10]]
+
+    # > get all departments for a person
+    crew_credits = person['combined_credits']['crew']
+    departments = [credit['department'] for credit in crew_credits]
+    unique_departments = set(departments)
+
+    if cast_credits:
+        unique_departments.add('Acting')
+
+    print(unique_departments)
 
     context = {
         'person': person,
@@ -501,6 +608,7 @@ def person(request, person_id):
         'deathday': formatted_deathday,
         'credits': sorted_credits,
         'known_for': known_for,
+        'departments': unique_departments,
     }
 
     return render(request, 'people/person.html', context)

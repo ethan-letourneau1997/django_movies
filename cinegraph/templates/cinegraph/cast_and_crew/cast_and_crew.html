@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col-12 col-sm-6">
+            <h3 class="text-2xl fw-500 pb-lg-3">Cast <span
+                    class="fw-200 text-2xl text-secondary">&nbsp;{{cast_count}}</span>
+            </h3>
+            <div class="row">
+                {% for credit in credits.cast %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <h3 class="text-2xl fw-500">Crew <span class="fw-200 text-xl text-secondary">&nbsp;{{crew_count}}</span>
+            </h3>
+            {% if 'Art' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Art</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Art' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Camera' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Camera</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Camera' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Costume & Make-Up' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Costume & Make-Up</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Costume & Make-Up' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Creator' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Creator</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Creator' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Crew' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Crew</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Crew' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Directing' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Directing</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Directing' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Editing' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Editing</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Editing' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Lighting' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Lighting</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Lighting' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Production' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Production</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Production' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Sound' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Sound</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Sound' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Visual Effects' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Visual Effects</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Visual Effects' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if 'Writing' in departments %}
+            <div class="row py-2">
+                <h5 class="px-3 py-1 my-0 fw-600">Writing</h5>
+                {% for credit in credits.crew %}
+                {% if credit.department == 'Writing' %}
+                {% include 'cast_and_crew/credits.html' %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock body %}

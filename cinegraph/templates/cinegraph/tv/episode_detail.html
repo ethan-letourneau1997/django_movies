@@ -19,216 +19,73 @@
         </div>
     </div>
 </div>
-<div class="container py-3">
-    <div class="row">
-        <div class=" mb-3 row px-lg-3 ">
-            <div class="col">
-                <h3 class="text-2xl fw-600 p-0 m-0 d-flex align-items-center">Season Regulars </h3>
-            </div>
-        </div>
-        <div class=" pb-2r row ">
-            {% for credit in episode.credits.cast %}
-            <div class="col-12 col-sm-6 col-lg-4 pb-2">
-                <div class="row no-gutters px-lg-0">
-                    <div class="col-3 col-sm-4 col-xl-3 py-0 py-md-1">
-                        <a href="{% url 'person' credit.id %}">
-                            <div class="headshot-wrapper ratio ratio-1x1 ">
-                                {% if credit.profile_path %}
-                                <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}" alt=""
-                                    class="p-1 img-fluid rounded-3">
-                                {% else %}
-                                <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
-                                    class="img-fluid rounded-3">
-                                {% endif %}
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-7 col-sm-8 d-flex flex-column justify-content-center">
-                        <a href="{% url 'person' credit.id %}"
-                            class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
-                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.character}}</span>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% if episode.credits.guest_stars %}
-    <div class="row">
-        <div class="px-4 mb-3 row px-lg-3 pt-3">
-            <div class="col">
-                <h3 class="text-2xl fw-600 p-0 m-0 d-flex align-items-center">Guest Stars </h3>
-            </div>
-        </div>
-        <div class=" pb-2r row ">
-            {% for credit in episode.credits.guest_stars %}
-            <div class="col-12 col-sm-6 col-lg-4 pb-2">
-                <div class="row no-gutters px-lg-0">
-                    <div class="col-3 col-sm-4 col-xl-3 py-0 py-md-1">
-                        <a href="{% url 'person' credit.id %}">
-                            <div class="headshot-wrapper ratio ratio-1x1 ">
-                                {% if credit.profile_path %}
-                                <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}" alt=""
-                                    class="p-1 img-fluid rounded-3">
-                                {% else %}
-                                <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
-                                    class="img-fluid rounded-3">
-                                {% endif %}
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-8 d-flex flex-column justify-content-center">
-                        <a href="{% url 'person' credit.id %}"
-                            class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
-                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.character}}</span>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-    <div class="row">
-        <div class="px-4 mb-3 row px-lg-3 pt-3">
-            <div class="col">
-                <h3 class="text-2xl fw-600 p-0 m-0 d-flex align-items-center">Directing</h3>
-            </div>
-        </div>
-        <div class="pb-2r row ">
-            {% for credit in episode.credits.crew %}
-            {% if credit.department == 'Directing' %}
-            <div class="col-12 col-sm-6 col-lg-4 pb-2">
-                <div class="row no-gutters px-lg-0">
-                    <div class="col-3 col-sm-4 col-xl-3 py-0 py-md-1">
-                        <a href="{% url 'person' credit.id %}">
-                            <div class="headshot-wrapper ratio ratio-1x1 ">
-                                {% if credit.profile_path %}
-                                <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}" alt=""
-                                    class="p-1 img-fluid rounded-3">
-                                {% else %}
-                                <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
-                                    class="img-fluid rounded-3">
-                                {% endif %}
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-8 d-flex flex-column justify-content-center">
-                        <a href="{% url 'person' credit.id %}"
-                            class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
-                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.job}}</span>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="px-4 mb-3 row px-lg-3 pt-3">
-            <div class="col">
-                <h3 class="text-2xl fw-600 p-0 m-0 d-flex align-items-center">Editing</h3>
-            </div>
-        </div>
-        <div class="pb-2r row ">
-            {% for credit in episode.credits.crew %}
-            {% if credit.department == 'Editing' %}
-            <div class="col-12 col-sm-6 col-lg-4 pb-2">
-                <div class="row no-gutters px-lg-0">
-                    <div class="col-3 col-sm-4 col-xl-3 py-0 py-md-1">
-                        <a href="{% url 'person' credit.id %}">
-                            <div class="headshot-wrapper ratio ratio-1x1 ">
-                                {% if credit.profile_path %}
-                                <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}" alt=""
-                                    class="p-1 img-fluid rounded-3">
-                                {% else %}
-                                <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
-                                    class="img-fluid rounded-3">
-                                {% endif %}
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-8 d-flex flex-column justify-content-center">
-                        <a href="{% url 'person' credit.id %}"
-                            class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
-                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.job}}</span>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="px-4 mb-3 row px-lg-3 pt-3">
-            <div class="col">
-                <h3 class="text-2xl fw-600 p-0 m-0 d-flex align-items-center">Writing</h3>
-            </div>
-        </div>
-        <div class="pb-2r ow ">
-            {% for credit in episode.credits.crew %}
-            {% if credit.department == 'Writing' %}
-            <div class="col-12 col-sm-6 col-lg-4 pb-2">
-                <div class="row no-gutters px-lg-0">
-                    <div class="col-3 col-sm-4 col-xl-3 py-0 py-md-1">
-                        <a href="{% url 'person' credit.id %}">
-                            <div class="headshot-wrapper ratio ratio-1x1 ">
-                                {% if credit.profile_path %}
-                                <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}" alt=""
-                                    class="p-1 img-fluid rounded-3">
-                                {% else %}
-                                <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
-                                    class="img-fluid rounded-3">
-                                {% endif %}
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-8 d-flex flex-column justify-content-center">
-                        <a href="{% url 'person' credit.id %}"
-                            class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
-                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.job}}</span>
-                    </div>
-                </div>
 
-            </div>
-            {% endif %}
-            {% endfor %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2"> Season Regulars
+                <span class="fw-200 text-xl text-secondary">&nbsp;{{cast_count}}</span>
+            </h3>
         </div>
+        {% for credit in episode.credits.cast %}
+        <div class="col-12 col-sm-6 col-lg-4 py-1">
+            {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+        </div>
+        {% endfor %}
     </div>
     <div class="row">
-        <div class="px-4 mb-3 row px-lg-3 pt-3">
-            <div class="col">
-                <h3 class="text-2xl fw-600 p-0 m-0 d-flex align-items-center">Camera</h3>
-            </div>
-
+        <div class="col-12">
+            <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2 pt-4"> Guest Stars
+                <span class="fw-200 text-xl text-secondary">&nbsp;{{guest_count}}</span>
+            </h3>
         </div>
-        <div class="pb-2r row ">
+        {% for credit in episode.credits.guest_stars %}
+        <div class="col-12 col-sm-6 col-lg-4 py-1">
+            {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2 pt-4"> Crew
+                <span class="fw-200 text-xl text-secondary">&nbsp;{{crew_count}}</span>
+            </h3>
+        </div>
+        {% for department in departments %}
+        <div class="col-12 pb-1 pt-3 px-3">
+            <h3 class="text-base fw-600 p-0 m-0 d-flex align-items-center"> {{department}} </h3>
+        </div>
+        <div class="col-12 row">
             {% for credit in episode.credits.crew %}
-            {% if credit.department == 'Camera' %}
-            <div class="col-12 col-sm-6 col-lg-4 pb-2">
-                <div class="row no-gutters px-lg-0">
-                    <div class="col-3 col-sm-4 col-xl-3 py-0 py-md-1">
-                        <a href="{% url 'person' credit.id %}">
-                            <div class="headshot-wrapper ratio ratio-1x1 ">
-                                {% if credit.profile_path %}
-                                <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}" alt=""
-                                    class="p-1 img-fluid rounded-3">
-                                {% else %}
-                                <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
-                                    class="img-fluid rounded-3">
-                                {% endif %}
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-8 d-flex flex-column justify-content-center">
-                        <a href="{% url 'person' credit.id %}"
-                            class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
-                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.job}}</span>
-                    </div>
-                </div>
+            {% if credit.department == department %}
+            <div class="col-12 col-sm-6 py-1 ">
+                {% include 'cast_and_crew/tv_cast_and_crew.html' %}
             </div>
             {% endif %}
             {% endfor %}
         </div>
+
+
+        {% endfor %}
+
+    </div>
+</div>
+
+
+<div class="row pb-2">
+    <div class="col">
+        <h3 class="text-base fw-600 p-0 m-0 d-flex align-items-center"> {{department}} </h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        {% for credit in season.credits.crew %}
+        {% if credit.department == department %}
+        <div class="col-12 col-md-8 col-lg-7 pb-2">
+            {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+        </div>
+        {% endif %}
+        {% endfor %}
     </div>
 </div>
 

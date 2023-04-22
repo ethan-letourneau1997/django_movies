@@ -15583,4 +15583,9 @@ pre {
 .cast-text {
   width: 95%; }
 
+.accordion-button:not(.collapsed) {
+  background-color: rgba(255, 0, 0, 0);
+  border: none;
+  box-shadow: none; }
+
 /*# sourceMappingURL=main.css.map */

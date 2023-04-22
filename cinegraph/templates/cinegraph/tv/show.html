@@ -368,33 +368,16 @@ border-radius: 0.375rem;
     </div>
 
     {% if show.recommendations.results|length != 0 %}
-    <div class="p-0 px-4 container-fluid media-container mt-lg-5 bg-dark">
-        <div class="pt-3 mt-5 mb-3 row mt-lg-3 w-100">
-            <h3 class="text-4xl fw-600 mx-lg-3 ">More like this</h3>
+    <div class="container-fluid bg-dark">
+        <div class="row pt-3 mt-5 mb-3 row mt-lg-3 w-100">
+            <h3 class="text-2xl fw-600 mx-lg-3 ">More like this</h3>
         </div>
-        <div class="gap-3 pb-2 overflow-auto row card-row flex-nowrap">
-            {% for show in show.recommendations.results %}
-
-            {% if show.poster_path %}
-            <div class="p-0 d-flex card-offset">
-                <a href="{% url 'show' show.id %}" class="bg-transparent border-0 card d-flex position-relative">
-                    <img loading="lazy" src="http://image.tmdb.org/t/p/original{{show.poster_path}}" alt=""
-                        class="card-img-top ">
-
-                    <div class="p-2 pb-0 card-body">
-                        <div class="m-0 text-base card-title fw-600">
-                            {% if show.name %}
-                            {{ show.name }}
-                            {% endif %}
-                        </div>
-                    </div>
-                </a>
-            </div>
-            {% endif %}
+        <div class="row overflow-auto flex-nowrap px-2 hide-scroll pb-4">
+            {% for credit in show.recommendations.results %}
+            {% include 'credit_slider.html' %}
             {% endfor %}
         </div>
     </div>
     {% endif %}
-
 
     {% endblock body %}

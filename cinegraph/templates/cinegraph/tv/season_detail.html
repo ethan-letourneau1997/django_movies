@@ -1,71 +1,156 @@
 {% extends "layout.html" %}
 
 
-
 {% block body %}
-
-<div class="container pt-5 d-flex flex-column align-items-center">
-    <div class="p-2 mb-4 shadow-lg row w-100 ">
-        <div class="col-3 col-lg-2">
-            <img src="http://image.tmdb.org/t/p/original{{season.poster_path}}" alt="" class="img-fluid rounded-3">
-        </div>
-        <div class="col-8">
-            <div class="text-3xl">{{name}}</div>
-            <div class="text-xl pt-1">{{season.name}}</div>
-            {% comment %} <p class="pt-2 fw-300">{{season.overview}}</p> {% endcomment %}
-        </div>
-    </div>
-    <div class="row w-100 ">
-        {% for episode in season.episodes %}
-        <div class="p-0 pb-3 m-0 col-12 row">
-            <div class="col-12 col-md-4 pb-md-3 pt-lg-4">
-                <img src="http://image.tmdb.org/t/p/original{{episode.still_path}}" alt="" class="img-fluid rounded-3">
-
-            </div>
-            <div class="pt-3 col-12 col-md-8 row ">
-                <div class="col-10 ">
-                    <div class="text-2xl fw-500">
-                        {% comment } <a href="{% url 'season_detail' show.id season.season_number %}"></a>
-                        {% endcomment %}
-                        <a href="{% url 'episode_detail' show.id season.season_number episode.episode_number %}"
-                            class="text-xl">
-                            {{episode.episode_number}}.&nbsp;{{episode.name}}&nbsp;&nbsp; <i
-                                class="fa-solid fa-chevron-right text-secondary"></i>
-                        </a>
-                    </div>
-                    <div class="pb-3 fw-300">
-                        {{episode.air_date}}
-                    </div>
-                </div>
-                <div
-                    class="px-0 py-1 align-items-start col-2 d-md-block d-flex justify-content-end px-md-2 py-md-0 mt-md-2">
-
-
-                    {% if episode.vote_average %}
-                    <span class="{% if episode.vote_average >= 7.5 %}positive{% elif episode.vote_average >= 6 %}neutral{% else %}negetive{% endif %}
-                         p-1 rounded-3">
-                        <span>
-                            {% if episode.vote_average %}
-                            {{ episode.vote_average|floatformat:1 }}
-                            {% endif %}
-                        </span>
-                    </span>
-                    {% endif %}
-                </div>
-                <div class="col-11 d-none d-lg-block">
-                    <p class="fw-300">{{season.overview}}</p>
-                </div>
-
-            </div>
-            <div class="col-12 d-lg-none">
-                <p class="fw-300">{{season.overview}}</p>
-            </div>
-
-            <hr class="mx-2 my-3 ">
-        </div>
-
-        {% endfor %}
+<div class="container-fluid pt-5 pb-3 px-3">
+    <div class="d-flex justify-content-between">
+        {% if prev_season %}
+        <a href="{% url 'season_detail' show.id prev_season %}" class="text-secondary">
+            <span>
+                <i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp;season {{prev_season}}
+            </span>
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
+        {% if next_season %}
+        <a href="{% url 'season_detail' show.id next_season %}" class="text-secondary">
+            <span>
+                season {{next_season}}&nbsp;&nbsp;<i class="fa-solid fa-arrow-right"></i>
+            </span>
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
     </div>
 </div>
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="container d-flex flex-column col-xl-10">
+            <div class="row d-flex justify-content-center pb-4">
+                <div class="col-11 col-md-12">
+                    <div class="text-2xl">{{show.name}}</div>
+                    <div class="text-xl">{{season.name}}</div>
+                </div>
+            </div>
+            {% for episode in season.episodes %}
+            <div class="row d-flex justify-content-center">
+                <div class="col-11 col-md-4 pb-3">
+                    <img src="http://image.tmdb.org/t/p/original{{episode.still_path}}" alt=""
+                        class="img-fluid rounded-3" loading="lazy">
 
+                </div>
+                <div class="col-11 col-md-8">
+                    <div class="d-flex justify-content-between">
+                        <span>
+                            <div class="text-xl fw-500">
+                                {{episode.episode_number}}.&nbsp;{{episode.name}}
+                            </div>
+                            <div class="pb-3 fw-300">
+                                {{episode.air_date}}
+                            </div>
+                        </span>
+                        <span class="pt-1 d-flex align-items-start">
+                            {% if episode.vote_average %}
+                            <span
+                                class="{% if episode.vote_average >= 7.5 %}positive{% elif episode.vote_average >= 6 %}neutral{% else %}negetive{% endif %} p-1 rounded-3">
+                                <span>
+                                    {% if episode.vote_average %}
+                                    {{ episode.vote_average|floatformat:1 }}
+                                    {% endif %}
+                                </span>
+                            </span>
+                            {% endif %}
+                        </span>
+
+                    </div>
+                    <span class="d-none d-lg-block">
+                        <p class="fw-300">{{episode.overview}}</p>
+                    </span>
+                </div>
+                <div class="col-11 col-md-12 d-lg-none">
+                    <p class="fw-300">{{episode.overview}}</p>
+                </div>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <span class="d-flex justify-content-center">
+                            <div class="accordion-header" id=" flush-headingOne">
+                                <a class="accordion-button collapsed text-secondary mx-1 p-0" type=""
+                                    data-bs-toggle="collapse" data-bs-target="#ep{{episode.id}}" aria-expanded="false"
+                                    aria-controls="ep{{episode.id}}">
+                                    Cast and crew
+                                </a>
+                            </div>
+                        </span>
+                        <div id="ep{{episode.id}}" class="accordion-collapse collapse"
+                            aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="container-fluid p-0 pt-4">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2">
+                                                        Season
+                                                        Cast
+                                                        <span
+                                                            class="fw-200 text-xl text-secondary">&nbsp;{{cast_count}}</span>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    {% for credit in season.credits.cast %}
+                                                    <div class="col-12 col-md-8 col-lg-7 pb-2">
+                                                        {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <div class="row pb-2">
+                                                <div class="col">
+                                                    <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2">
+                                                        Season
+                                                        Crew
+                                                        <span
+                                                            class="fw-200 text-xl text-secondary">&nbsp;{{crew_count}}</span>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            {% for department in departments %}
+                                            <div class="row pb-2">
+                                                <div class="col">
+                                                    <h3 class="text-base fw-600 p-0 m-0 d-flex align-items-center">
+                                                        {{department}} </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    {% for credit in season.credits.crew %}
+                                                    {% if credit.department == department %}
+                                                    <div class="col-12 col-md-8 col-lg-7 pb-2">
+                                                        {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-11 col-md-12">
+                    <hr>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock body %}
