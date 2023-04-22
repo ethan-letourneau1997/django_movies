@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'chartjs',
     'cinegraph',
-    'slippers',
+   ' slippers',
 ]
 
 MIDDLEWARE = [
