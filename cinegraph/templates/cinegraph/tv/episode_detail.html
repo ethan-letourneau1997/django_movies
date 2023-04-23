@@ -2,90 +2,112 @@
 {% load static %}
 
 {% block body %}
-<div class="container pt-5 pb-3">
-    <div class="row d-flex ">
-        <div class="col-12 col-md-10 col-lg-5 col-xl-4">
-            <div class="row ">
-                <img src="http://image.tmdb.org/t/p/w780{{episode.still_path}}" alt="" class="img-fluid rounded-3">
-            </div>
-        </div>
-        <div class="col-12 col-lg-7 text-2xl">
-            <h1 class="text-4xl pt-2 mb-0">
-                {{episode.name}}
-            </h1>
-            <span class="text-secondary">{{episode.air_date}}</span>
-            <div class="text-2xl fw-600 pt-3">Overview</div>
-            <p class="fw-300 pt-2">{{episode.overview}}</p>
-        </div>
+<div class="px-3 pb-3 mt-5 container-fluid">
+    <div class="d-flex justify-content-between">
+        {% if prev_episode %}
+        <a href="{% url 'episode_detail' show_id season_number prev_episode.episode_number %}">
+            <span class="d-flex align-items-center">
+                <i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp; <div class="">&nbsp;{{prev_episode.name}}
+                    <span class=" text-secondary">({{season_number}}x{{prev_episode.episode_number}})</span>
+                </div>
+            </span>
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
+        {% if next_episode %}
+        <a href="{% url 'episode_detail' show_id season_number next_episode.episode_number %}" class="">
+            <span class="d-flex align-items-center">
+                <div class="">&nbsp;{{next_episode.name}}
+                    <span class=" text-secondary">({{season_number}}x{{next_episode.episode_number}})</span>
+                </div>&nbsp;&nbsp;<i class="fa-solid fa-arrow-right"></i>
+            </span>
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
     </div>
 </div>
+
+
 
 <div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2"> Season Regulars
-                <span class="fw-200 text-xl text-secondary">&nbsp;{{cast_count}}</span>
-            </h3>
-        </div>
-        {% for credit in episode.credits.cast %}
-        <div class="col-12 col-sm-6 col-lg-4 py-1">
-            {% include 'cast_and_crew/tv_cast_and_crew.html' %}
-        </div>
-        {% endfor %}
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2 pt-4"> Guest Stars
-                <span class="fw-200 text-xl text-secondary">&nbsp;{{guest_count}}</span>
-            </h3>
-        </div>
-        {% for credit in episode.credits.guest_stars %}
-        <div class="col-12 col-sm-6 col-lg-4 py-1">
-            {% include 'cast_and_crew/tv_cast_and_crew.html' %}
-        </div>
-        {% endfor %}
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <h3 class="text-xl fw-600 p-0 m-0 d-flex align-items-center pb-2 pt-4"> Crew
-                <span class="fw-200 text-xl text-secondary">&nbsp;{{crew_count}}</span>
-            </h3>
-        </div>
-        {% for department in departments %}
-        <div class="col-12 pb-1 pt-3 px-3">
-            <h3 class="text-base fw-600 p-0 m-0 d-flex align-items-center"> {{department}} </h3>
-        </div>
-        <div class="col-12 row">
-            {% for credit in episode.credits.crew %}
-            {% if credit.department == department %}
-            <div class="col-12 col-sm-6 py-1 ">
-                {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+    <div class="pt-3 row">
+        <div class="px-0 col-12">
+            <a href="" class="text-2xl">{{show.name}}</a>
+            <div class="text-3xl">&nbsp;{{episode.name}}
+                <span class="text-2xl text-secondary">({{season_number}}x{{episode.episode_number}})</span>
             </div>
-            {% endif %}
-            {% endfor %}
         </div>
-
-
-        {% endfor %}
-
+        <div class="col-12 col-sm-6 col-xxl-4">
+            <div class="pt-4 row ">
+                <div class="col-12 ">
+                    <h3 class="p-0 pb-2 m-0 text-xl fw-600 d-flex align-items-center"> Season Regulars
+                        <span class="text-xl fw-200 text-secondary">&nbsp;{{cast_count}}</span>
+                    </h3>
+                </div>
+                {% for credit in episode.credits.cast %}
+                <div class="py-1 col-10 col-lg-7 col-xxl-10">
+                    {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xxl-4">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="p-0 pt-4 pb-2 m-0 text-xl fw-600 d-flex align-items-center"> Guest Stars
+                        <span class="text-xl fw-200 text-secondary">&nbsp;{{guest_count}}</span>
+                    </h3>
+                </div>
+                {% for credit in episode.credits.guest_stars %}
+                <div class="py-1 col-10 col-lg-7 col-xxl-10">
+                    {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xxl-4">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="p-0 pt-4 pb-2 m-0 text-xl fw-600 d-flex align-items-center"> Crew
+                        <span class="text-xl fw-200 text-secondary">&nbsp;{{crew_count}}</span>
+                    </h3>
+                </div>
+                {% for department in departments %}
+                <div class="px-3 pt-3 pb-1 col-12">
+                    <h3 class="p-0 m-0 text-base fw-600 d-flex align-items-center"> {{department}} </h3>
+                </div>
+                <div class="col-12 row">
+                    {% for credit in episode.credits.crew %}
+                    {% if credit.department == department %}
+                    <div class="py-1 col-12 col-10 col-lg-7 col-xxl-10">
+                        {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-</div>
-
-
-<div class="row pb-2">
-    <div class="col">
-        <h3 class="text-base fw-600 p-0 m-0 d-flex align-items-center"> {{department}} </h3>
-    </div>
-</div>
-<div class="row">
     <div class="col-12">
-        {% for credit in season.credits.crew %}
-        {% if credit.department == department %}
-        <div class="col-12 col-md-8 col-lg-7 pb-2">
-            {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+        <div class="pb-2 row">
+            <div class="col">
+                <h3 class="p-0 m-0 text-base fw-600 d-flex align-items-center"> {{department}} </h3>
+            </div>
         </div>
-        {% endif %}
-        {% endfor %}
+        <div class="row">
+            <div class="col-12">
+                {% for credit in season.credits.crew %}
+                {% if credit.department == department %}
+                <div class="pb-2 col-12 col-md-8 col-lg-7 ">
+                    {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
 

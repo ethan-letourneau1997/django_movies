@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
+.bg-less-dark {
+  background-color: #0f172a9f !important; }
+
 .green {
   background-color: #6c3 !important;
   color: #0f172a; }
@@ -9,6 +12,9 @@
 
 .red {
   background-color: #dc2626 !important; }
+
+.bg-less-dark {
+  background-color: #0f172a9f !important; }
 
 .green {
   background-color: #6c3 !important;
@@ -211,6 +217,9 @@ input,
   display: flex;
   overflow-x: auto;
   white-space: nowrap; }
+
+.bg-less-dark {
+  background-color: #0f172a9f !important; }
 
 .green {
   background-color: #6c3 !important;
@@ -7802,6 +7811,9 @@ textarea.form-control-lg {
 .rounded-top-3 {
   border-top-right-radius: 0.3rem;
   border-top-left-radius: 0.3rem; }
+
+.bg-less-dark {
+  background-color: #0f172a9f !important; }
 
 .green {
   background-color: #6c3 !important;

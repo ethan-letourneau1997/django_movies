@@ -445,9 +445,10 @@ def seasons(request, show_id):
 def season_detail(request, show_id, season_number):
 
     # Make API call to retrieve season details
-    response = requests.get(
+    season_response = requests.get(
         f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}?api_key={API_KEY}&language=en-US&append_to_response=credits')
-    season = response.json()
+
+    season = season_response.json()
 
     show_response = requests.get(
         f'https://api.themoviedb.org/3/tv/{show_id}?api_key={API_KEY}&language=en-US')
@@ -472,6 +473,9 @@ def season_detail(request, show_id, season_number):
         if 'air_date' in episode:
             formatted_date = datetime.strptime(episode['air_date'], '%Y-%m-%d')
             episode['formatted_date'] = formatted_date.strftime('%b. %d, %Y')
+        if 'guest_stars' in episode:
+            guest_star_count = len(episode['guest_stars'])
+            episode['guest_star_count'] = guest_star_count
 
     context = {
         'form': SearchForm(),
@@ -489,16 +493,45 @@ def season_detail(request, show_id, season_number):
 
 def episode_detail(request, show_id, season_number, episode_number):
 
-    response = requests.get(
+    episode_response = requests.get(
         f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}/episode/{episode_number}?api_key={API_KEY}&language=en-US&append_to_response=credits')
 
-    episode = response.json()
+    episode = episode_response.json()
+
+    # Make API call to retrieve season details
+    season_response = requests.get(
+        f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}?api_key={API_KEY}&language=en-US&append_to_response=credits')
+
+    season = season_response.json()
 
     credits = episode['credits']
 
     cast_count = len(credits['cast'])
     guest_count = len(credits['guest_stars'])
     crew_count = len(credits['crew'])
+
+    episode_count = len(season['episodes'])
+
+    prev_episode = False
+    next_episode = False
+
+    if episode['episode_number'] > 1:
+        prev_episode = episode['episode_number'] - 1
+
+    if episode['episode_number'] < episode_count:
+        next_episode = episode['episode_number'] + 1
+
+    if prev_episode:
+        prev_episode_response = requests.get(
+            f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}/episode/{prev_episode}?api_key={API_KEY}&language=en-US&append_to_response=credits')
+
+        prev_episode = prev_episode_response.json()
+
+    if next_episode:
+        next_episode_response = requests.get(
+            f'https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}/episode/{next_episode}?api_key={API_KEY}&language=en-US&append_to_response=credits')
+
+        next_episode = next_episode_response.json()
 
     context = {
         'form': SearchForm(),
@@ -507,6 +540,11 @@ def episode_detail(request, show_id, season_number, episode_number):
         'cast_count': cast_count,
         'crew_count': crew_count,
         'guest_count': guest_count,
+        'season_number': season_number,
+        'title': episode,
+        'show_id': show_id,
+        'prev_episode': prev_episode,
+        'next_episode': next_episode,
     }
 
     return render(request, 'tv/episode_detail.html', context)

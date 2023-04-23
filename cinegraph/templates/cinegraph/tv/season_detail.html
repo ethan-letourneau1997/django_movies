@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-
+{% load static %}
 
 {% block body %}
 <div class="px-3 pb-3 mt-5 container-fluid">
@@ -26,19 +26,19 @@
 </div>
 <div class="container">
     <div class="row d-flex justify-content-center">
-        <div class="container d-flex flex-column col-xl-10">
-            <div class="pb-4 row d-flex justify-content-center">
+        <div class="container d-flex flex-column col-xl-11">
+            <div class=" row d-flex justify-content-center">
                 <div class="col-11 col-md-12">
                     <a href="{% url 'show' show.id %}" class="text-2xl">{{show.name}}</a>
                     <div class="text-xl">{{season.name}}</div>
                 </div>
             </div>
             {% for episode in season.episodes %}
-            <div class="row d-flex justify-content-center">
-                <div class="pb-3 col-11 col-md-4">
+            <div
+                class="pt-4 pb-2 my-3 shadow-lg pb-md-2 px-md-2 px-lg-3 rounded-3 row d-flex justify-content-center bg-less-dark">
+                <div class="pb-2 col-11 col-md-4">
                     <img src="http://image.tmdb.org/t/p/original{{episode.still_path}}" alt=""
                         class="img-fluid rounded-3" loading="lazy">
-
                 </div>
                 <div class="col-11 col-md-8">
                     <div class="d-flex justify-content-between">
@@ -46,7 +46,7 @@
                             <div class="text-xl fw-500">
                                 {{episode.episode_number}}.&nbsp;{{episode.name}}
                             </div>
-                            <div class="pb-3 fw-300">
+                            <div class="pb-3 fw-300 text-secondary">
                                 {{episode.formatted_date}}
                             </div>
                         </span>
@@ -73,9 +73,9 @@
                 </div>
                 <div class="accordion accordion-flush" id="accordionFlushExample">
                     <div class="accordion-item">
-                        <span class="d-flex justify-content-center">
+                        <span class="d-flex justify-content-center bg-less-dark">
                             <div class="accordion-header" id=" flush-headingOne">
-                                <a class="p-0 mx-1 accordion-button collapsed text-secondary" type=""
+                                <a class="p-0 mx-1 accordion-button collapsed text-secondary bg-less-dark" type=""
                                     data-bs-toggle="collapse" data-bs-target="#ep{{episode.id}}" aria-expanded="false"
                                     aria-controls="ep{{episode.id}}">
                                     Cast and crew
@@ -84,15 +84,82 @@
                         </span>
                         <div id="ep{{episode.id}}" class="accordion-collapse collapse"
                             aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
+                            <div class="accordion-body bg-less-dark">
                                 <div class="p-0 pt-4 container-fluid">
+                                    <div class="pb-3 row">
+                                        <div class="col d-flex align-items-center justify-content-between">
+                                            <h3 class="p-0 m-0 text-xl fw-600 ">
+                                                Guest Stars
+                                                <span
+                                                    class="text-xl fw-200 text-secondary">&nbsp;{{episode.guest_star_count}}</span>
+                                            </h3>
+                                            <span>
+                                                <a class="mx-2 text-secondary mx-lg-4"
+                                                    href="{% url 'episode_detail' show.id season.season_number episode.episode_number %}">
+                                                    Full cast and crew&nbsp;<i
+                                                        class="fa-solid fa-chevron-right fw-300"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
                                     <div class="row">
+                                        {% for credit in episode.guest_stars %}
+                                        <div class="pb-3 row col-12 col-sm-6">
+                                            <div class="col-3 col-sm-4 col-lg-3 col-xl-2 ">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <a href="{% url 'person' credit.id %}">
+                                                            <div class="p-0 headshot-wrapper ratio ratio-1x1">
+                                                                {% if credit.profile_path %}
+                                                                <img loading="lazy"
+                                                                    src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}"
+                                                                    alt="" class=" img-fluid rounded-3" loading="lazy">
+                                                                {% else %}
+                                                                <img src="{% static 'cinegraph/img/person-placeholder.svg' %}"
+                                                                    alt="" class="img-fluid rounded-3" loading="lazy">
+                                                                {% endif %}
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-7 col-sm-8 d-flex flex-column justify-content-center">
+                                                <a href="{% url 'person' credit.id %}"
+                                                    class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
+                                                <span
+                                                    class="text-sm fw-300 d-inline-block text-truncate ">{{credit.character}}</span>
+                                                <span
+                                                    class="text-sm fw-300 d-inline-block text-truncate ">{{credit.job}}</span>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+
+                                    </div>
+                                    {% comment %} <div class="row">
                                         <div class="col-12 col-sm-6">
                                             <div class="row">
                                                 <div class="col">
                                                     <h3 class="p-0 pb-2 m-0 text-xl fw-600 d-flex align-items-center">
-                                                        Season
-                                                        Cast
+                                                        Guest Stars
+                                                        <span
+                                                            class="text-xl fw-200 text-secondary">&nbsp;{{cast_count}}</span>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    {% for credit in episode.guest_stars %}
+                                                    <div class="pb-2 col-12 col-md-8 col-lg-7">
+                                                        {% include 'cast_and_crew/tv_cast_and_crew.html' %}
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h3 class="p-0 pb-2 m-0 text-xl fw-600 d-flex align-items-center">
+                                                        Season Regulars
                                                         <span
                                                             class="text-xl fw-200 text-secondary">&nbsp;{{cast_count}}</span>
                                                     </h3>
@@ -139,15 +206,15 @@
                                             </div>
                                             {% endfor %}
                                         </div>
-                                    </div>
+                                    </div> {% endcomment %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-11 col-md-12">
+                {% comment %} <div class="col-11 col-md-12">
                     <hr>
-                </div>
+                </div> {% endcomment %}
             </div>
             {% endfor %}
         </div>

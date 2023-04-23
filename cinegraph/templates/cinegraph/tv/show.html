@@ -133,7 +133,7 @@ border-radius: 0.375rem;
                 <div class="py-4 d-none d-md-block col-3 poster-col ">
                     <img class="img-fluid" src="http://image.tmdb.org/t/p/w780{{show.poster_path}}" alt="">
                     <span class="pt-2 w-100 d-flex justify-content-center">
-                        <a class="mx-2 text-secondary mx-lg-4" href="{% url 'show_credits' show.id %}">
+                        <a class="mx-2 text-secondary mx-lg-4" href="{% url 'seasons' show.id %}">
                             See seasons and episodes&nbsp;<i class="fa-solid fa-chevron-right "></i>
                         </a>
                     </span>
@@ -250,7 +250,7 @@ border-radius: 0.375rem;
             <div class="px-3 mt-3 mb-3 row px-lg-3">
                 <h3 class="text-4xl fw-600 mx-lg-3 w-100 ">Top Cast</h3>
                 <a class="mx-2 text-secondary mx-lg-4" href="{% url 'show_credits' show.id %}">
-                    See full cast&nbsp;<i class="fa-solid fa-chevron-right "></i>
+                    See full cast&nbsp;<i class="fa-solid fa-chevron-right"></i>
                 </a>
             </div>
             <div class="px-4 pb-2 overflow-auto row flex-nowrap flex-md-wrap">
