@@ -1,0 +1,27 @@
+<div class="p-0 d-flex card-offset">
+    <a href="{% if item.title %}{% url 'movie' item.id %}{% elif item.name %}{% url 'show' item.id %}{% else %}{% url 'person' item.id %}{% endif %}"
+        class="bg-transparent border-0 card d-flex position-relative">
+        <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{item.poster_path}}" alt="" class="card-img-top">
+        {% if item.vote_average %}
+        <span
+            class="{% if item.vote_average >= 7.5 %}positive{% elif item.vote_average >= 6 %}neutral{% else %}negetive{% endif %} score position-absolute p-1 rounded-3">
+            <div class="text-sm ">
+                {% if item.vote_average %}
+                {{ item.vote_average|floatformat:1 }}
+                {% endif %}
+            </div>
+        </span>
+        {% endif %}
+        <div class="pb-0 card-body">
+            <div class="m-0 text-base card-title fw-500">
+                {{ item.name }}
+                {{ item.title }}
+            </div>
+            <span class="card-text fw-200 text-secondary">
+                {% if item.formatted_date %}
+                {{ item.formatted_date|date:'M d, Y' }}
+                {% endif %}
+            </span>
+        </div>
+    </a>
+</div>

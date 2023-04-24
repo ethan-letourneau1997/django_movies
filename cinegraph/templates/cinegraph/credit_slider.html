@@ -15,26 +15,82 @@
         width: 185px;
     }
 
+    .credit-card .img-wrapper {
+        height: 241.5px;
+       
+        background-size:cover !important;
+        background-position:center !important;
+    }
+
+    .score-div {
+        background: linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,0.0) 35%);
+
+    }
+
+
 </style>
 
-{% if credit.poster_path %}
-
-<div class="credit-card ">
+{% comment %} .credit-card .img-wrapper .score-div {
+background:red;
+display:flex;
+height:100%;
+justify-content:end;
+} {% endcomment %}
+<div class="credit-card position-relative">
     <a
-        href="{% if credit.media_type == 'movie' %}{% url 'movie' credit.id %}{% else %}{% url 'show' credit.id %}{% endif %}">
-
-        {% if credit.poster_path %}
-        <img loading="lazy" src="http://image.tmdb.org/t/p/original{{credit.poster_path}}" alt=""
-            class="img-fluid rounded-1">
-        {% elif credit.media_type == 'movie' %}
-        <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt="" class="img-fluid">
-        {% elif credit.media_type == 'tv' %}
-        <img src="{% static 'cinegraph/img/tv-placeholder.svg' %}" alt="" class="img-fluid">
-        {% endif %}
-        <div class="d-inline-block trunc-2 px-2 pt-2">{{credit.title}}</div>
-        <div class="d-inline-block trunc-2 px-2 pt-2">{{credit.name}}</div>
-        <div class="text-secondary trunc-2 px-2">{{credit.character}}</div>
+        href="{% if credit.title %}{% url 'movie' credit.id %}{% elif credit.name %}{% url 'show' credit.id %}{% else %}{% url 'person' credit.id %}{% endif %}">
+        <div class="rounded-2 img-wrapper"
+            style=" background: url(
+                '{% if credit.poster_path %}http://image.tmdb.org/t/p/w342{{credit.poster_path}}{% elif credit.profile_path %}http://image.tmdb.org/t/p/w342{{credit.profile_path}}{% elif credit.media_type == 'movie' %}{% static 'cinegraph/img/movie-placeholder.svg' %}{% elif credit.media_type == 'tv' %}{% static 'cinegraph/img/tv-placeholder.svg' %}{% else %}{% static 'cinegraph/img/person-placeholder.svg' %}{% endif %}');">
+            {% if credit.vote_average > 0 %}
+            <div class="px-2 pb-2 score-div d-flex justify-content-end align-items-end h-100">
+                <span
+                    class="fw-700 {% if credit.vote_average >= 7.5 %}green{% elif credit.vote_average >= 6 %}yellow{% else %}red{% endif %} p-2 rounded-3">
+                    {{ credit.vote_average|floatformat:1 }}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+        <div>
+            <div class="px-2 pt-2 d-inline-block trunc-2">{{credit.title}}</div>
+            <div class="px-2 pt-2 d-inline-block trunc-2">{{credit.name}}</div>
+            <div class="px-2 text-secondary trunc-2">{{credit.character}}</div>
+        </div>
     </a>
 </div>
 
-{% endif %}
+
+{% comment %} <div class="credit-card position-relative">
+    <a
+        href="{% if credit.title %}{% url 'movie' credit.id %}{% elif credit.name %}{% url 'show' credit.id %}{% else %}{% url 'person' credit.id %}{% endif %}">
+
+        <div>
+            {% if credit.poster_path %}
+            <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt=""
+                class="img-fluid rounded-1">
+            {% elif credit.profile_path %}
+            <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.profile_path}}" alt=""
+                class="img-fluid rounded-1">
+            {% elif credit.media_type == 'movie' %}
+            <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="img-fluid">
+            {% elif credit.media_type == 'tv' %}
+            <img src="{% static 'cinegraph/img/tv-placeholder.svg' %}" alt="" class="img-fluid">
+            {% else %}
+            <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt="" class="img-fluid">
+            {% endif %}
+        </div>
+        {% if credit.vote_average > 0 %}
+        <div class=" score-wrapper d-flex justify-content-center align-items-center">
+            <span
+                class="fw-700 {% if credit.vote_average >= 7.5 %}green{% elif credit.vote_average >= 6 %}yellow{% else %}red{% endif %} p-2 rounded-3">
+                {{ credit.vote_average|floatformat:1 }}
+            </span>
+        </div>
+        {% endif %}
+        <div class="py-1">
+            <div class="px-2 pt-2 d-inline-block trunc-2">{{credit.title}}</div>
+            <div class="px-2 pt-2 d-inline-block trunc-2">{{credit.name}}</div>
+            <div class="px-2 text-secondary trunc-2">{{credit.character}}</div>
+        </div>
+    </a>
+</div> {% endcomment %}

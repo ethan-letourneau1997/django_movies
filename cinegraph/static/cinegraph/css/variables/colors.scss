@@ -8,12 +8,22 @@ $secondary: rgb(156, 163, 175);
 
 $yellow: #fc3;
 $dark: #0f172a;
+// $dark: hsl(240, 4%, 9%);
 $less-dark: #0f172a9f;
 $body-bg: #1e293b;
 $input-bg: #384252;
+// $input-bg: hsl(240, 1%, 25%);
 
 $body-color: $primary;
 $navbar-dark-color: $primary;
+
+.bg-body {
+  background-color: hsl(240, 3%, 15%) !important;
+}
+
+.body {
+  background-color: $dark !important;
+}
 
 .bg-less-dark {
   background-color: $less-dark !important;

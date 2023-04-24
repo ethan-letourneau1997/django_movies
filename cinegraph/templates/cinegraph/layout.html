@@ -60,11 +60,9 @@
 
 </style>
 
-
-
-    <body class="body pt-5">
+    <body class="pt-5 body bg-body">
         <div class="nav-wrapper fixed-top">
-            <nav id="navbar" class="px-3 navbar navbar-expand-lg navbar-dark bg-dark  align-items-center ">
+            <nav id="navbar" class="px-3 navbar navbar-expand-lg navbar-dark bg-dark align-items-center ">
                 <a class="navbar-brand" href="{% url 'index' %}">
                     <img src="{% static 'cinegraph/img/cinegraph-logo.png' %}" height="30" alt="Flowbite Logo" />
                 </a>
@@ -74,7 +72,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-                    <ul class="py-2  navbar-nav">
+                    <ul class="py-2 navbar-nav">
                         <li class="mx-2 nav-item">
                             <a class="nav-link" href="{% url 'movies' %}">Movies <span
                                     class="sr-only">(current)</span></a>
@@ -82,7 +80,7 @@
                         <li class="mx-2 nav-item">
                             <a class="nav-link" href="{% url 'shows' %}"">Television</a>
                     </li>
-                    <li class=" mx-2 nav-item">
+                    <li class="mx-2 nav-item">
                                 <a class="nav-link" href="{% url 'people' %}">People</a>
                         </li>
                     </ul>
@@ -113,7 +111,7 @@
                     aria-label="Close"></button>
             </div>
             <div class="offcanvas-body bg-dark">
-                <ul class="navbar-nav mb-2 mb-lg-0">
+                <ul class="mb-2 navbar-nav mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'movies' %}"">Movies</a>
                     </li>

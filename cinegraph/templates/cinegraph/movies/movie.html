@@ -52,13 +52,13 @@ object-fit: cover;
 </style>
 
 
-<div class="container-fluid mt-3 d-md-none">
+<div class="mt-3 container-fluid d-md-none">
     <div class="row backdrop mobile-backdrop ">
     </div>
 
     <div class="row">
-        <div class="col-12 pt-3">
-            <h1 class="text-4xl fw-700 m-0">{{movie.title}}
+        <div class="pt-3 col-12">
+            <h1 class="m-0 text-4xl fw-700">{{movie.title}}
                 <span class="text-4xl fw-300">({{ movie.release_date |slice:"0:4" }})</span>
             </h1>
         </div>
@@ -71,14 +71,17 @@ object-fit: cover;
             <span class="text-sm">{{ genre.name }},&nbsp;&nbsp; </span>
             {% endfor %}
         </div>
-
-        <div class="col-12 pt-2 pb-3">
+        {% if movie.vote_average > 0 %}
+        <div class="pt-2 pb-3 col-12">
             <span class="fw-700 
                             {% if movie.vote_average >= 7.5 %}green{% elif movie.vote_average >= 6 %}yellow{% else %}red{% endif %}
                             p-2 rounded-3 d-inline-block">
                 {{ movie.vote_average|floatformat:1 }}
             </span>
         </div>
+        {% else %}
+        <div class="pt-3"></div>
+        {% endif %}
 
         {% if movie.overview %}
         <div class="col-12">
@@ -89,7 +92,7 @@ object-fit: cover;
         {% endif %}
 
         <div class="col-12 d-flex row">
-            <div class="col-6 d-flex mb-4">
+            <div class="mb-4 col-6 d-flex">
                 <span>
                     <div class="fw-600">Budget:</div>
                     <div class="fw-300">
@@ -150,7 +153,7 @@ object-fit: cover;
                     </div>
                     <!-- Rating and genre row -->
                     <div class="row">
-                        <div class="col-12 mt-1">
+                        <div class="mt-1 col-12">
                             {% if rating %}
                             <span class="text-sm mpaa-rating ">{{rating}}</span>
                             {% endif %}
@@ -161,7 +164,7 @@ object-fit: cover;
                     </div>
                     <!--Score row -->
                     {% comment %} !TODO refactor to just switch class {% endcomment %}
-                    {% if movie.vote_average %}
+                    {% if movie.vote_average > 0 %}
                     <div class="py-3 row score">
                         <div class="col-12 d-flex ">
                             {% if movie.vote_average >= 7.5 %}
@@ -262,34 +265,34 @@ object-fit: cover;
         </div>
     </div>
 </section>
-<div class="container-fluid media-container p-0 ">
+<div class="p-0 container-fluid media-container ">
     <div class="row w-100 ">
-        <div class="col-12 col-lg-7 pt-4 pt-lg-2  px-lg-4">
-            <div class="row mt-3 mb-3 px-3 px-lg-3">
+        <div class="pt-4 col-12 col-lg-7 pt-lg-2 px-lg-4">
+            <div class="px-3 mt-3 mb-3 row px-lg-3">
                 <h3 class="text-4xl fw-600 mx-lg-3 w-100 ">Top Cast</h3>
-                <a class="text-secondary mx-2 mx-lg-4" href="{% url 'movie_credits' movie.id %}">
+                <a class="mx-2 text-secondary mx-lg-4" href="{% url 'movie_credits' movie.id %}">
                     See full cast&nbsp;<i class="fa-solid fa-chevron-right "></i>
                 </a>
             </div>
-            <div class="row pb-2 flex-nowrap overflow-auto flex-md-wrap px-4">
+            <div class="px-4 pb-2 overflow-auto row flex-nowrap flex-md-wrap">
                 {% for credit in movie.credits.cast|slice:":12" %}
                 {% if credit.profile_path %}
                 <div class="col-5 col-sm-4 col-md-6 ">
-                    <div class="row no-gutters px-3 px-lg-0">
-                        <div class="col-12 col-md-4 p-lg-3 p-2 p-sm-1 p-lg-0 ">
+                    <div class="px-3 row no-gutters px-lg-0">
+                        <div class="p-2 col-12 col-md-4 p-lg-3 p-sm-1 p-lg-0 ">
                             <a href="{% url 'person' credit.id %}">
                                 <div class="headshot-wrapper ratio ratio-1x1 ">
                                     <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}"
-                                        alt="" class="img-fluid rounded-circle p-1">
+                                        alt="" class="p-1 img-fluid rounded-circle">
                                 </div>
                             </a>
                         </div>
                         <div
-                            class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center  align-items-lg-baseline text-truncate">
+                            class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center align-items-lg-baseline text-truncate">
                             <a href="{% url 'person' credit.id %}"
                                 class="fw-600 d-inline-block text-truncate cast-text">{{credit.name}}</a>
                             <span
-                                class="fw-300 text-sm d-inline-block text-truncate cast-text">{{credit.character}}</span>
+                                class="text-sm fw-300 d-inline-block text-truncate cast-text">{{credit.character}}</span>
                         </div>
                     </div>
                 </div>
@@ -297,14 +300,14 @@ object-fit: cover;
                 {% endfor %}
             </div>
         </div>
-        <div class="col-12 col-lg-5 d-flex flex-column px-3 px-lg-5 pt-lg-2">
-            <div class="row mt-3 mb-3 w-100">
-                <h3 class="text-4xl fw-600 px-3 ">Movie Media</h3>
+        <div class="px-3 col-12 col-lg-5 d-flex flex-column px-lg-5 pt-lg-2">
+            <div class="mt-3 mb-3 row w-100">
+                <h3 class="px-3 text-4xl fw-600 ">Movie Media</h3>
             </div>
             {% if trailer or poster_batches > 0 or movie.images.backdrops > 0 %}
             {% if trailer %}
-            <div class="container-fluid d-flex flex-column gap-3 h-100">
-                <div class="row pt-2 ">
+            <div class="gap-3 container-fluid d-flex flex-column h-100">
+                <div class="pt-2 row ">
                     <div class="embed-responsive-custom rounded-3">
                         <iframe class="youtube" src="https://www.youtube.com/embed/{{ trailer }}" class="rounded-2"
                             allowfullscreen></iframe>
@@ -312,14 +315,14 @@ object-fit: cover;
                 </div>
                 {% if poster_batches|length != 0 %}
                 <div class="row ">
-                    <div id="posterCarouselControls" class="carousel slide p-0" data-bs-ride="carousel"
+                    <div id="posterCarouselControls" class="p-0 carousel slide" data-bs-ride="carousel"
                         data-bs-interval="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 {% for batch in poster_batches|slice:":1" %}
                                 <div class="row">
                                     {% for poster in batch %}
-                                    <div class="col-4 p-0">
+                                    <div class="p-0 col-4">
                                         <img src="http://image.tmdb.org/t/p/w342{{poster.file_path}}"
                                             class="d-block img-fluid rounded-3" alt="...">
                                     </div>
@@ -331,7 +334,7 @@ object-fit: cover;
                             <div class="carousel-item ">
                                 <div class="row">
                                     {% for poster in batch %}
-                                    <div class="col-4 p-0">
+                                    <div class="p-0 col-4">
                                         <img src="http://image.tmdb.org/t/p/w342{{poster.file_path}}"
                                             class="d-block img-fluid rounded-3" alt="...">
                                     </div>
@@ -355,7 +358,7 @@ object-fit: cover;
                 {% endif %}
                 {% if movie.images.backdrops|length != 0 %}
                 <div class="row">
-                    <div id="backdropCarouselControls" class="carousel slide p-0" data-bs-ride="carousel"
+                    <div id="backdropCarouselControls" class="p-0 carousel slide" data-bs-ride="carousel"
                         data-bs-interval="false">
                         <div class="carousel-inner">
 
@@ -392,10 +395,10 @@ object-fit: cover;
 
     {% if movie.recommendations.results|length != 0 %}
     <div class="container-fluid bg-dark">
-        <div class="row pt-3 mt-5 mb-3 row mt-lg-3 w-100">
+        <div class="pt-3 mt-5 mb-3 row mt-lg-3 w-100">
             <h3 class="text-2xl fw-600 mx-lg-3 ">More like this</h3>
         </div>
-        <div class="row overflow-auto flex-nowrap px-2 hide-scroll pb-4">
+        <div class="px-2 pb-4 overflow-auto row flex-nowrap hide-scroll">
             {% for credit in movie.recommendations.results %}
             {% include 'credit_slider.html' %}
             {% endfor %}
