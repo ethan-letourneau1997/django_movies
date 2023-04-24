@@ -634,6 +634,10 @@ def person(request, person_id):
     cast_credits = combined_credits['cast']
     crew_credits = combined_credits['crew']
 
+    # get num of credits lengths
+    credit_count = len(combined_credits['cast']) + \
+        len(combined_credits['crew'])
+
     # Combine the cast and crew lists
     all_credits = cast_credits + crew_credits
 
@@ -671,6 +675,8 @@ def person(request, person_id):
     if cast_credits:
         unique_departments.add('Acting')
 
+    alphabetized_departments = sorted(list(unique_departments))
+
     context = {
         'person': person,
         'form': SearchForm(),
@@ -678,7 +684,8 @@ def person(request, person_id):
         'deathday': formatted_deathday,
         'credits': sorted_credits,
         'known_for': known_for,
-        'departments': unique_departments,
+        'departments': alphabetized_departments,
+        'credit_count': credit_count,
     }
 
     return render(request, 'people/person.html', context)

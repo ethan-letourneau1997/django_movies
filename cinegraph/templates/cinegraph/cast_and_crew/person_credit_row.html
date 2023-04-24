@@ -1,0 +1,26 @@
+ {% load static %}
+
+ <div class="py-1 pr-3 row actor-credit">
+     <a
+         href="{% if credit.title %}{% url 'movie' credit.id %}{% elif credit.name %}{% url 'show' credit.id %}{% endif %}">
+         <div class="gap-3 d-flex">
+             <div>
+                 {% if credit.poster_path %}
+                 <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt="" class="">
+                 {% else %}
+                 <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="">
+                 {% endif %}
+             </div>
+             <div class="d-flex justify-content-between align-items-center w-100">
+                 <span>
+                     <div class="fw-600">{{credit.name}}{{credit.title}}</div>
+                     <div class="fw-300">{{credit.character}}{{credit.job}}</div>
+                 </span>
+                 <span class="gap-2 d-flex align-items-center">
+                     <span>{{credit.release_date|slice:"0:4"}}{{credit.first_air_date|slice:"0:4"}}</span>
+                     <i class="fa-solid fa-circle-info"></i>
+                 </span>
+             </div>
+         </div>
+     </a>
+ </div>
