@@ -12,26 +12,6 @@
   }
 }
 
-.card-row {
-  .score {
-    position: absolute;
-    margin-top: 140% !important;
-    margin-left: 75%;
-  }
-
-  .positive {
-    background-color: $green;
-    color: $dark;
-  }
-  .neutral {
-    background-color: $yellow;
-    color: $dark;
-  }
-  .negetive {
-    background-color: $red;
-  }
-}
-
 /* Extra small devices (phones) */
 @media (max-width: 575.98px) {
   .banner {
@@ -186,14 +166,3 @@
   position: relative;
   z-index: 1;
 }
-
-// h_ PEOPLE
-//TODO truncate words
-
-// .known-for {
-//   word-wrap: break-word;
-// }
-
-// .knwon-for {
-//   max-width: 100px;
-// }

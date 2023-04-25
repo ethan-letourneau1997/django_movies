@@ -1,0 +1,52 @@
+{% load static %}
+
+<style>
+    .trunc-2 {
+         -webkit-line-clamp: 2 !important;
+         /* autoprefixer: off */
+         -webkit-box-orient: vertical !important;
+         /* autoprefixer: on */
+         overflow: hidden !important;
+         text-overflow: ellipsis !important;
+         display: -webkit-box !important;
+    }
+
+    .credit-card {
+        width: 133px !important;
+    }
+
+    .credit-card .img-wrapper {
+        height: 200px !important;
+        width: 133px !important;
+       
+        background-size:cover !important;
+        background-position:center !important;
+    }
+
+    .score-div {
+        background: linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,0.0) 35%);
+    }
+</style>
+
+<div class="mx-2 credit-card">
+    <a
+        href="{% if credit.title %}{% url 'movie' credit.id %}{% elif credit.name %}{% url 'show' credit.id %}{% else %}{% url 'person' credit.id %}{% endif %}">
+        <div class="rounded-3 img-wrapper"
+            style=" background: url(
+                '{% if credit.poster_path %}http://image.tmdb.org/t/p/w342{{credit.poster_path}}{% elif credit.profile_path %}http://image.tmdb.org/t/p/w342{{credit.profile_path}}{% elif credit.media_type == 'movie' %}{% static 'cinegraph/img/movie-placeholder.svg' %}{% elif credit.media_type == 'tv' %}{% static 'cinegraph/img/tv-placeholder.svg' %}{% else %}{% static 'cinegraph/img/person-placeholder.svg' %}{% endif %}');">
+            {% if credit.vote_average > 0 %}
+            <div class="px-2 pb-2 score-div d-flex justify-content-end align-items-end h-100 rounded-3">
+                <span
+                    class="fw-700 {% if credit.vote_average >= 7.5 %}green{% elif credit.vote_average >= 6 %}yellow{% else %}red{% endif %} p-2 rounded-3 text-sm">
+                    {{ credit.vote_average|floatformat:1 }}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+        <div class="d-flex flex-column">
+            <div class="px-2 pt-2 d-inline-block text-truncate w-100">{{credit.title}}</div>
+            <div class="px-2 d-inline-block text-truncate w-100">{{credit.name}}</div>
+            <div class="px-2 text-secondary d-inline-block text-truncate w-100">{{credit.character}}</div>
+        </div>
+    </a>
+</div>

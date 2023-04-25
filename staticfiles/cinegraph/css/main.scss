@@ -1,14 +1,10 @@
-// @use "./variables/typography.scss" as type;
 @import "./variables/colors.scss";
-@import "./movies/movie.scss";
 @import "./components/nav.scss";
-@import "./components/hero.scss";
-@import "./layouts/details.scss";
-@import "./layouts/cards.scss";
 @import "./utlis/utils.scss";
 @import "./homepage.scss";
 @import "./variables/typography.scss";
-@import "./layouts/trending.scss";
+@import "./layout.scss";
+@import "./layouts/card_grid.scss";
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
 
 // my variables
@@ -22,6 +18,10 @@
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1rem;
   line-height: 1.5rem;
+}
+
+a {
+  text-decoration: none;
 }
 
 pre {
@@ -156,4 +156,23 @@ pre {
   margin-right: 0.5rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+}
+
+.form-select {
+  max-width: 130px;
+}
+
+select {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important; /* Remove default arrow */
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'><path fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>") !important; /* Add custom arrow */
+}
+
+a:hover {
+  color: $primary !important;
+}
+
+.accordion-button:hover {
+  cursor: pointer !important;
 }

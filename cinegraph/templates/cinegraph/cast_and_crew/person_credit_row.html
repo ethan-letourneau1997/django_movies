@@ -1,9 +1,19 @@
  {% load static %}
 
- <div class="py-1 pr-3 row actor-credit">
-     <a
+ <style>
+    .w-60 {
+        width: 65%;
+    }
+
+    .w-40 {
+        width:35%;
+    }
+</style>
+
+ <div class="px-2 py-1 pr-3 px-lg-3 row actor-credit w-100">
+     <a class="p-0"
          href="{% if credit.title %}{% url 'movie' credit.id %}{% elif credit.name %}{% url 'show' credit.id %}{% endif %}">
-         <div class="gap-3 d-flex">
+         <div class="gap-3 d-flex w-100">
              <div>
                  {% if credit.poster_path %}
                  <img loading="lazy" src="http://image.tmdb.org/t/p/w342{{credit.poster_path}}" alt="" class="">
@@ -11,16 +21,16 @@
                  <img src="{% static 'cinegraph/img/movie-placeholder.svg' %}" alt="" class="">
                  {% endif %}
              </div>
-             <div class="d-flex justify-content-between align-items-center w-100">
-                 <span>
-                     <div class="fw-600">{{credit.name}}{{credit.title}}</div>
-                     <div class="fw-300">{{credit.character}}{{credit.job}}</div>
-                 </span>
-                 <span class="gap-2 d-flex align-items-center">
-                     <span>{{credit.release_date|slice:"0:4"}}{{credit.first_air_date|slice:"0:4"}}</span>
-                     <i class="fa-solid fa-circle-info"></i>
-                 </span>
-             </div>
+
+             <span class="w-60">
+                 <div class="fw-600 d-block text-truncate">{{credit.name}}{{credit.title}}</div>
+                 <div class="fw-300 d-block text-truncate ">{{credit.character}}{{credit.job}}</div>
+             </span>
+             <span class="w-40 gap-2 d-flex align-items-center justify-content-end">
+                 <span>{{credit.release_date|slice:"0:4"}}{{credit.first_air_date|slice:"0:4"}}</span>
+                 <i class="fa-solid fa-circle-info"></i>
+             </span>
+
          </div>
      </a>
  </div>

@@ -11,6 +11,7 @@ import json
 from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
 from django.utils.safestring import mark_safe
+from datetime import date
 
 # > FORMS
 
@@ -632,6 +633,9 @@ def person(request, person_id):
 
     combined_credits = person['combined_credits']
     cast_credits = combined_credits['cast']
+    for credit in cast_credits:
+        credit['department'] = 'Acting'
+
     crew_credits = combined_credits['crew']
 
     # get num of credits lengths
@@ -677,6 +681,57 @@ def person(request, person_id):
 
     alphabetized_departments = sorted(list(unique_departments))
 
+    for credit in sorted_credits:
+        if 'title' in credit and credit['title']:
+            print(credit['title'])
+        else:
+            print("No title found.")
+
+    # Create an empty dictionary to keep track of department counts
+    department_counts = {}
+
+    # Loop through the crew credits and update the department counts
+    for credit in sorted_credits:
+        department = credit['department']
+        if department in department_counts:
+            department_counts[department] += 1
+        else:
+            department_counts[department] = 1
+
+    # Sort the dictionary by keys and create a list of (department, count) tuples
+    sorted_departments = [(k, v) for k, v in sorted(department_counts.items())]
+
+    # Print out the department counts in alphabetical order
+    for department, count in sorted_departments:
+        print(f"{department}: {count}")
+
+    # Save the sorted department counts to a variable for passing to a template
+    department_counts_list = sorted_departments
+
+    # Create a list of (department, count) tuples
+    sorted_departments = sorted(department_counts.items())
+
+    # > GET PERSON AGE
+    # Assuming you have the birthdate and deathday of a person
+    birthdate_string = person['birthday']
+    deathday_string = person['deathday']
+
+    # Convert the birthdate string to a date object
+    birthdate = date.fromisoformat(birthdate_string)
+
+    # Calculate the person's age
+    if deathday_string is not None:
+        # If the person has a deathday, calculate their age at the time of death
+        deathday = date.fromisoformat(deathday_string)
+        age = deathday.year - birthdate.year - \
+            ((deathday.month, deathday.day) < (birthdate.month, birthdate.day))
+    else:
+        # If the person is still alive, calculate their current age based on the current date
+        current_date = date.today()
+        age = current_date.year - birthdate.year - \
+            ((current_date.month, current_date.day)
+             < (birthdate.month, birthdate.day))
+
     context = {
         'person': person,
         'form': SearchForm(),
@@ -684,8 +739,9 @@ def person(request, person_id):
         'deathday': formatted_deathday,
         'credits': sorted_credits,
         'known_for': known_for,
-        'departments': alphabetized_departments,
+        'departments': sorted_departments,
         'credit_count': credit_count,
+        'age': age,
     }
 
     return render(request, 'people/person.html', context)

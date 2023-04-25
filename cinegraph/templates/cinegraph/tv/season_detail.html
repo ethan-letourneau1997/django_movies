@@ -2,6 +2,18 @@
 {% load static %}
 
 {% block body %}
+<div class="py-3 mt-4 container-fluid mt-nav bg-less-dark">
+    <div class="row">
+        <div class="col-8 ">
+            <div class="d-flex align-items-center">
+                <a href="{% url 'show' show.id %}">
+                    <i class="fa-solid fa-chevron-left "></i>
+                    <span class="text-secondary">Back to</span> {{show.name}}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="px-3 pb-3 mt-5 container-fluid">
     <div class="d-flex justify-content-between">
         {% if prev_season %}
@@ -88,11 +100,15 @@
                                 <div class="p-0 pt-4 container-fluid">
                                     <div class="pb-3 row">
                                         <div class="col d-flex align-items-center justify-content-between">
+                                            {% if episode.guest_stars > 0 %}
                                             <h3 class="p-0 m-0 text-xl fw-600 ">
                                                 Guest Stars
                                                 <span
                                                     class="text-xl fw-200 text-secondary">&nbsp;{{episode.guest_star_count}}</span>
                                             </h3>
+                                            {% else %}
+                                            <span></span>
+                                            {% endif %}
                                             <span>
                                                 <a class="mx-2 text-secondary mx-lg-4"
                                                     href="{% url 'episode_detail' show.id season.season_number episode.episode_number %}">

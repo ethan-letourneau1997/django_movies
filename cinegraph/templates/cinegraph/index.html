@@ -33,6 +33,10 @@
      
     }
 
+    .banner-search-col .autocomplete-wrapper {
+        padding-left:5px !important;
+    }
+
    
 </style>
 <!--height: 60vh;-->
@@ -45,13 +49,14 @@
                 <h2 class="text-3xl">Discover movies, shows, and more!</h2>
             </span>
             <div class="rounded input-group 3"></div>
-            <div class="input-group rounded-3">
-                {% include 'search_form.html' %}
-                {% comment %} <input type="text" class="form-control flex-grow-1" placeholder="Search...">
-                {% endcomment %}
+            <div class="input-group rounded-3 row">
+                <div class="col-10 d-flex align-items-center justify-content-start banner-search-col">
+                    {% include 'search_form.html' %}
+                </div>
 
 
-                <span class="p-1 ">
+
+                <span class="p-1 col-2 d-flex justify-content-end">
                     <button class="btn btn-warning" type="submit">
                         <i class="fa fa-search"></i>
                     </button>
@@ -61,7 +66,7 @@
     </div>
 </section>
 
-<div class=" container-fluid">
+<div class="pb-3 container-fluid">
     <div class="px-3 mb-2 row trending-title">
         <h3 class="mt-4 text-2xl ">Trending</h3>
     </div>
