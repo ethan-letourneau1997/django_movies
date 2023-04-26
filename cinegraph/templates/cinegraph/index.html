@@ -7,41 +7,14 @@
 {% load static %}
 
 <style>
-    .filter {
-     background: rgba(17,24,39,.7);
-     background: linear-gradient(90deg, rgba(17,24,39,.9) 0%, rgba(17,24,39,0.7) 50%, rgba(17,24,39,.9) 100%);
-    }
-   
-
     .hero {
-
     background: url("{% static 'cinegraph/img/succession_banner.jpg' %}");
     background-size: cover;
     background-position:top;
     }
-
-    .form-inline {
-           flex-grow: 1 !important;
-           display:flex;
-           align-items:center;
-    }
-
-    .hero input {
-        flex-grow: 1;
-     
-        
-     
-    }
-
-    .banner-search-col .autocomplete-wrapper {
-        padding-left:5px !important;
-    }
-
-   
 </style>
-<!--height: 60vh;-->
 
-<section class="banner hero d-flex ">
+<div class="banner hero d-flex ">
     <div class="container-fluid filter d-flex align-items-center justify-content-center ">
         <div class="gap-3 px-1 d-flex flex-column hero-content">
             <span>
@@ -51,11 +24,8 @@
             <div class="rounded input-group 3"></div>
             <div class="input-group rounded-3 row">
                 <div class="col-10 d-flex align-items-center justify-content-start banner-search-col">
-                    {% include 'search_form.html' %}
+                    {% include 'search/search_form.html' %}
                 </div>
-
-
-
                 <span class="p-1 col-2 d-flex justify-content-end">
                     <button class="btn btn-warning" type="submit">
                         <i class="fa fa-search"></i>
@@ -64,8 +34,7 @@
             </div>
         </div>
     </div>
-</section>
-
+</div>
 <div class="pb-3 container-fluid">
     <div class="px-3 mb-2 row trending-title">
         <h3 class="mt-4 text-2xl ">Trending</h3>
@@ -89,7 +58,7 @@
             <div class="p-0 container-fluid">
                 <div class="px-3 overflow-auto row card-row flex-nowrap">
                     {% for credit in movies %}
-                    {% include 'credit_slider.html' %}
+                    {% include 'components/credit_slider.html' %}
                     {% endfor %}
                 </div>
             </div>
@@ -97,28 +66,21 @@
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
             <div class="px-3 overflow-auto row card-row flex-nowrap">
                 {% for credit in shows %}
-                {% include 'credit_slider.html' %}
+                {% include 'components/credit_slider.html' %}
                 {% endfor %}
             </div>
         </div>
         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
             <div class="px-3 overflow-auto row card-row flex-nowrap">
                 {% for credit in people %}
-                {% include 'credit_slider.html' %}
+                {% include 'components/credit_slider.html' %}
                 {% endfor %}
             </div>
         </div>
     </div>
 </div>
 
-
-
-
-
-
 <!--TODO trending trailers-->
-
-
 
 
 {% endblock body %}

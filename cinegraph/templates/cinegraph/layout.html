@@ -20,45 +20,8 @@
         <!--Chart JS-->
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
         <script src="https://kit.fontawesome.com/606aa0c887.js" crossorigin="anonymous"></script>
-
         <title>Cinegraph</title>
     </head>
-
-    <style>
-    .search-container {
-        display: none;
-    }
-
-    .search-container.active {
-        display: block;
-        position: absolute;
-        top: 65px;
-        left: 0;
-        width: 100%;
-        z-index: 9999;
-        padding-top: 20px;
-    }
-
-    @media (max-width: 991.98px) {
-        .offcanvas-start {
-        transform: translateX(-100%);
-        }
-
-        .offcanvas-start.show {
-        transform: translateX(0);
-        }
-
-        .search-container.active {
-        position: absolute;
-        top: 65px; /* adjust the top value to fit your design */
-        left: 0;
-        width: 100%;
-        z-index: 9999;
-        padding-top: 20px;
-        }
-    }
-
-</style>
 
     <body class="pt-5 body bg-body">
         <div class="nav-wrapper fixed-top">
@@ -70,17 +33,20 @@
                     data-bs-target="#navbarOffcanvas">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                     <ul class="py-2 navbar-nav">
                         <li class="mx-2 nav-item">
-                            <a class="nav-link" href="{% url 'movies' %}">Movies <span
-                                    class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{% url 'movies' %}">Movies
+                                <span class="sr-only">(current)
+                                </span>
+                            </a>
                         </li>
                         <li class="mx-2 nav-item">
-                            <a class="nav-link" href="{% url 'shows' %}"">Television</a>
-                    </li>
-                    <li class=" mx-2 nav-item">
+                            <a class="nav-link" href="{% url 'shows' %}"">
+                                Television
+                            </a>
+                        </li>
+                        <li class=" mx-2 nav-item">
                                 <a class="nav-link" href="{% url 'people' %}">People</a>
                         </li>
                     </ul>
@@ -88,15 +54,14 @@
                         <i class="fa fa-search search-icon"></i>
                     </span>
                 </div>
-
             </nav>
-            <div class="search-container">
+            <div class=" search-container bg-dark">
                 <div class=" row">
-                    {% include 'search_form.html' %}
+                    {% include 'search/search_form.html' %}
                 </div>
                 <div class="row ">
-                    <ul id="autocomplete-list" class="list-group list-group-flush">
-                        <li></li>
+                    <ul id="autocomplete-list" class="list-group list-group-flush ">
+                        <li class=""></li>
                     </ul>
                 </div>
             </div>
@@ -113,10 +78,12 @@
             <div class="offcanvas-body bg-dark">
                 <ul class="mb-2 navbar-nav mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'movies' %}"">Movies</a>
+                        <a class="nav-link" href="{% url 'movies' %}">Movies</a>
                     </li>
                     <li class=" nav-item">
-                            <a class="nav-link" href="{% url 'shows' %}">Television</a>
+                        <a class="nav-link" href="{% url 'shows' %}">
+                            Television
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'people' %}">People</a>
@@ -124,7 +91,6 @@
                 </ul>
             </div>
         </div>
-
 
         <!--Popper-->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
@@ -138,6 +104,7 @@
         <script src="{% static 'cinegraph/js/autocomplete.js' %}"></script>
         <!--Hide / show nav -->
         <script src="{% static 'cinegraph/js/navBar.js' %}"></script>
+        <script src="{% static 'cinegraph/js/person.js' %}"></script>
     </body>
 
 </html>

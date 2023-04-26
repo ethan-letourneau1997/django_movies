@@ -37,3 +37,44 @@ input,
   transform: translateY(0);
   transition: transform 0.5s ease-out;
 }
+
+.list-group-item-dark {
+  background-color: $input-bg !important;
+}
+
+.form-control:focus {
+  box-shadow: none !important; // Remove the box-shadow
+}
+
+.search-container {
+  display: none;
+}
+
+.search-container.active {
+  display: block;
+  position: absolute;
+  top: 65px;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  padding-top: 20px;
+}
+
+@media (max-width: 991.98px) {
+  .offcanvas-start {
+    transform: translateX(-100%);
+  }
+
+  .offcanvas-start.show {
+    transform: translateX(0);
+  }
+
+  .search-container.active {
+    position: absolute;
+    top: 65px; /* adjust the top value to fit your design */
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    padding-top: 20px;
+  }
+}

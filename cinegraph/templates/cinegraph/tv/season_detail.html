@@ -74,7 +74,6 @@
                             </span>
                             {% endif %}
                         </span>
-
                     </div>
                     <span class="d-none d-lg-block">
                         <p class="fw-300">{{episode.overview}}</p>
@@ -139,7 +138,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="col-7 col-sm-8 d-flex flex-column justify-content-center">
                                                 <a href="{% url 'person' credit.id %}"
                                                     class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
@@ -152,85 +150,11 @@
                                         {% endfor %}
 
                                     </div>
-                                    {% comment %} <div class="row">
-                                        <div class="col-12 col-sm-6">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <h3 class="p-0 pb-2 m-0 text-xl fw-600 d-flex align-items-center">
-                                                        Guest Stars
-                                                        <span
-                                                            class="text-xl fw-200 text-secondary">&nbsp;{{cast_count}}</span>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    {% for credit in episode.guest_stars %}
-                                                    <div class="pb-2 col-12 col-md-8 col-lg-7">
-                                                        {% include 'cast_and_crew/tv_cast_and_crew.html' %}
-                                                    </div>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <h3 class="p-0 pb-2 m-0 text-xl fw-600 d-flex align-items-center">
-                                                        Season Regulars
-                                                        <span
-                                                            class="text-xl fw-200 text-secondary">&nbsp;{{cast_count}}</span>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    {% for credit in season.credits.cast %}
-                                                    <div class="pb-2 col-12 col-md-8 col-lg-7">
-                                                        {% include 'cast_and_crew/tv_cast_and_crew.html' %}
-                                                    </div>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <div class="pb-2 row">
-                                                <div class="col">
-                                                    <h3 class="p-0 pb-2 m-0 text-xl fw-600 d-flex align-items-center">
-                                                        Season
-                                                        Crew
-                                                        <span
-                                                            class="text-xl fw-200 text-secondary">&nbsp;{{crew_count}}</span>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            {% for department in departments %}
-                                            <div class="pb-2 row">
-                                                <div class="col">
-                                                    <h3 class="p-0 m-0 text-base fw-600 d-flex align-items-center">
-                                                        {{department}} </h3>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    {% for credit in season.credits.crew %}
-                                                    {% if credit.department == department %}
-                                                    <div class="pb-2 col-12 col-md-8 col-lg-7">
-                                                        {% include 'cast_and_crew/tv_cast_and_crew.html' %}
-                                                    </div>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div> {% endcomment %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% comment %} <div class="col-11 col-md-12">
-                    <hr>
-                </div> {% endcomment %}
             </div>
             {% endfor %}
         </div>

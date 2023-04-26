@@ -1,0 +1,4 @@
+// prevent cast images from stretching
+.headshot-wrapper img {
+  object-fit: cover;
+}

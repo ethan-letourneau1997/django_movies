@@ -1,0 +1,66 @@
+.form-select {
+  max-width: 130px;
+}
+
+select {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important; /* Remove default arrow */
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'><path fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>") !important; /* Add custom arrow */
+}
+
+.person-container {
+  .readmore__toggle {
+    background: transparent;
+    border: none;
+    color: rgb(1, 180, 228);
+  }
+
+  .actor-credit {
+    .credit-left {
+      width: 65%;
+    }
+    .credit-right {
+      width: 35%;
+    }
+    img {
+      height: 60px;
+    }
+  }
+
+  .department-select {
+    .form-select {
+      background-color: transparent !important;
+      border: none;
+    }
+    .form-select:focus {
+      box-shadow: none !important;
+    }
+    .bootstrap-select .dropdown-toggle:focus {
+      outline: none !important;
+    }
+    .department-content {
+      min-height: 40vh;
+    }
+  }
+
+  .credit-card {
+    width: 133px !important;
+  }
+
+  .credit-card .img-wrapper {
+    height: 200px !important;
+    width: 133px !important;
+
+    background-size: cover !important;
+    background-position: center !important;
+  }
+
+  .score-div {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.75) 0%,
+      rgba(0, 0, 0, 0) 35%
+    );
+  }
+}

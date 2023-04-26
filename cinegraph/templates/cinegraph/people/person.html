@@ -1,75 +1,10 @@
 {% extends 'layout.html' %}
+
 {% load static %}
+
 {% block body %}
 
-<style>
-  .bio-content.collapsed {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: pre-wrap;
-  }
-
-    .read-more {
-        display: none;
-    }
-
-    
-    /* Initially, hide the extra text that
-        can be revealed with the button */
-    #moreText {
-        /* Display nothing for the element */
-        display: none;
-    }
-
-    .fixed-col {
-        min-width: 300px;
-        max-width: 300px;
-    }
-
-    .bio {
-        max-height: 300px !important;
-    }
-
-    .actor-credit img {
-        height:60px;
-    }
-
-    .department-select .form-select {
-        background-color: transparent !important;
-        border:none;
-    }
-
-    .department-content {
-        min-height: 40vh;
-    }
-
-    .full-width {
-        width: 100vw !important;
-    }
-
-    .readmore__toggle {
-        background: transparent;
-        border:none;
-        color:rgb(1, 180, 228);
-    }
-
-    .form-select:focus {
-    box-shadow:none !important;
-    }
-
-    .bootstrap-select .dropdown-toggle:focus {
-    outline: none!important;
-    }
-
-
-
-
-
-
-</style>
-
-
-<div class="p-0 mt-3 container-fluid bg-less-dark">
+<div class="p-0 mt-3 container-fluid bg-less-dark person-container">
     <div class="m-0 pt-lg-5 row w-100">
         <div class="px-0 pt-5 pb-4 px-lg-2 pt-lg-0 col-12 col-lg-3">
             <div class="row w-100 align-items-center flex-column px-xl-2">
@@ -85,29 +20,31 @@
                     <p class="text-3xl text-center">{{person.name}}</p>
                 </div>
             </div>
-
-
             <div class="px-3 mt-2 mb-1 text-xl fw-600 mt-lg-3">Personal Info</div>
             <div class="px-3 row w-100">
+                {% if person.known_for_department %}
                 <span class="pt-3 col-6 col-lg-12">
                     <div class=" fw-600">Known for:</div>
                     <div class="fw-300">{{person.known_for_department}}</div>
                 </span>
+                {% endif %}
+                {% if credit_count %}
                 <span class="pt-3 col-6 col-lg-12">
                     <div class="fw-600">Credits:</div>
                     <div class="fw-300">{{credit_count}}</div>
                 </span>
+                {% endif %}
+                {% if person.birthday %}
                 <span class="pt-3 col-6 col-lg-12">
                     <div class="fw-600">Born</div>
-                    {% if person.birthday %}
                     <div class="fw-300">{{person.birthday}}
                         {% if person.deathday %}
                         {% else %}
                         ({{age}} years old)
                         {% endif %}
                     </div>
-                    {% endif %}
                 </span>
+                {% endif %}
                 {% if person.deathday %}
                 <span class="pt-3 col-6 col-lg-12">
                     <div class="fw-600">Died</div>
@@ -116,6 +53,7 @@
                     </div>
                 </span>
                 {% endif %}
+                {% if person.gender %}
                 <span class="pt-3 col-6 col-lg-12">
                     <div class="fw-600">Gender:</div>
                     {% if person.gender == 2 %}
@@ -124,20 +62,17 @@
                     <div class="fw-300">Female</div>
                     {% endif %}
                 </span>
+                {% endif %}
+                {% if person.place_of_birth %}
                 <span class="pt-3 col-6 col-lg-12">
                     <div class="fw-600">Place of birth</div>
                     <div class="fw-300">{{person.place_of_birth}}</div>
                 </span>
+                {% endif %}
             </div>
         </div>
         <div class="flex p-0 col-12 col-lg-9 d-flex flex-column">
-
             <p class="text-3xl d-none d-lg-block px-lg-3">{{person.name}}</p>
-
-            <div class="px-3 row w-100 d-lg-none">
-                <div class="mb-3 text-xl fw-600">Biography</div>
-                {% include 'people/biography.html' %}
-            </div>
             <div id="readmore" class="d-none d-lg-block pb-lg-5 px-lg-3">
                 <div class="text-xl fw-600">Biography</div>
                 <span class="readmore__content">
@@ -148,9 +83,6 @@
                 </button>
                 </button>
             </div>
-
-
-
             {% if known_for|length != 0 %}
             <div class="p-0 pb-4 shadow shadow-lg container-fluid bg-dark">
                 <div class="px-3 pt-3 mb-3 mt-lg-0 row w-100">
@@ -158,16 +90,13 @@
                 </div>
                 <div class="m-0 overflow-auto px-lg-0 row card-row flex-nowrap w-100">
                     {% for credit in known_for %}
-                    {% include 'components/credit_slider.html' %}
+                    {% include 'components/person_credit_slider.html' %}
                     {% endfor %}
                 </div>
-
             </div>
-
             {% endif %}
-
             <div class="p-3 mx-0 shadow-lg row bg-dark department-select w-100">
-                <div class="px-0 mt-4 text-2xl fw-600">
+                <div class="px-0 mt-3 text-2xl fw-600">
                     Credits
                 </div>
                 <div class="px-0 d-flex align-items-center justify-content-start form-group">
@@ -183,7 +112,6 @@
                         </option>
                         {% endif %}
                         {% endfor %}
-
                     </select>
                 </div>
                 {% for department, count in departments %}
@@ -220,94 +148,7 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-
-        <script>
-            class readMore {
-                constructor() {
-                    this.content = '.readmore__content';
-                    this.buttonToggle = '.readmore__toggle';
-                }
-
-                bootstrap() {
-                    this.setNodes();
-                    this.init();
-                    this.addEventListeners();
-                }
-
-                setNodes() {
-                    this.nodes = {
-                        contentToggle: document.querySelector(this.content)
-                    };
-
-                    this.buttonToggle = this.nodes.contentToggle.parentElement.querySelector(this.buttonToggle);
-                }
-
-                init() {
-                    const {
-                        contentToggle
-                    } = this.nodes;
-
-                    this.stateContent = contentToggle.innerHTML;
-
-                    contentToggle.innerHTML = `${this.stateContent.substring(0, 1000)}...`;
-                }
-
-                addEventListeners() {
-                    this.buttonToggle.addEventListener('click', this.onClick.bind(this))
-                }
-
-                onClick(event) {
-                    const targetEvent = event.currentTarget;
-                    const {
-                        contentToggle
-                    } = this.nodes
-
-                    if (targetEvent.getAttribute('aria-checked') === 'true') {
-                        targetEvent.setAttribute('aria-checked', 'false')
-                        contentToggle.innerHTML = this.stateContent;
-                        this.buttonToggle.innerHTML = 'Read less'
-
-                    } else {
-                        targetEvent.setAttribute('aria-checked', 'true')
-                        contentToggle.innerHTML = `${this.stateContent.substring(0, 1000)}...`
-                        this.buttonToggle.innerHTML = 'Read more'
-                    }
-                }
-            }
-
-
-            const initReadMore = new readMore();
-            initReadMore.bootstrap()
-        </script>
-
-
-        <script>
-            const selectElement = document.querySelector('#departmentSelect');
-            const departmentContents = document.querySelectorAll('.department-content');
-            const defaultDepartment = selectElement.value;
-
-            // Show content for default department on page load
-            departmentContents.forEach((content) => {
-                if (content.id === `department-${defaultDepartment}`) {
-                    content.style.display = 'block';
-                } else {
-                    content.style.display = 'none';
-                }
-            });
-
-            selectElement.addEventListener('change', (event) => {
-                const selectedDepartment = event.target.value;
-
-                departmentContents.forEach((content) => {
-                    if (content.id === `department-${selectedDepartment}`) {
-                        content.style.display = 'block';
-                    } else {
-                        content.style.display = 'none';
-                    }
-                });
-            });
-        </script>
-
-
-        {% endblock body %}
+{% endblock body %}

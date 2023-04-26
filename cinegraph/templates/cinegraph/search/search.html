@@ -1,17 +1,10 @@
 {% extends 'layout.html' %}
 {% load static %}
 
-<style>
-    .invisible {
-        color: rgba(0,0,0,0);
-    }
-</style>
-
 {% block body %}
 <div class="container mt-5 search-me">
     <div class="row">
         {% for result in results %}
-
         {% if result.media_type == 'movie' %}
         <div class="px-3 my-3 col-6 col-md-4 col-lg-3 col-xl-2">
             <div class="pb-3 shadow-lg media-card bg-dark rounded-top-4 rounded-bottom-4">
@@ -75,9 +68,7 @@
             </div>
         </div>
         {% endif %}
-
         {% if result.media_type == 'person' %}
-
         <div class="px-3 my-3 col-6 col-md-4 col-lg-3 col-xl-2">
             <div class="pb-3 shadow-lg media-card bg-dark rounded-top-4 rounded-bottom-4">
                 <a class="media-img" href="{% url 'person' result.id %}">
@@ -88,7 +79,6 @@
                     <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt="" class="img-fluid">
                     {% endif %}
                 </a>
-
                 <div class="px-3 pt-4 media-info">
                     <a href="{% url 'person' result.id %}">
                         <div class="pb-1 text-lg fw-600 text-truncate"> {{result.name}}</div>
@@ -102,8 +92,6 @@
             </div>
         </div>
         {% endif %}
-
-
         {% endfor %}
     </div>
 </div>

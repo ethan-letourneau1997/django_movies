@@ -1,236 +1,168 @@
 {% extends "layout.html" %}
 
 {% block body %}
+{% load static %}
 
 <style>
-.backdrop-filter {
-    {{ backdrop_filter }}
+@media (max-width: 991.98px) {
+.fw-change {
+font-weight: 300;
+}
 }
 
+@media (min-width: 992px) {
 .backdrop {
 background: url('http://image.tmdb.org/t/p/w1280{{show.backdrop_path}}');
 background-size: cover;
 background-position: center;
 }
+
+.backdrop-filter {
+{{ backdrop_filter }}
+}
+
+.fw-change {
+font-weight: 400;
+}
+}
+
 .mobile-backdrop {
-  height: 25vh;
+background: url('http://image.tmdb.org/t/p/w1280{{show.backdrop_path}}');
+background-size: cover;
+background-position: center;
 }
 
-.season-card {
-    height: 200px;
-}
-
-.season_card img {
-    height: 200px
-}
-
-.headshot-wrapper img {
-object-fit: cover;
-}
-
-.embed-responsive-custom {
-position: relative;
-width: 100%;
-height: 0;
-padding-top: 56.25%;
-}
-
-.youtube {
-position: absolute;
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-border-radius: 0.375rem;
+.bg-poster {
+background:url("http://image.tmdb.org/t/p/w780{{show.poster_path}}");
+background-size: cover;
+background-position: center;
 }
 </style>
 
-<div class="mt-3 container-fluid d-md-none">
-    <div class="row backdrop mobile-backdrop ">
-    </div>
-
-    <div class="row">
-        <div class="pt-3 col-12">
-            <h1 class="m-0 text-4xl fw-700">{{show.name}}
-                <span class="text-4xl fw-300">({{ show.first_air_date|slice:"0:4" }})</span>
-            </h1>
-        </div>
-
-        <div class="col-12">
-            {% if rating %}
-            <span class="text-sm mpaa-rating">{{rating}}</span>
-            {% endif %}
-            {% for genre in show.genres %}
-            <span class="text-sm">{{ genre.name }},&nbsp;&nbsp; </span>
-            {% endfor %}
-        </div>
-
-        <div class="pt-2 pb-3 col-12">
-            <span class="fw-700 
-                            {% if show.vote_average >= 7.5 %}green{% elif show.vote_average >= 6 %}yellow{% else %}red{% endif %}
-                            p-2 rounded-3 d-inline-block">
-                {{ show.vote_average|floatformat:1 }}
-            </span>
-        </div>
-
-        {% if show.overview %}
-        <div class="col-12">
-            <h3 class="text-2xl fw-600">Overview</h3>
-            <p class="pr-1 fw-400"> {{ show.overview }} </p>
-            <hr class="mt-4 bg-light">
+<div class="p-nav ratio ratio-16x9 mobile-backdrop d-lg-none">
+    <span class="score-div">
+        {% if show.vote_average > 0 %}
+        <div class="py-3 row score w-100 h-100 d-sm-none">
+            <div class="col-12 d-flex justify-content-end align-items-end">
+                <span
+                    class="p-2 rounded-3
+                                    {% if show.vote_average >= 7.5 %}positive{% elif show.vote_average >= 6 %}neutral{% else %}negetive{% endif %}">
+                    {{ show.vote_average|floatformat:1  }}
+                </span>
+            </div>
         </div>
         {% endif %}
-
-        <div class="col-12 d-flex row">
-            {% if show.created_by %}
-            <div class="mb-4 col-12 d-flex">
-                <span>
-                    <div class="fw-600">Creator(s):</div>
-                    <div class="fw-300">
-                        {% for creator in show.created_by %}
-                        <span>{{ creator.name }},</span>
-                        {% endfor %}
-                    </div>
-                </span>
-            </div>
-            {% endif %}
-            <div class="col">
-                <span>
-                    <div>
-                        <a href="{% url 'seasons' show.id  %}" class="fw-600">
-                            Seasons:
-                        </a>
-                    </div>
-                    <div class="fw-300">{{ show.number_of_seasons }} </div>
-                </span>
-            </div>
-            <div class="col">
-                <span>
-                    <div class="fw-600">Episodes:</div>
-                    <div class="fw-300">{{ show.number_of_episodes }} </div>
-                </span>
-            </div>
-            <div class="col">
-                <span>
-                    <div class="fw-600">Runtime:</div>
-                    <div class="fw-300">
-                        {% for runtime in show.episode_run_time|slice:"0:1" %}
-                        <span>{{ runtime }} minutes</span>
-                        {% endfor %}
-                    </div>
-                </span>
-            </div>
-        </div>
-    </div>
+    </span>
 </div>
-
-<section class="my-4 backdrop d-none d-md-block">
-    <div class="pl-4 container-fluid backdrop-filter ">
-        <div class="container">
-            <!-- Hero col -->
-            <div class=" row d-flex">
-                <!-- Poster col -->
-                <div class="py-4 d-none d-md-block col-3 poster-col ">
-                    <img class="img-fluid" src="http://image.tmdb.org/t/p/w780{{show.poster_path}}" alt="">
+<div class="my-4 mb-lg-0 backdrop ">
+    <div class="container-fluid backdrop-filter pt-lg-2">
+        <div class="container-fluid">
+            <div class=" row d-flex px-md-2">
+                <div class="px-0 pt-2 py-lg-4 d-md-block col-3 px-xl-4 poster-col d-none d-sm-block">
+                    {% if show.poster_path %}
+                    <div class="rounded-3 aspect-ratio-2x3 bg-poster">
+                        {% if show.vote_average > 0 %}
+                        <div class="px-2 py-2 score w-100 h-100 score-div rounded-3">
+                            <div class="d-flex justify-content-end align-items-end w-100 h-100 ">
+                                <span
+                                    class="p-2 rounded-3
+                                    {% if show.vote_average >= 7.5 %}positive{% elif show.vote_average >= 6 %}neutral{% else %}negetive{% endif %}">
+                                    {{ show.vote_average|floatformat:1  }}
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <img src="{% static 'cinegraph/img/show-placeholder.svg' %}" class="img-fluid" alt="">
+                    {% endif %}
                     <span class="pt-2 w-100 d-flex justify-content-center">
                         <a class="mx-2 text-secondary mx-lg-4" href="{% url 'seasons' show.id %}">
                             See seasons and episodes&nbsp;<i class="fa-solid fa-chevron-right "></i>
                         </a>
                     </span>
                 </div>
-                <!-- Content col -->
-                <div class="py-4 col-12 col-md-8">
-                    <!-- Title row -->
-                    <div class="row">
-                        <div class="col-12 d-flex">
-                            <h1 class="mb-0 text-4xl fw-700">{{show.name}}&nbsp; </h1>
-                            <span class="text-4xl fw-300">({{ show.first_air_date|slice:"0:4" }})
-                            </span>
+                <div class="pt-lg-4 px-sm-4 px-xl-1 py-lg-4 col-12 col-sm-9 col-lg-8">
+                    <div class=" row">
+                        <div class="col-12">
+                            <h1 class="mb-0 text-4xl fw-700 d-inline-block">{{show.name}}&nbsp; <span
+                                    class="text-4xl fw-300">
+                                    {% if show.first_air_date %}
+                                    ({{ show.first_air_date|slice:"0:4" }})
+                                    {% endif %}
+                                </span></h1>
                         </div>
                     </div>
-                    <!-- Rating and genre row -->
                     <div class="row">
-                        <div class="col-12">
+                        <div class="mt-2 mt-lg-1 col-12">
                             {% if rating %}
-                            <span class="text-sm mpaa-rating">{{rating}}</span>
+                            <span class="text-sm mpaa-rating ">{{rating}}</span>
                             {% endif %}
                             {% for genre in show.genres %}
                             <span class="text-sm">{{ genre.name }},&nbsp;&nbsp; </span>
                             {% endfor %}
                         </div>
                     </div>
-                    <!--Score row -->
-                    {% comment %} !TODO refactor to just switch class {% endcomment %}
-                    <div class="py-3 row score">
-                        <div class="col-12 d-flex ">
-                            {% if show.vote_average >= 7.5 %}
-                            <span class="p-2 rounded-3 positive">{{ show.vote_average|floatformat:1  }}</span>
-                            {% elif show.vote_average >= 6 %}
-                            <span class="p-2 rounded-3 neutral">{{ show.vote_average|floatformat:1  }}</span>
-                            {% else %}
-                            <span class="p-2 rounded-3 negetive">{{ show.vote_average|floatformat:1  }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <!--Tagline row -->
-                    {% if show.tagline %}
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="text-xl tagline"> {{show.tagline}} </span>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    <!--Tagline row -->
                     {% if show.overview %}
-                    <div class="row ">
+                    <div class="pt-3 row">
                         <div class="col-12">
                             <h3 class="text-2xl fw-600">Overview</h3>
                             <p class="pr-1 fw-400"> {{ show.overview }} </p>
-                            <hr class="mt-4 mb-5 bg-light">
+                            <hr class="mt-4 mb-4 bg-light">
                         </div>
                     </div>
-
-
                     {% endif %}
                     <div class="row">
-                        <div class="row col-12 col-md-8">
-                            <div class="col-6 ">
-                                <a href="{% url 'seasons' show.id  %}" class="fw-600">
-                                    Seasons:
-                                </a>
-                                <div>{{ show.number_of_seasons }} </div>
-
-                                <div class="pt-4 fw-600">Episodes</div>
-                                <div>{{ show.number_of_episodes }} </div>
-
+                        <div class="col-12 col-lg-8 col-xl-9 row ">
+                            <div class="col-6 d-flex flex-column">
+                                <span class="fw-600">Seasons</span>
+                                <span class="fw-change">
+                                    {% if show.number_of_seasons %}
+                                    {{ show.number_of_seasons }}
+                                    {% else %}
+                                    unknown
+                                    {% endif %}
+                                </span>
                             </div>
-                            <div class="col-6">
-                                <div class="fw-600">Creator(s)</div>
-                                <div>
-                                    {% for creator in show.created_by %}
-                                    <span>{{ creator.name }},</span>
-                                    {% endfor %}
-                                </div>
-                                <div class="pt-4 fw-600 ">Runtime</div>
-                                <div>
+                            <div class="pb-3 col-6 d-flex flex-column">
+                                <span class="fw-600">Created by</span>
+                                <span class="fw-change">
+                                    <div class="fw-300">
+                                        {% for creator in show.created_by %}
+                                        <span>{{ creator.name }},</span>
+                                        {% endfor %}
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="pt-3 col-6 d-flex flex-column ">
+                                <span class="fw-600">Episodes</span>
+                                <span class="fw-change">
+                                    {% if show.number_of_episodes %}
+                                    {{ show.number_of_episodes }}
+                                    {% else %}
+                                    unknown
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="pt-3 col-6 d-flex flex-column">
+                                <span class="fw-600">Runtime</span>
+                                <span class="fw-change">
                                     {% for runtime in show.episode_run_time|slice:"0:1" %}
                                     <p>{{ runtime }} minutes</p>
                                     {% endfor %}
-                                </div>
+                                </span>
                             </div>
                         </div>
-                        <div class=" row col-12 col-md-5 col-lg-4 col-xl-4">
+                        <div class="col-12 col-md-5 col-lg-4 col-xl-3">
                             {% if streaming_services %}
                             <div class="row">
                                 <div class="text-lg fw-500">Where to Watch:</div>
                             </div>
                             <div class="row">
-                                {% for service in streaming_services|slice:":6" %}
+                                {% for service in streaming_services %}
                                 <div class="p-2 col-2 col-md-4">
                                     <img loading="lazy" class="rounded img-fluid streaming"
-                                        src="http://image.tmdb.org/t/p/w185{{service.logo_path}}" alt="">
+                                        src="http://image.tmdb.org/t/p/w300{{service.logo_path}}" alt="">
                                 </div>
                                 {% endfor %}
                                 {% endif %}
@@ -241,19 +173,17 @@ border-radius: 0.375rem;
             </div>
         </div>
     </div>
-</section>
-
-<div class="p-0 container-fluid media-container ">
-    <div class="row w-100 px-lg-4">
-        <div class="pt-4 col-12 col-lg-7 pt-lg-2 px-lg-4">
-
-            <div class="px-3 mt-3 mb-3 row px-lg-3">
-                <h3 class="text-4xl fw-600 mx-lg-3 w-100 ">Top Cast</h3>
-                <a class="mx-2 text-secondary mx-lg-4" href="{% url 'show_credits' show.id %}">
-                    See full cast&nbsp;<i class="fa-solid fa-chevron-right"></i>
+</div>
+<div class="p-0 mt-5 mt-lg-0 container-fluid bg-less-dark">
+    <div class="px-4 px-lg-0 row w-100">
+        <div class="col-12 col-lg-8 col-xl-7 px-lg-4 px-xl-5">
+            <div class="px-1 mb-3 row ">
+                <h3 class="mt-3 text-2xl pt-xl-2 pt-md-1 fw-600 mx-lg-3 w-100">Top Cast</h3>
+                <a class="mx-1 text-secondary mx-lg-3" href="{% url 'show_credits' show.id %}">
+                    See full cast&nbsp;<i class="fa-solid fa-chevron-right "></i>
                 </a>
             </div>
-            <div class="px-4 pb-2 overflow-auto row flex-nowrap flex-md-wrap">
+            <div class="pb-2 overflow-auto px-lg-0 px-xl-2 row flex-nowrap flex-md-wrap no-gutters">
                 {% for credit in show.aggregate_credits.cast|slice:":12" %}
                 {% if credit.profile_path %}
                 <div class="col-5 col-sm-4 col-md-6 ">
@@ -274,17 +204,16 @@ border-radius: 0.375rem;
                                 class="text-sm fw-300 d-inline-block text-truncate cast-text">{{credit.character}}</span>
                         </div>
                     </div>
-
                 </div>
                 {% endif %}
                 {% endfor %}
             </div>
         </div>
-        {% if trailer or poster_batches > 0 or show.images.backdrops > 0 %}
-        <div class="px-3 col-12 col-lg-5 d-flex flex-column px-lg-5">
-            <div class="mt-3 mb-3 row w-100">
-                <h3 class="px-3 text-4xl fw-600 ">Media</h3>
+        <div class="px-3 col-12 col-lg-4 col-xl-5 d-flex flex-column px-lg-0 px-xl-5 d-none d-lg-block ">
+            <div class="mb-3 row w-100">
+                <h3 class="px-3 pt-1 mt-3 text-2xl pt-xl-2 fw-600">Show Media</h3>
             </div>
+            {% if trailer or poster_batches > 0 or show.images.backdrops > 0 %}
             {% if trailer %}
             <div class="gap-3 container-fluid d-flex flex-column h-100">
                 <div class="pt-2 row ">
@@ -293,7 +222,6 @@ border-radius: 0.375rem;
                             allowfullscreen></iframe>
                     </div>
                 </div>
-
                 {% if poster_batches|length != 0 %}
                 <div class="row ">
                     <div id="posterCarouselControls" class="p-0 carousel slide" data-bs-ride="carousel"
@@ -337,13 +265,11 @@ border-radius: 0.375rem;
                     </div>
                 </div>
                 {% endif %}
-
                 {% if show.images.backdrops|length != 0 %}
                 <div class="row">
                     <div id="backdropCarouselControls" class="p-0 carousel slide" data-bs-ride="carousel"
                         data-bs-interval="false">
                         <div class="carousel-inner">
-
                             <div class="carousel-item active">
                                 {% for backdrop in show.images.backdrops|slice:":1" %}
                                 <img src="http://image.tmdb.org/t/p/w780{{backdrop.file_path}}"
@@ -368,11 +294,11 @@ border-radius: 0.375rem;
                     </div>
                 </div>
                 {% endif %}
-
             </div>
             {% endif %}
+            {% else %}
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 
     {% if show.recommendations.results|length != 0 %}
@@ -380,12 +306,15 @@ border-radius: 0.375rem;
         <div class="pt-3 mt-5 mb-3 row mt-lg-3 w-100">
             <h3 class="text-2xl fw-600 mx-lg-3 ">More like this</h3>
         </div>
-        <div class="px-2 pb-4 overflow-auto row flex-nowrap hide-scroll">
+        <div class="px-2 overflow-auto pb-lg-4 row flex-nowrap hide-scroll">
             {% for credit in show.recommendations.results %}
-            {% include 'credit_slider.html' %}
+            {% include 'components/credit_slider.html' %}
             {% endfor %}
         </div>
     </div>
+    {% else %}
+    <div class="mb-5"></div>
     {% endif %}
+</div>
 
-    {% endblock body %}
+{% endblock body %}

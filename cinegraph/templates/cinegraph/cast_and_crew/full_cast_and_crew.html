@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block body %}
+<div class="mt-5 container-fluid">
+    <a class="text-secondary"
+        href="{% if title.name %}{% url 'show' title.id %}{% else %}{% url 'movie' title.id %}{% endif %}">
+        <span>
+            <i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp; {{title.name}}{{title.title}}
+        </span>
+    </a>
+</div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <h3 class="text-2xl fw-500 pb-lg-3">Cast
+                <span class="text-2xl fw-200 text-secondary">&nbsp;{{cast_count}}</span>
+            </h3>
+            <div class="row">
+                {% for credit in credits.cast %}
+                <div class="py-2 col-12 row">
+                    <div class="col-3 col-sm-4 col-md-3 col-xl-2">
+                        <a href="{% url 'person' credit.id %}">
+                            <div class="headshot-wrapper ratio ratio-1x1 ">
+                                {% if credit.profile_path %}
+                                <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}" alt=""
+                                    class="rounded img-fluid">
+                                {% else %}
+                                <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
+                                    class="rounded img-fluid">
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                    <div class="p-0 px-1 col-9 col-sm-8 col-md-9 col-xl-8 d-flex flex-column justify-content-center">
+                        <a href="{% url 'person' credit.id %}"
+                            class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
+                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.job}}</span>
+                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.character}}</span>
+                        {% for i in credit.roles %}
+                        <span class="gap-2 d-flex">
+                            <span class="text-sm fw-300 d-inline-block text-truncate ">{{i.character}}</span>
+                            <span class="text-sm text-secondary fw-300">{{i.episode_count}}ep.</span>
+                        </span>
+                        {% endfor %}
+                        {% for i in credit.jobs %}
+                        <span class="gap-2 d-flex">
+                            <span class="text-sm fw-300 d-inline-block text-truncate ">{{i.job}}</span>
+                            <span class="text-sm text-secondary fw-300">{{i.episode_count}}ep.</span>
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <h3 class="text-2xl fw-500">Crew <span class="text-xl fw-200 text-secondary">&nbsp;{{crew_count}}</span>
+            </h3>
+            {% for department in departments %}
+            <h3 class="px-1 py-1 my-0 text-xl fw-500">{{department}}</h3>
+            {% for credit in credits.crew %}
+            {% if credit.department == department %}
+            <div class="py-2 col-12 row">
+                <div class="col-3 col-sm-4 col-md-3 col-xl-2">
+                    <a href="{% url 'person' credit.id %}">
+                        <div class="headshot-wrapper ratio ratio-1x1 ">
+                            {% if credit.profile_path %}
+                            <img loading="lazy" src="http://image.tmdb.org/t/p/w185{{credit.profile_path}}" alt=""
+                                class="rounded img-fluid">
+                            {% else %}
+                            <img src="{% static 'cinegraph/img/person-placeholder.svg' %}" alt=""
+                                class="rounded img-fluid">
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+                <div class="p-0 px-1 col-9 col-sm-8 col-md-9 col-xl-8 d-flex flex-column justify-content-center">
+                    <a href="{% url 'person' credit.id %}"
+                        class="fw-600 d-inline-block text-truncate ">{{credit.name}}</a>
+                    <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.job}}</span>
+                    <span class="text-sm fw-300 d-inline-block text-truncate ">{{credit.character}}</span>
+                    {% for i in credit.roles %}
+                    <span class="gap-2 d-flex">
+                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{i.character}}</span>
+                        <span class="text-sm text-secondary fw-300">{{i.episode_count}}ep.</span>
+                    </span>
+                    {% endfor %}
+                    {% for i in credit.jobs %}
+                    <span class="gap-2 d-flex">
+                        <span class="text-sm fw-300 d-inline-block text-truncate ">{{i.job}}</span>
+                        <span class="text-sm text-secondary fw-300">{{i.episode_count}}ep.</span>
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

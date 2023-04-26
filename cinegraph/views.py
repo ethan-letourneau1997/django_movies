@@ -3,13 +3,8 @@ import math
 from django import forms
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from django.urls import reverse
 import requests
 from .utils.imageUtils import get_image_overlay
-from .utils.getEpisodeRatings import get_episode_ratings
-import json
-from django.views.generic import TemplateView
-from chartjs.views.lines import BaseLineChartView
 from django.utils.safestring import mark_safe
 from datetime import date
 
@@ -40,14 +35,15 @@ def autocomplete(request):
     url = f'https://api.themoviedb.org/3/search/multi?api_key={API_KEY}&query={query}'
     response = requests.get(url)
     results = response.json()['results']
+
     suggestions = []
     for result in results:
         if result['media_type'] == 'movie':
             suggestions.append(
-                {'id': result['id'], 'title': result['title'], 'media_type': result['media_type']})
+                {'id': result['id'], 'title': result['title'], 'media_type': result['media_type'], 'release_date': result['release_date']})
         elif result['media_type'] == 'tv':
             suggestions.append(
-                {'id': result['id'], 'title': result['name'], 'media_type': result['media_type']})
+                {'id': result['id'], 'title': result['name'], 'media_type': result['media_type'], 'first_air_date': result['first_air_date']})
         elif result['media_type'] == 'person':
             suggestions.append(
                 {'id': result['id'], 'name': result['name'], 'media_type': result['media_type']})
@@ -76,7 +72,7 @@ def search(request):
                 'results': results,
                 'form': SearchForm(),
             }
-            return render(request, 'search.html', context)
+            return render(request, 'search/search.html', context)
 
         else:
             response = HttpResponse('Form is not valid')
@@ -314,7 +310,7 @@ def movie_credits(request, movie_id):
         'title': movie,
     }
 
-    return render(request, 'cast_and_crew/cast_and_crew.html', context)
+    return render(request, 'cast_and_crew/full_cast_and_crew.html', context)
 
 
 def show_credits(request, show_id):
@@ -340,7 +336,7 @@ def show_credits(request, show_id):
         'title': show,
     }
 
-    return render(request, 'cast_and_crew/cast_and_crew.html', context)
+    return render(request, 'cast_and_crew/full_cast_and_crew.html', context)
 
 
 def shows(request):
@@ -679,14 +675,6 @@ def person(request, person_id):
     if cast_credits:
         unique_departments.add('Acting')
 
-    alphabetized_departments = sorted(list(unique_departments))
-
-    for credit in sorted_credits:
-        if 'title' in credit and credit['title']:
-            print(credit['title'])
-        else:
-            print("No title found.")
-
     # Create an empty dictionary to keep track of department counts
     department_counts = {}
 
@@ -701,36 +689,35 @@ def person(request, person_id):
     # Sort the dictionary by keys and create a list of (department, count) tuples
     sorted_departments = [(k, v) for k, v in sorted(department_counts.items())]
 
-    # Print out the department counts in alphabetical order
-    for department, count in sorted_departments:
-        print(f"{department}: {count}")
-
     # Save the sorted department counts to a variable for passing to a template
     department_counts_list = sorted_departments
 
     # Create a list of (department, count) tuples
     sorted_departments = sorted(department_counts.items())
 
+    age = None
+
     # > GET PERSON AGE
-    # Assuming you have the birthdate and deathday of a person
-    birthdate_string = person['birthday']
-    deathday_string = person['deathday']
+    if person['birthday'] is not None:
+        # Assuming you have the birthdate and deathday of a person
+        birthdate_string = person['birthday']
+        deathday_string = person['deathday']
 
-    # Convert the birthdate string to a date object
-    birthdate = date.fromisoformat(birthdate_string)
+        # Convert the birthdate string to a date object
+        birthdate = date.fromisoformat(birthdate_string)
 
-    # Calculate the person's age
-    if deathday_string is not None:
-        # If the person has a deathday, calculate their age at the time of death
-        deathday = date.fromisoformat(deathday_string)
-        age = deathday.year - birthdate.year - \
-            ((deathday.month, deathday.day) < (birthdate.month, birthdate.day))
-    else:
-        # If the person is still alive, calculate their current age based on the current date
-        current_date = date.today()
-        age = current_date.year - birthdate.year - \
-            ((current_date.month, current_date.day)
-             < (birthdate.month, birthdate.day))
+        # Calculate the person's age
+        if deathday_string is not None:
+            # If the person has a deathday, calculate their age at the time of death
+            deathday = date.fromisoformat(deathday_string)
+            age = deathday.year - birthdate.year - \
+                ((deathday.month, deathday.day) < (birthdate.month, birthdate.day))
+        else:
+            # If the person is still alive, calculate their current age based on the current date
+            current_date = date.today()
+            age = current_date.year - birthdate.year - \
+                ((current_date.month, current_date.day)
+                 < (birthdate.month, birthdate.day))
 
     context = {
         'person': person,

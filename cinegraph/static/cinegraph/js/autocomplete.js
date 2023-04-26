@@ -42,28 +42,38 @@ $(document).ready(function () {
           // display the autocomplete suggestions in a list
           suggestions.slice(0, 10).forEach(function (movie) {
             var li = $("<li>").addClass(
-              "list-group-item list-group-item-dark "
+              "list-group-item list-group-item-dark mx-2"
             );
             if (movie.id && movie.id !== "") {
               var link;
+              var date;
               if (movie.media_type === "movie") {
+                date = $("<span>")
+                  .addClass("")
+                  .text(" (" + movie.release_date.slice(0, 4) + ")");
                 link = $("<a>")
                   .attr("href", "/movies/" + movie.id + "/")
-                  .text(movie.title);
-                var icon = $("<i>").addClass("fa-sharp fa-solid fa-video");
-                var span = $("<span>").text("in movies");
+                  .text(movie.title)
+                  .append(date);
+                var icon = $("<i>").addClass("fa-sharp fa-solid fa-video mx-1");
+                var type = $("<span>").addClass("fw-600").text("in movies");
               } else if (movie.media_type === "tv") {
+                date = $("<span>")
+                  .addClass("")
+                  .text(" (" + movie.first_air_date.slice(0, 4) + ")");
                 link = $("<a>")
                   .attr("href", "/tv/" + movie.id + "/")
-                  .text(movie.title);
-                var icon = $("<i>").addClass("fa-solid fa-tv");
-                var span = $("<span>").text("in shows");
+                  .text(movie.title)
+                  .append(date);
+                var icon = $("<i>").addClass("fa-solid fa-tv mx-1");
+                var type = $("<span>").addClass("fw-600").text("in shows");
               } else if (movie.media_type === "person") {
                 link = $("<a>")
                   .attr("href", "/people/" + movie.id + "/")
                   .text(movie.name);
-                var icon = $("<i>").addClass("fa-solid fa-person");
-                var span = $("<span>").text("in person");
+                var icon = $("<i>").addClass("fa-solid fa-person mx-1");
+                var type = $("<span>").addClass("fw-600").text("in people");
+                date = "";
               }
               var anchor = $("<a>")
                 .attr("href", link.attr("href"))
@@ -71,7 +81,7 @@ $(document).ready(function () {
                 .append(" ")
                 .append(link)
                 .append(" ")
-                .append(span);
+                .append(type);
               li.append(anchor);
             } else {
               li.text(movie.title);

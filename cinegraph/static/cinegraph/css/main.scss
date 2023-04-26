@@ -1,15 +1,18 @@
+@import "./variables/typography.scss";
 @import "./variables/colors.scss";
 @import "./components/nav.scss";
+@import "./layouts/card_grid.scss";
+@import "./cast_and_crew/cast_and_crew.scss";
 @import "./utlis/utils.scss";
 @import "./homepage.scss";
-@import "./variables/typography.scss";
-@import "./layout.scss";
-@import "./layouts/card_grid.scss";
+@import "./general.scss";
+@import "./media/movie_and_show.scss";
+@import "./media/movies/movie.scss";
+@import "./media/shows/show.scss";
+@import "./media/shows/season.scss";
+@import "./people/person.scss";
+
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
-
-// my variables
-
-// bootstrap overrides
 
 // @use "./bootstrap.scss" as *;
 @import "./bootstrap.scss";
@@ -18,161 +21,4 @@
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1rem;
   line-height: 1.5rem;
-}
-
-a {
-  text-decoration: none;
-}
-
-pre {
-  color: $primary;
-}
-
-#module {
-  width: 500px;
-}
-
-/* Show the element for screens larger than 768px */
-@media screen and (min-width: 768px) {
-  .hide-mobile {
-    visibility: visible;
-  }
-}
-
-/* Hide the element for screens smaller than 768px */
-@media screen and (max-width: 767px) {
-  .hide-mobile {
-    visibility: hidden;
-  }
-}
-
-// h_ Bootstrap custom border-radius
-
-/* Extra small devices (phones) */
-@media (max-width: 575.98px) {
-  /* Show edge of card offscreen */
-  .card-offset {
-    width: 40vw !important;
-  }
-}
-
-/* Small devices (tablets) */
-@media (min-width: 576px) and (max-width: 767.98px) {
-}
-
-/* Medium devices (desktops) */
-@media (min-width: 768px) and (max-width: 991.98px) {
-}
-
-/* Large devices (desktops) */
-@media (min-width: 992px) and (max-width: 1199.98px) {
-}
-
-/* Extra large devices (large desktops) */
-@media (min-width: 1200px) {
-}
-
-.card-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* number of lines to show */
-  -webkit-box-orient: vertical;
-}
-
-//> Form
-
-.form-control:focus {
-  box-shadow: none !important; // Remove the box-shadow
-  // background-color: red !important;
-}
-
-//< AUTOCOMPLETE
-
-.search-container {
-  background-color: $dark;
-}
-
-.autocomplete-wrapper {
-  background-color: $input-bg !important;
-  padding-left: 40px !important;
-}
-.nav-search-input {
-  border-radius: 0 !important;
-}
-
-#autocomplete-list {
-  i {
-    margin-right: 10px;
-  }
-  .list-group-item {
-    background-color: $input-bg !important;
-
-    i {
-      padding-left: 40px !important;
-      display: flex;
-      justify-items: center;
-      align-items: center;
-    }
-    a {
-      display: flex !important;
-      gap: 5px !important;
-      text-decoration: none;
-    }
-  }
-}
-
-.positive {
-  background-color: $green;
-  color: $dark;
-}
-.neutral {
-  background-color: $yellow;
-  color: $dark;
-}
-.negetive {
-  background-color: $red;
-}
-
-// prevent cast images from stretching
-.headshot-wrapper img {
-  object-fit: cover;
-}
-
-// width for cast name and character truncation
-.cast-text {
-  width: 95%;
-}
-
-.accordion-button:not(.collapsed) {
-  background-color: rgba(255, 0, 0, 0);
-  border: none;
-  box-shadow: none;
-}
-
-.mpaa-rating {
-  border: 1px solid $secondary;
-  color: $secondary;
-  margin-right: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-.form-select {
-  max-width: 130px;
-}
-
-select {
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  appearance: none !important; /* Remove default arrow */
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'><path fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>") !important; /* Add custom arrow */
-}
-
-a:hover {
-  color: $primary !important;
-}
-
-.accordion-button:hover {
-  cursor: pointer !important;
 }

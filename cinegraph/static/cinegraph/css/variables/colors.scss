@@ -29,14 +29,21 @@ $navbar-dark-color: $primary;
   background-color: $less-dark !important;
 }
 
-.green {
+.green,
+.positive {
   background-color: $green !important;
   color: $dark;
 }
-.yellow {
+.yellow,
+.neutral {
   background-color: $yellow !important;
   color: $dark;
 }
-.red {
+.red,
+.negetive {
   background-color: $red !important;
+}
+
+.input-bg {
+  background-color: $input-bg !important;
 }
